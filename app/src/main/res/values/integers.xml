@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="score_az">10</integer>
+
+    <integer name="score_full_normal">10</integer>
+    <integer name="score_seguida_normal">20</integer>
+    <integer name="score_quadrada_normal">30</integer>
+    <integer name="score_general_normal">40</integer>
+
+    <integer name="score_full_boca">15</integer>
+    <integer name="score_seguida_boca">25</integer>
+    <integer name="score_quadrada_boca">35</integer>
+
+    <integer name="score_general_vitoria">1000</integer>
+</resources>

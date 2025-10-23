@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="btn">#2e3034</color>
+    <color name="retangulo_btns">#27292d</color>
+    <color name="fundo">#17191a</color>
+    <color name="cor_destaque">#ebff57</color>
+    <color name="cor_destaque_transparent">#3FEBFF57</color>
+    <color name="cor_cinza">#27292d</color>
+    <color name="fundo_item">#2C2C2E</color>
+    <color name="cor_card_escuro">#2C2C2E</color>
+    <color name="darker_gray">#2C2C2E</color>
+    <color name="transparente">#002C2C2E</color>
+</resources>

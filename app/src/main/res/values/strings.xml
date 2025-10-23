@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">King of Bozo</string>
+    <string name="king_of_boz">King Of Bozó</string>
+    <string name="bom_dia">Bom dia!</string>
+    <string name="logo_king_of_boz">Logo King of Bozó</string>
+    <string name="jogar_pr_ximo">JOGAR PRÓXIMO</string>
+    <string name="jogar_sozinho">JOGAR SOZINHO</string>
+    <string name="macador">MACADOR</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home">Home</string>
+    <string name="title_players">Jogadores\n</string>
+    <string name="title_add">Marcador</string>
+    <string name="title_saved_games">Jogos Salvos</string>
+    <string name="title_settings">Ajustes</string>
+    <string name="player_wins_format">teste</string>
+    <string name="informa_es">Informações</string>
+    <string name="ranking_pessoal">Ranking pessoal</string>
+    <string name="estat_stica">Estatística</string>
+    <string name="derrotas">Derrotas</string>
+    <string name="jogadas">Jogadas</string>
+    <string name="pontos">Pontos</string>
+    <string name="generais_conquistados_25">Generais conquistados 25</string>
+    <string name="jogadas_de_bocas_12">Jogadas de bocas 12</string>
+    <string name="rodadas_feitas_69">Rodadas feitas 69</string>
+    <string name="jogadores">Jogadores</string>
+    <string name="generais_conquistados_format">Generais conquistados: %d</string>
+    <string name="jogadas_de_bocas_format">Jogadas de bocas: %d</string>
+    <string name="rodadas_feitas_format">Rodadas feitas: %d</string>
+    <string name="pontos_gerais_format">Total de pontos %d</string>
+
+
+
+    <plurals name="players_selected">
+        <item quantity="one">%d jogador selecionado</item>
+        <item quantity="other">%d jogadores selecionados</item>
+    </plurals>
+</resources>

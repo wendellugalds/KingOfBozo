@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:background="@color/fundo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment_activity_main"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/mobile_navigation" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="24dp"
+        app:cardBackgroundColor="#00FFFFFF"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:background="@drawable/background_card_dark"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/nav_home"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_home"
+                android:background="@color/cor_cinza"
+                app:tint="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/nav_players"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="8dp"
+                android:src="@drawable/ic_players"
+                android:background="@color/cor_cinza"
+                app:tint="@android:color/white" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_marcador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_marcador"
+                app:backgroundTint="@color/cor_destaque"
+                app:tint="@android:color/black"
+                app:elevation="0dp"
+                app:maxImageSize="32dp" />
+
+            <ImageButton
+                android:id="@+id/nav_saved_games"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="8dp"
+                android:src="@drawable/ic_saved_games"
+                android:background="@color/cor_cinza"
+                app:tint="@android:color/white" />
+
+            <ImageButton
+                android:id="@+id/nav_settings"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_settings"
+                android:background="@color/cor_cinza"
+                app:tint="@android:color/white" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

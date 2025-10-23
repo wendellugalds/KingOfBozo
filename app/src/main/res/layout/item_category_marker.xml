@@ -1,0 +1,11 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/category_name"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_margin="4dp"
+    android:text="Nome"
+    android:textSize="15dp"
+    android:textColor="#80000000"
+    android:background="@drawable/background_category_item_collapsed"
+    android:gravity="center"
+    android:textStyle="bold" />

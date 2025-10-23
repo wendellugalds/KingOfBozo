@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/item_background_selector"
+    android:padding="8dp">
+
+    <FrameLayout
+        android:id="@+id/container_avatar"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/sigla_nome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_circle"
+            android:text="WU"
+            android:textColor="@color/cor_destaque"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"/>
+
+
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_player_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/text_player_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/container_avatar"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:layout_editor_absoluteY="8dp"
+        tools:text="Wendell Ugalds"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/text_player_wins"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/cor_destaque"
+        android:textSize="14sp"
+        app:drawableStartCompat="@drawable/ic_victory"
+        app:drawableTint="@color/cor_destaque"
+        app:layout_constraintStart_toStartOf="@+id/text_player_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_player_name"
+        tools:text="25 Vitórias" />
+
+    <FrameLayout
+        android:id="@+id/container_action"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/button_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circle_background"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_forward"
+            app:tint="@color/cor_destaque" />
+
+        <CheckBox
+            android:id="@+id/checkbox_select_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:visibility="gone"
+            android:button="@drawable/checkbox_selector"
+            app:buttonTint="@color/cor_destaque"
+            tools:visibility="visible"/>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

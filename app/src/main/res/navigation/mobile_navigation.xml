@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <action
+        android:id="@+id/action_global_playerSelectionFragment"
+        app:destination="@id/playerSelectionFragment" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.wendellugalds.kingofbozo.ui.home.HomeFragment"
+        android:label="King of Bozó"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_players"
+        android:name="com.wendellugalds.kingofbozo.ui.players.PlayersFragment"
+        android:label="Jogadores"
+        tools:layout="@layout/fragment_players">
+        <action
+            android:id="@+id/action_playersFragment_to_playerDetailFragment"
+            app:destination="@id/navigation_player_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_saved_games"
+        android:name="com.wendellugalds.kingofbozo.ui.savedgames.SavedGamesFragment"
+        android:label="Saved Games"
+        tools:layout="@layout/fragment_saved_games" />
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.wendellugalds.kingofbozo.ui.settings.SettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_player_detail"
+        android:name="com.wendellugalds.kingofbozo.ui.playerdetail.PlayerDetailFragment"
+        android:label="Detalhes do Jogador"
+        tools:layout="@layout/fragment_player_detail">
+        <argument
+            android:name="playerId"
+            app:argType="integer" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/playerSelectionFragment"
+        android:name="com.wendellugalds.kingofbozo.ui.game.PlayerSelectionFragment"
+        android:label="Seleção de Jogadores"
+        tools:layout="@layout/fragment_player_selection_marker" >
+        <action
+            android:id="@+id/action_playerSelectionFragment_to_marcadorFragment"
+            app:destination="@id/marcadorFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/marcadorFragment"
+        android:name="com.wendellugalds.kingofbozo.ui.game.MarcadorFragment"
+        android:label="Marcador"
+        tools:layout="@layout/fragment_marker" >
+        <argument
+            android:name="selectedPlayerIds"
+            app:argType="long[]" />
+    </fragment>
+
+</navigation>
