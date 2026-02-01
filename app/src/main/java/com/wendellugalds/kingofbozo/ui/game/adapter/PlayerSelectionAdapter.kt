@@ -60,29 +60,20 @@ class PlayerSelectionAdapter(
 
                 val name = player.name?.trim() ?: ""
 
-// Divide o nome em palavras, ignorando espaços extras entre elas
                 val words = name.split(" ").filter { it.isNotBlank() }
 
                 val initials = if (words.size > 1) {
-                    // REGRA 1: Se tem mais de uma palavra, pega a primeira letra da primeira e da última palavra.
-                    // Ex: "Wendell Ugalds" -> "WU"
-                    // Ex: "Selma Regina da Silva" -> "SS"
                     val firstInitial = words.first().first()
                     val lastInitial = words.last().first()
                     binding.siglaNome.text = "$firstInitial$lastInitial"
                 } else if (words.isNotEmpty()) {
-                    // REGRA 2: Se tem apenas uma palavra...
                     val word = words.first()
                     if (word.length >= 2) {
-                        // Pega as duas primeiras letras
-                        // Ex: "Lorena" -> "LO"
                         binding.siglaNome.text = word.substring(0, 2)
                     } else {
-                        // Se a palavra tiver só uma letra, pega apenas ela
                         binding.siglaNome.text = word
                     }
                 } else {
-                    // Caso o nome esteja vazio, retorna "--" ou uma string vazia
                     "--"
                 }
             }
@@ -96,6 +87,11 @@ class PlayerSelectionAdapter(
                     2 -> R.drawable.ic_2
                     3 -> R.drawable.ic_3
                     4 -> R.drawable.ic_4
+                    5 -> R.drawable.ic_5
+                    6 -> R.drawable.ic_6
+                    7 -> R.drawable.ic_7
+                    8 -> R.drawable.ic_8
+                    9 -> R.drawable.ic_9
                     else -> 0
                 }
                 if (badgeDrawable != 0) {

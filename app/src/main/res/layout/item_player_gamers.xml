@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginTop="8dp"
+    android:backgroundTint="?attr/cardBackgroundColor"
     android:background="@drawable/item_background_selector"
     android:padding="8dp">
 
@@ -22,11 +23,12 @@
             android:id="@+id/sigla_nome"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="?attr/colorPrimary"
             android:background="@drawable/background_circle"
             android:text="WU"
-            android:textColor="@color/cor_destaque"
+            android:textColor="?attr/textBackground"
             android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:gravity="center"/>
 
 
@@ -48,14 +50,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/textFillColor"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/text_player_wins"
+        app:layout_constraintEnd_toStartOf="@+id/container_action"
         app:layout_constraintStart_toEndOf="@+id/container_avatar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:layout_editor_absoluteY="8dp"
-        tools:text="Wendell Ugalds"
-        tools:ignore="MissingConstraints" />
+        tools:text="Wendell Ugalds" />
 
     <TextView
         android:id="@+id/text_player_wins"
@@ -64,10 +67,13 @@
         android:layout_marginTop="8dp"
         android:drawablePadding="4dp"
         android:gravity="center_vertical"
-        android:textColor="@color/cor_destaque"
+        android:textColor="?attr/textFillColor"
         android:textSize="14sp"
+        android:alpha="0.5"
         app:drawableStartCompat="@drawable/ic_victory"
-        app:drawableTint="@color/cor_destaque"
+        app:drawableTint="?attr/textFillColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/container_action"
         app:layout_constraintStart_toStartOf="@+id/text_player_name"
         app:layout_constraintTop_toBottomOf="@+id/text_player_name"
         tools:text="25 Vitórias" />
@@ -84,11 +90,12 @@
             android:id="@+id/button_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/opacity"
             android:background="@drawable/circle_background"
             android:padding="16dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_arrow_forward"
-            app:tint="@color/cor_destaque" />
+            app:tint="?attr/colorPrimary" />
 
         <CheckBox
             android:id="@+id/checkbox_select_player"
@@ -98,7 +105,7 @@
             android:clickable="false"
             android:visibility="gone"
             android:button="@drawable/checkbox_selector"
-            app:buttonTint="@color/cor_destaque"
+            app:buttonTint="?attr/colorPrimary"
             tools:visibility="visible"/>
 
     </FrameLayout>

@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:background="@color/fundo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -24,60 +23,128 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         app:cardBackgroundColor="#00FFFFFF"
-        app:cardElevation="8dp">
+        app:cardElevation="0dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/nav_container"
+            android:layout_width="308dp"
+            android:layout_height="72dp"
             android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="8dp"
+            android:backgroundTint="?attr/cardBackgroundColor"
             android:background="@drawable/background_card_dark"
-            android:gravity="center_vertical">
+            android:gravity="center">
 
-            <ImageButton
+            <!-- Home -->
+            <LinearLayout
                 android:id="@+id/nav_home"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_home"
-                android:background="@color/cor_cinza"
-                app:tint="@android:color/white" />
-
-            <ImageButton
-                android:id="@+id/nav_players"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="8dp"
-                android:src="@drawable/ic_players"
-                android:background="@color/cor_cinza"
-                app:tint="@android:color/white" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_marcador"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_marcador"
-                app:backgroundTint="@color/cor_destaque"
-                app:tint="@android:color/black"
-                app:elevation="0dp"
-                app:maxImageSize="32dp" />
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:layout_marginHorizontal="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/nav_home_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="?attr/textFillColor"
+                    android:src="@drawable/ic_home" />
+                <TextView
+                    android:id="@+id/nav_home_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/title_home"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-            <ImageButton
+            <!-- Players -->
+            <LinearLayout
+                android:id="@+id/nav_players"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:layout_marginHorizontal="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/nav_players_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="?attr/textFillColor"
+                    android:src="@drawable/ic_players" />
+                <TextView
+                    android:id="@+id/nav_players_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/title_players"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Saved Games -->
+            <LinearLayout
                 android:id="@+id/nav_saved_games"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="8dp"
-                android:src="@drawable/ic_saved_games"
-                android:background="@color/cor_cinza"
-                app:tint="@android:color/white" />
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:layout_marginHorizontal="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/nav_saved_games_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="?attr/textFillColor"
+                    android:src="@drawable/ic_game" />
+                <TextView
+                    android:id="@+id/nav_saved_games_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/title_saved_games"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
 
-            <ImageButton
+            <!-- Settings -->
+            <LinearLayout
                 android:id="@+id/nav_settings"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_settings"
-                android:background="@color/cor_cinza"
-                app:tint="@android:color/white" />
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:layout_marginHorizontal="4dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/nav_settings_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="?attr/textFillColor"
+                    android:src="@drawable/ic_settings" />
+                <TextView
+                    android:id="@+id/nav_settings_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/title_settings"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+            </LinearLayout>
 
         </LinearLayout>
 

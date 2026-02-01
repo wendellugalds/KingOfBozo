@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo"
+    android:background="?attr/background"
     android:paddingTop="5dp"
     android:id="@+id/contrai"
     tools:context=".ui.players.PlayersFragment">
@@ -13,55 +13,83 @@
     <FrameLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_marginTop="16dp"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <FrameLayout
+        <LinearLayout
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            tools:ignore="MissingConstraints">
-
-            <TextView
-                android:id="@+id/text_app_title"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal">
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/king_of_boz"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:paddingHorizontal="15dp"
+                tools:ignore="MissingConstraints"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/text_title_jogadores"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="@string/jogadores"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/text_app_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/king_of_boz"
+                    android:alpha="0.5"
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_title_jogadores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="JOGADORES"
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold"/>
+
+
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/text_player_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="3dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end|center"
+                android:backgroundTint="?attr/colorPrimary"
                 android:background="@drawable/background_circle"
-                android:padding="16dp"
                 android:text="00"
-                android:textColor="@color/cor_destaque"
+                android:textColor="?attr/textBackground"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </FrameLayout>
+
+            <ImageView
+                android:id="@+id/person_select"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="?attr/textBackground"
+                android:background="@drawable/background_circle"
+                android:src="@drawable/ic_person_check"
+                app:tint="?attr/colorPrimary"
+                android:padding="12dp"
+                app:layout_constraintEnd_toStartOf="@id/action_delete"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </LinearLayout>
+
+
 
         <include
             android:id="@+id/custom_toolbar"
@@ -69,9 +97,27 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:visibility="gone"
-            tools:visibility="visible"/>
+            tools:visibility="invisible"/>
 
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/button_adicionar_jogador"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:background="@drawable/background_card_2_destaque"
+        android:gravity="top|center"
+        android:paddingTop="25dp"
+        android:text="ADICIONAR JOGADOR"
+        android:elevation="1dp"
+        android:textColor="?attr/textBackground"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="24dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_players"
@@ -82,175 +128,5 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar_container"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/item_player_gamers" />
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_container_add_player"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginStart="27dp"
-        android:layout_marginEnd="27dp"
-        android:layout_marginBottom="50dp"
-        app:cardBackgroundColor="@color/cor_destaque"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/button_adicionar_jogador"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:gravity="center"
-                android:paddingBottom="50dp"
-                android:text="ADICIONAR JOGADOR"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/form_add_player"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:orientation="vertical"
-                android:padding="24dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                tools:visibility="visible">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="62dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="24dp"
-                        android:gravity="center"
-                        android:text="JOGADOR"
-                        android:textColor="#1C1C1E"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/button_close_form"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:background="@drawable/background_circle_dark_transparent"
-                        android:layoutDirection="inherit"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_close"
-                        app:tint="#000000" />
-                </FrameLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:gravity="center_horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/layout_add_image"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp">
-
-
-
-                        <ImageView
-                            android:id="@+id/image_avatar_placeholder"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/background_circle_dark"
-                            android:padding="25dp"
-                            android:elevation="0dp"
-                            android:src="@drawable/ic_person_king_fill"
-                            app:tint="@color/cor_destaque" />
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/image_avatar_preview"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            android:visibility="gone"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
-
-                    </LinearLayout>
-
-
-                    <ImageView
-                        android:id="@+id/delete_image"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center"
-                        android:padding="5dp"
-                        android:layout_marginLeft="-25dp"
-                        android:elevation="5dp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="@drawable/background_circle_dark"
-                        android:src="@drawable/ic_close"
-                        android:visibility="gone"
-                        app:tint="@color/cor_destaque"
-                        tools:visibility="visible" />
-                </LinearLayout>
-
-                <EditText
-                    android:id="@+id/edit_text_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:backgroundTint="#1C1C1E"
-                    android:hint="Nome Jogador"
-                    android:paddingTop="50dp"
-                    android:inputType="textPersonName"
-                    android:textColor="#1C1C1E"
-                    android:textColorHint="#5A5A5C" />
-
-                <EditText
-                    android:id="@+id/edit_text_age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="32dp"
-                    android:backgroundTint="#1C1C1E"
-                    android:hint="Idade"
-                    android:inputType="number"
-                    android:textColor="#1C1C1E"
-                    android:textColorHint="#5A5A5C" />
-
-                <TextView
-                    android:id="@+id/button_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:paddingHorizontal="48dp"
-                    android:paddingVertical="12dp"
-                    android:text="SALVAR"
-                    android:textColor="#000000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

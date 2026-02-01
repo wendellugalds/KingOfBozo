@@ -10,6 +10,7 @@
     android:layout_margin="20dp"
     android:padding="16dp"
     android:gravity="center_horizontal"
+    android:backgroundTint="?attr/cardBackgroundColor"
     android:background="@drawable/background_card_2_dark">
 
     <FrameLayout
@@ -32,7 +33,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/background_circle_black"
             android:text="WU"
-            android:textColor="@color/cor_destaque"
+            android:textColor="?attr/colorPrimary"
             android:textStyle="bold"
             android:textSize="20dp"
             android:gravity="center"/>
@@ -49,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="589"
-            android:textColor="@color/cor_destaque"
+            android:textColor="?attr/colorPrimary"
             android:textSize="40sp"
             android:textStyle="bold" />
 
@@ -58,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Wendell Ugalds"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorPrimary"
             android:textSize="12sp" />
     </LinearLayout>
 

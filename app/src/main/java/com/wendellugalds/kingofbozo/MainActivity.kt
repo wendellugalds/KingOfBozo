@@ -1,13 +1,18 @@
 package com.wendellugalds.kingofbozo
 
 import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
+import com.wendellugalds.kingofbozo.util.ThemeStorage
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(ThemeStorage.getTheme(this))
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -24,9 +30,10 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         setupCustomNavigation()
-        setupFab()
         setupNavigationVisibility()
     }
+
+
 
     private fun setupCustomNavigation() {
         binding.navHome.setOnClickListener {
@@ -43,24 +50,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // --- FUNÇÃO CORRIGIDA ---
-    private fun setupFab() {
-        // Corrigido para usar o ID 'fab_marcador' do seu XML
-        binding.fabMarcador.setOnClickListener {
-            // Navega para a nova tela de seleção de jogadores usando a ação global
-            navController.navigate(R.id.action_global_playerSelectionFragment)
-        }
-    }
-
     private fun setupNavigationVisibility() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            // Esconde a barra de navegação na nova tela de seleção e na de detalhes
             val isVisible = when (destination.id) {
                 R.id.navigation_home,
                 R.id.navigation_players,
                 R.id.navigation_saved_games,
                 R.id.navigation_settings -> true
-                else -> false // Esconderá em playerSelectionFragment e navigation_player_detail
+                else -> false
             }
             binding.cardNavigation.visibility = if (isVisible) View.VISIBLE else View.GONE
             updateNavIcons(destination.id)
@@ -68,38 +65,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {
-        val inactiveColor = ContextCompat.getColor(this, android.R.color.white)
-        val activeColor = ContextCompat.getColor(this, R.color.cor_destaque)
+        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.icon, Color.GRAY)
+        val activeColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary, Color.BLACK)
+        
+        val alpha = 0.10f
+//        val activeBgColor = inactiveColor
+        val activeBgColor = Color.argb(
+            (alpha * 255).toInt(),
+            Color.red(activeColor),
+            Color.green(activeColor),
+            Color.blue(activeColor)
+        )
 
-        binding.navHome.setImageResource(R.drawable.ic_home)
-        binding.navHome.imageTintList = ColorStateList.valueOf(inactiveColor)
+        // Reset all to inactive state
+        resetNavItem(binding.navHome, binding.navHomeIcon, binding.navHomeText, R.drawable.ic_home, inactiveColor)
+        resetNavItem(binding.navPlayers, binding.navPlayersIcon, binding.navPlayersText, R.drawable.ic_players, inactiveColor)
+        resetNavItem(binding.navSavedGames, binding.navSavedGamesIcon, binding.navSavedGamesText, R.drawable.ic_game, inactiveColor)
+        resetNavItem(binding.navSettings, binding.navSettingsIcon, binding.navSettingsText, R.drawable.ic_settings, inactiveColor)
 
-        binding.navPlayers.setImageResource(R.drawable.ic_players)
-        binding.navPlayers.imageTintList = ColorStateList.valueOf(inactiveColor)
-
-        binding.navSavedGames.setImageResource(R.drawable.ic_saved_games)
-        binding.navSavedGames.imageTintList = ColorStateList.valueOf(inactiveColor)
-
-        binding.navSettings.setImageResource(R.drawable.ic_settings)
-        binding.navSettings.imageTintList = ColorStateList.valueOf(inactiveColor)
-
+        // Set active state
         when (activeDestinationId) {
-            R.id.navigation_home -> {
-                binding.navHome.setImageResource(R.drawable.ic_home_active)
-                binding.navHome.imageTintList = ColorStateList.valueOf(activeColor)
-            }
-            R.id.navigation_players -> {
-                binding.navPlayers.setImageResource(R.drawable.ic_players_active)
-                binding.navPlayers.imageTintList = ColorStateList.valueOf(activeColor)
-            }
-            R.id.navigation_saved_games -> {
-                binding.navSavedGames.setImageResource(R.drawable.ic_remenber_active)
-                binding.navSavedGames.imageTintList = ColorStateList.valueOf(activeColor)
-            }
-            R.id.navigation_settings -> {
-                binding.navSettings.setImageResource(R.drawable.ic_settings_active)
-                binding.navSettings.imageTintList = ColorStateList.valueOf(activeColor)
-            }
+            R.id.navigation_home -> setActiveNavItem(binding.navHome, binding.navHomeIcon, binding.navHomeText, R.drawable.ic_home_active, activeColor, activeBgColor)
+            R.id.navigation_players -> setActiveNavItem(binding.navPlayers, binding.navPlayersIcon, binding.navPlayersText, R.drawable.ic_players_active, activeColor, activeBgColor)
+            R.id.navigation_saved_games -> setActiveNavItem(binding.navSavedGames, binding.navSavedGamesIcon, binding.navSavedGamesText, R.drawable.ic_game_active, activeColor, activeBgColor)
+            R.id.navigation_settings -> setActiveNavItem(binding.navSettings, binding.navSettingsIcon, binding.navSettingsText, R.drawable.ic_settings_active, activeColor, activeBgColor)
         }
+    }
+
+
+
+    private fun resetNavItem(layout: LinearLayout, icon: ImageView, text: TextView, iconRes: Int, color: Int) {
+        layout.background = null
+        icon.setImageResource(iconRes)
+        icon.imageTintList = ColorStateList.valueOf(color)
+        text.visibility = View.GONE
+    }
+
+    private fun setActiveNavItem(layout: LinearLayout, icon: ImageView, text: TextView, iconRes: Int, color: Int, bgColor: Int) {
+        val shape = android.graphics.drawable.GradientDrawable().apply {
+            cornerRadius = 100f
+            setColor(bgColor)
+        }
+        layout.background = shape
+        icon.setImageResource(iconRes)
+        icon.imageTintList = ColorStateList.valueOf(color)
+        text.setTextColor(color)
+        text.visibility = View.VISIBLE
     }
 }

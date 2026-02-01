@@ -1,12 +1,172 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.KingOfBozo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/fundo</item>
+    <style name="Theme.KingOfBozo" parent="Base.Theme.KingOfBozo.verde" />
 
-        <item name="android:statusBarColor">@color/fundo</item>
-        <item name="android:navigationBarColor">@color/fundo</item>
+    <style name="Base.Theme.KingOfBozo.Standard" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/fundo_dark</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_light</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+    <style name="Base.Theme.KingOfBozo.verde" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/verde</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_dark</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
     </style>
 
-    <style name="Theme.KingOfBozo" parent="Base.Theme.KingOfBozo" />
+    <style name="Base.Theme.KingOfBozo.azul" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/azul</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_dark</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+
+
+    <style name="Base.Theme.KingOfBozo.roxo" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/roxo</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_light</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+
+    <style name="Base.Theme.KingOfBozo.pink" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/pink</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_light</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+
+    <style name="Base.Theme.KingOfBozo.amarelo" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/amarelo</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_dark</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+
+    <style name="Base.Theme.KingOfBozo.laranja" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/laranja</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_light</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+
+    <style name="Base.Theme.KingOfBozo.vermelho" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@color/vermelho</item>
+
+        <item name="textFillColor">@color/text_dark</item>
+        <item name="textBackground">@color/text_light</item>
+
+        <item name="icon">@color/icon_dark</item>
+        <item name="iconTint">@color/icon_light</item>
+
+        <item name="background">@color/fundo_light</item>
+        <item name="cardBackgroundColor">@color/card_light</item>
+        <item name="cardForegroundColor">@color/card_dark</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:statusBarColor">@color/fundo_light</item>
+        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+
+    </style>
+
 </resources>

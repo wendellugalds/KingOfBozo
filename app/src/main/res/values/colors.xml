@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="btn">#2e3034</color>
-    <color name="retangulo_btns">#27292d</color>
-    <color name="fundo">#17191a</color>
-    <color name="cor_destaque">#ebff57</color>
-    <color name="cor_destaque_transparent">#3FEBFF57</color>
-    <color name="cor_cinza">#27292d</color>
-    <color name="fundo_item">#2C2C2E</color>
-    <color name="cor_card_escuro">#2C2C2E</color>
-    <color name="darker_gray">#2C2C2E</color>
-    <color name="transparente">#002C2C2E</color>
+
+    <color name="icon_light">#FFFFFF</color>
+
+    <color name="icon_dark">#000000</color>
+
+
+
+    <color name="text_light">#FFFFFF</color>
+
+    <color name="text_dark">#000000</color>
+
+
+
+    <color name="card_light">#FFFFFF</color>
+
+    <color name="card_dark">#313131</color>
+
+
+
+    <color name="fundo_light">#EFEFEF</color>
+
+    <color name="fundo_dark">#17191a</color>
+
+
+
+<color name="opacity">#00000000</color>
+
+
+
+<color name="verde_neon">#2ef8a0</color>
+<color name="azul_neon">#00FFFF</color>
+<color name="roxo_neon">#9d00ff</color>
+<color name="pink_neon">#FF1493</color>
+<color name="amarelo_neon">#fff700</color>
+<color name="laranja_neon">#fc4b08</color>
+<color name="vermelho_neon">#FF073A</color>
+
+<color name="verde">#1cedae</color>
+<color name="azul">#01c4e7</color>
+<color name="roxo">#8a00c4</color>
+<color name="pink">#FF69B4</color>
+<color name="amarelo">#FFBF00</color>
+<color name="laranja">#F88104</color>
+<color name="vermelho">#EA1D2C</color>
+
+    <!-- Switch Colors -->
+
+<color name="switch_track_on">#0056D2</color>
+<color name="switch_track_off">#E0E0E0</color>
+<color name="switch_thumb_on">#FFFFFF</color>
+<color name="switch_thumb_off">#757575</color>
+<color name="switch_icon_on">#0056D2</color>
+<color name="switch_icon_off">#FFFFFF</color>
+
 </resources>

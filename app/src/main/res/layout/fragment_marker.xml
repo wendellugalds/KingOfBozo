@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/fundo"
+        android:background="?attr/background"
         android:paddingTop="48dp"
         tools:context=".ui.MarcadorFragment">
 
@@ -25,10 +25,11 @@
                 android:id="@+id/button_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:backgroundTint="?attr/textFillColor"
                 android:background="@drawable/background_circle"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="@android:color/white"
+                app:tint="?attr/colorPrimary"
                 tools:ignore="ContentDescription" />
 
             <LinearLayout
@@ -44,15 +45,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Atual"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="16sp" />
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="16sp"
+                    android:alpha="0.5"/>
 
                 <TextView
                     android:id="@+id/text_title_jogadores"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="RODADA"
-                    android:textColor="@android:color/white"
+                    android:textColor="?attr/textFillColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -61,10 +63,11 @@
                 android:id="@+id/text_round"
                 android:layout_width="58dp"
                 android:layout_height="58dp"
-                android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/colorPrimary"
+                android:background="@drawable/background_card_black"
+                android:textColor="?attr/textBackground"
                 android:gravity="center"
                 android:text="00"
-                android:textColor="@color/cor_destaque"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

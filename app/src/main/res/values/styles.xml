@@ -1,20 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ScoreButton">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">70dp</item>
-        <item name="android:layout_columnWeight">1</item>
-        <item name="android:layout_margin">4dp</item>
-        <item name="android:background">@drawable/background_circle_dark</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
+    <style name="Widget.App.MaterialSwitch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="thumbIcon">@drawable/switch_thumb_icon_selector</item>
+        <item name="thumbIconTint">@color/switch_thumb_icon_tint_selector</item>
+        <item name="thumbTint">@color/switch_thumb_tint_selector</item>
+        <item name="trackTint">@color/switch_track_tint_selector</item>
+        <item name="trackDecorationTint">@null</item>
     </style>
-
-    <style name="ScoreButton.Riscar">
-        <item name="android:background">@drawable/background_score_option_riscar</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">18sp</item>
-    </style>
-
 </resources>

@@ -2,6 +2,7 @@ package com.wendellugalds.kingofbozo.ui.game.adapter
 
 import android.content.Context
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.ItemPlayerMarcadorBinding
 import com.wendellugalds.kingofbozo.model.GameState
@@ -35,6 +37,7 @@ class PlayerMarkerAdapter : ListAdapter<Player, PlayerMarkerAdapter.PlayerMarker
             notifyItemChanged(index)
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerMarkerViewHolder {
         val binding =
@@ -61,8 +64,8 @@ class PlayerMarkerAdapter : ListAdapter<Player, PlayerMarkerAdapter.PlayerMarker
             // A lógica de aparência é definida aqui, baseada no isCurrentPlayer
             if (isCurrentPlayer) {
                 binding.cardContainer.setBackgroundResource(R.drawable.background_card_2_destaque)
-                binding.playerScore.setTextColor(ContextCompat.getColor(context, R.color.black))
-                binding.playerName.setTextColor(ContextCompat.getColor(context, R.color.black))
+                binding.playerScore.setTextColor(ContextCompat.getColor(context, R.color.text_dark))
+                binding.playerName.setTextColor(ContextCompat.getColor(context, R.color.text_dark))
                 binding.playerName.textSize = 17f
                 binding.playerScore.textSize = 55f
 
@@ -72,8 +75,8 @@ class PlayerMarkerAdapter : ListAdapter<Player, PlayerMarkerAdapter.PlayerMarker
                 binding.avatarContainer.layoutParams = params
             } else {
                 binding.cardContainer.setBackgroundResource(R.drawable.background_card_2_dark)
-                binding.playerScore.setTextColor(ContextCompat.getColor(context, R.color.white))
-                binding.playerName.setTextColor(ContextCompat.getColor(context, R.color.white))
+                binding.playerScore.setTextColor(ContextCompat.getColor(context, R.color.text_light))
+                binding.playerName.setTextColor(ContextCompat.getColor(context, R.color.text_light))
                 binding.playerName.textSize = 12f
                 binding.playerScore.textSize = 35f
 

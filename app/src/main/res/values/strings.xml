@@ -8,10 +8,10 @@
     <string name="macador">MACADOR</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_home">Home</string>
-    <string name="title_players">Jogadores\n</string>
+    <string name="title_home">Início</string>
+    <string name="title_players">Jogadores</string>
     <string name="title_add">Marcador</string>
-    <string name="title_saved_games">Jogos Salvos</string>
+    <string name="title_saved_games">Salvos</string>
     <string name="title_settings">Ajustes</string>
     <string name="player_wins_format">teste</string>
     <string name="informa_es">Informações</string>

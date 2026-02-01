@@ -1,19 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo">
+    android:background="?attr/background"
+    android:padding="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:id="@+id/text_ajustes_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tela de Ajustes"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingHorizontal="15dp"
+        android:paddingTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:id="@+id/text_app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:alpha="0.5"
+            android:text="@string/king_of_boz"
+            android:textColor="?attr/textFillColor"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/text_title_jogadores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="AJUSTES"
+            android:textColor="?attr/textFillColor"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
+    </FrameLayout>
+
+
+    <!-- COR -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_cor"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_settings_card"
+        android:backgroundTint="?attr/colorPrimary"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/card_tela"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_ajustes_title">
+
+        <View
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/background_circle"
+            android:backgroundTint="#80000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_cor_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COR"
+            android:textColor="?attr/textBackground"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/text_cor_desc"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_cor_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.4"
+            android:text="DESTAQUE"
+            android:textColor="?attr/textBackground"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- TELA -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_tela"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/background_settings_card"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/card_cor"
+        app:layout_constraintTop_toTopOf="@+id/card_cor">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            style="@style/Widget.App.MaterialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_tela_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TELA"
+            android:textColor="?attr/textFillColor"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/text_tela_desc"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_tela_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.4"
+            android:text="NÃO DEIXA APAGAR"
+            android:textColor="?attr/textFillColor"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- SOM -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_som"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/background_settings_card"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:padding="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/card_versao"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_cor">
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            style="@style/Widget.App.MaterialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_som_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SOM"
+            android:textColor="?attr/textFillColor"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/text_som_desc"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_som_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sonoros"
+            android:textColor="?attr/textFillColor"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- VERSÃO -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/card_versao"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/background_settings_card"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/card_som"
+        app:layout_constraintTop_toTopOf="@+id/card_som">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_version"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/text_versao_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.59"
+            android:textColor="?attr/textFillColor"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/text_versao_title"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/text_versao_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Versão"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -44,20 +44,20 @@ class CategoryAdapter(
                 binding.root.background = ContextCompat.getDrawable(context, R.drawable.background_category_item_collapsed)
                 categoryTextView.setTypeface(null, Typeface.BOLD) // Usa negrito para pontuações
                 categoryTextView.textSize = 70f // Tamanho maior para pontuações
-                categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
+                categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.text_dark))
 
                 if (category.score == 0 && category.isScratch) {
                     // Se foi RISCADO, mostra "X"
                     categoryTextView.text = "X"
                     categoryTextView.textSize = 70f
-                    categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.text_dark))
                     binding.root.background = ContextCompat.getDrawable(context, R.drawable.background_score_option_riscar)
                 } else if (category.score == 0 && !category.isScratch) {
                     // Se foi ZERADO (Nulo), mostra o NOME
                     categoryTextView.text = category.name
                     categoryTextView.textSize = 17f // Tamanho normal
                     categoryTextView.setTypeface(null, Typeface.BOLD) // Nome da categoria em negrito
-                    categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
+                    categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.text_dark))
                 } else {
                     // Se tem uma pontuação, mostra o NÚMERO
                     categoryTextView.text = category.score.toString()
@@ -67,7 +67,7 @@ class CategoryAdapter(
                 categoryTextView.text = category.name
                 categoryTextView.textSize = 17f // Garante o tamanho normal
                 categoryTextView.setTypeface(null, Typeface.BOLD) // Nome da categoria em negrito
-                categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
+                categoryTextView.setTextColor(ContextCompat.getColor(context, R.color.text_dark))
                 binding.root.background = ContextCompat.getDrawable(context, R.drawable.background_category_item_collapsed)
             }
 

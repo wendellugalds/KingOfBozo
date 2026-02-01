@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical"
     android:paddingTop="48dp">
 
@@ -41,7 +41,7 @@
                 android:src="@drawable/ic_person_edit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/btn"
+                app:tint="?attr/colorPrimary"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -54,7 +54,7 @@
                 android:src="@drawable/ic_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@android:color/white"
+                app:tint="?attr/colorPrimary"
                 tools:ignore="ContentDescription" />
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="6dp"
                 android:src="@drawable/ic_crown"
-                app:tint="@color/black"
+                app:tint="?attr/colorPrimary"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background_circle"
                 android:text="WU"
-                android:textColor="@color/cor_destaque"
+                android:textColor="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:textSize="25dp"
                 android:gravity="center"/>
@@ -273,7 +273,7 @@
                 android:layout_marginTop="8dp"
                 android:drawablePadding="16dp"
                 android:text="@string/generais_conquistados_25"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="16sp" />
 
             <TextView
@@ -283,7 +283,7 @@
                 android:layout_marginTop="4dp"
                 android:drawablePadding="16dp"
                 android:text="@string/jogadas_de_bocas_12"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="16sp" />
 
             <TextView
@@ -293,7 +293,7 @@
                 android:layout_marginTop="4dp"
                 android:drawablePadding="16dp"
                 android:text="@string/rodadas_feitas_69"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="16sp" />
         </LinearLayout>
 

@@ -47,7 +47,9 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
         if (currentSelection.contains(player)) {
             currentSelection.remove(player)
         } else {
-            currentSelection.add(player)
+            if (currentSelection.size < 9) {
+                currentSelection.add(player)
+            }
         }
         _selectedPlayers.value = currentSelection
     }

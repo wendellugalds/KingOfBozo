@@ -5,6 +5,7 @@
     android:id="@+id/form_add_player"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:backgroundTint="?attr/colorPrimary"
     android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical"
     android:padding="24dp">
@@ -14,6 +15,7 @@
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
+        app:tint="?attr/textBackground"
         android:src="@drawable/background_card_dark" />
 
     <FrameLayout
@@ -28,7 +30,7 @@
             android:gravity="center"
             android:text="ALTERAR JOGADOR"
             android:paddingTop="15dp"
-            android:textColor="#1C1C1E"
+            android:textColor="?attr/textBackground"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -51,11 +53,12 @@
                 android:id="@+id/image_avatar_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="?attr/textBackground"
                 android:background="@drawable/background_circle_dark"
                 android:padding="25dp"
                 android:elevation="0dp"
                 android:src="@drawable/ic_person_king_fill"
-                app:tint="@color/cor_destaque" />
+                app:tint="?attr/colorPrimary" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_avatar_preview"
@@ -78,10 +81,11 @@
             android:elevation="5dp"
             android:clickable="true"
             android:focusable="true"
+            android:backgroundTint="?attr/textBackground"
             android:background="@drawable/background_circle_dark"
             android:src="@drawable/ic_close"
             android:visibility="gone"
-            app:tint="@color/cor_destaque"
+            app:tint="?attr/colorPrimary"
             tools:visibility="visible" />
     </LinearLayout>
 
@@ -91,23 +95,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#1C1C1E"
+        android:backgroundTint="?attr/textBackground"
         android:hint="Nome Jogador"
-        android:paddingTop="50dp"
         android:inputType="textPersonName"
-        android:textColor="#1C1C1E"
-        android:textColorHint="#5A5A5C" />
+        android:textColor="?attr/textBackground"
+        android:textColorHint="?attr/textBackground" />
 
     <EditText
         android:id="@+id/edit_text_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="#1C1C1E"
+        android:backgroundTint="?attr/textBackground"
         android:hint="Idade"
         android:inputType="number"
-        android:textColor="#1C1C1E"
-        android:textColorHint="#5A5A5C" />
+        android:textColor="?attr/textBackground"
+        android:textColorHint="?attr/textBackground" />
 
     <TextView
         android:id="@+id/button_save"
@@ -116,8 +118,9 @@
         android:layout_gravity="center_horizontal"
         android:paddingHorizontal="48dp"
         android:paddingVertical="12dp"
+        android:layout_marginTop="15dp"
         android:text="SALVAR"
-        android:textColor="#000000"
+        android:textColor="?attr/textBackground"
         android:textSize="18sp"
         android:textStyle="bold" />
 

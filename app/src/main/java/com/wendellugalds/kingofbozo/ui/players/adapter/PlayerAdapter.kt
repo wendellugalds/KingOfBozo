@@ -34,12 +34,8 @@ class PlayerAdapter(
 
     inner class PlayerViewHolder(private val binding: ItemPlayerGamersBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        // --- AJUSTE: Listeners movidos para o init ---
-        // Isso melhora a performance, pois os listeners são criados apenas uma vez por ViewHolder,
-        // em vez de serem recriados toda vez que o método bind() é chamado.
         init {
             itemView.setOnClickListener {
-                // Previne cliques durante animações de remoção
                 if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
                     val player = getItem(bindingAdapterPosition)
                     if (isSelectionMode) {
@@ -52,13 +48,11 @@ class PlayerAdapter(
 
             itemView.setOnLongClickListener {
                 if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
-                    if (!isSelectionMode) {
-                        isSelectionMode = true
-                        // --- AJUSTE: Substituído notifyDataSetChanged() para melhor performance ---
-                        notifyItemRangeChanged(0, itemCount)
+                    if (!isSelectionMode && itemCount > 1) {
+                        startSelectionMode()
                         toggleSelection(getItem(bindingAdapterPosition))
                     }
-                    true // Consome o evento de long click
+                    true
                 } else {
                     false
                 }
@@ -69,49 +63,25 @@ class PlayerAdapter(
             val isSelected = selectedItems.contains(player)
             binding.textPlayerName.text = player.name
 
-            // --- AJUSTE: Uso de "plurals" para tratar singular/plural e facilitar tradução ---
-            // Adicione o seguinte em seu arquivo res/values/strings.xml:
-            // <plurals name="number_of_wins">
-            //     <item quantity="one">%d Vitória</item>
-            //     <item quantity="other">%d Vitórias</item>
-            // </plurals>
-           // val context = binding.root.context
-            //binding.textPlayerWins.text = context.resources.getQuantityString(
-            //    R.plurals.number_of_wins, player.wins, player.wins
-            //)
-
             if (!player.imageUri.isNullOrEmpty()) {
                 binding.imagePlayerAvatar.load(Uri.parse(player.imageUri))
                 binding.imagePlayerAvatar.visibility = View.VISIBLE
-
-
-
             } else {
                 val name = player.name?.trim() ?: ""
-
-// Divide o nome em palavras, ignorando espaços extras entre elas
                 val words = name.split(" ").filter { it.isNotBlank() }
 
                 val initials = if (words.size > 1) {
-                    // REGRA 1: Se tem mais de uma palavra, pega a primeira letra da primeira e da última palavra.
-                    // Ex: "Wendell Ugalds" -> "WU"
-                    // Ex: "Selma Regina da Silva" -> "SS"
                     val firstInitial = words.first().first()
                     val lastInitial = words.last().first()
                     binding.siglaNome.text = "$firstInitial$lastInitial"
                 } else if (words.isNotEmpty()) {
-                    // REGRA 2: Se tem apenas uma palavra...
                     val word = words.first()
                     if (word.length >= 2) {
-                        // Pega as duas primeiras letras
-                        // Ex: "Lorena" -> "LO"
                         binding.siglaNome.text = word.substring(0, 2)
                     } else {
-                        // Se a palavra tiver só uma letra, pega apenas ela
                         binding.siglaNome.text = word
                     }
                 } else {
-                    // Caso o nome esteja vazio, retorna "--" ou uma string vazia
                     "--"
                 }
                 binding.imagePlayerAvatar.visibility = View.GONE
@@ -126,6 +96,13 @@ class PlayerAdapter(
                 binding.buttonDetails.visibility = View.VISIBLE
             }
             itemView.isActivated = isSelected
+        }
+    }
+
+    fun startSelectionMode() {
+        if (!isSelectionMode && itemCount > 1) {
+            isSelectionMode = true
+            notifyItemRangeChanged(0, itemCount)
         }
     }
 
@@ -146,7 +123,6 @@ class PlayerAdapter(
     fun finishSelectionMode() {
         isSelectionMode = false
         selectedItems.clear()
-        // --- AJUSTE: Substituído notifyDataSetChanged() para melhor performance ---
         notifyItemRangeChanged(0, itemCount)
     }
 
@@ -157,7 +133,6 @@ class PlayerAdapter(
             selectedItems.clear()
             selectedItems.addAll(currentList)
         }
-        // --- AJUSTE: Substituído notifyDataSetChanged() para melhor performance ---
         notifyItemRangeChanged(0, itemCount)
         selectionListener()
     }

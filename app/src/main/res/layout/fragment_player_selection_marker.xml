@@ -4,96 +4,139 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo"
+    android:background="?attr/colorPrimary"
     android:paddingTop="48dp"
+    android:theme="@style/ThemeOverlay.Material3.Dark"
     tools:context=".ui.game.PlayerSelectionFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/action_bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        tools:ignore="MissingConstraints">
-        <ImageView
-            android:id="@+id/button_back"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/background_circle"
-            android:padding="12dp"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@android:color/white"
-            tools:ignore="ContentDescription" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@+id/button_back">
+            android:layout_marginHorizontal="16dp"
+            android:paddingBottom="16dp"
+            tools:ignore="MissingConstraints">
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="?attr/textBackground"
+                android:background="@drawable/background_circle"
+                android:padding="12dp"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorPrimary"
+                tools:ignore="ContentDescription" />
 
-            <TextView
-                android:id="@+id/text_app_title"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/king_of_boz"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp" />
+                android:layout_marginStart="16dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/button_back">
 
-            <TextView
-                android:id="@+id/text_title_jogadores"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/jogadores"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/text_app_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/king_of_boz"
+                    android:alpha="0.5"
+                    android:textColor="?attr/textBackground"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_title_jogadores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/jogadores"
+                    android:textColor="?attr/textBackground"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/button_adicionar_jogador"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="?attr/textBackground"
+                android:background="@drawable/background_circle_yellow"
+                android:padding="12dp"
+                app:tint="?attr/colorPrimary"
+                android:src="@drawable/ic_person_add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/tirar_seleção"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="?attr/textBackground"
+                android:background="@drawable/background_circle_yellow"
+                android:padding="12dp"
+                android:layout_marginLeft="10dp"
+                app:tint="?attr/colorPrimary"
+                android:src="@drawable/ic_deselect"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/button_adicionar_jogador"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/background_circle_yellow"
-            android:padding="12dp"
-            android:src="@drawable/ic_person_add"
+        <TextView
+            android:id="@+id/info_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/textBackground"
+            android:background="@drawable/background_card_2_dark"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="16dp"
+            android:text="Adicione 2 jogadores até 9 jogadores"
+            android:textColor="?attr/colorPrimary"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textSize="16sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPlayers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="85dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@android:color/black"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/action_bar"
+            tools:listitem="@layout/item_player_selection" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewPlayers"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="85dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/action_bar"
-        tools:listitem="@layout/item_player_selection" />
+
 
     <TextView
         android:id="@+id/iniciar"
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"
+        android:backgroundTint="?attr/textBackground"
         android:background="@drawable/background_card_2_destaque"
         android:gravity="center"
         android:text="INICIAR PARTIDA"
-        android:textColor="@color/black"
+        android:textColor="?attr/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

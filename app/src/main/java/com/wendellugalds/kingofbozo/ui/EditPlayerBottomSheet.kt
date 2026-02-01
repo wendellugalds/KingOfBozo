@@ -9,14 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import coil.load
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.PlayersApplication
-import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.BottomSheetEditPlayerBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
@@ -27,7 +29,6 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
     private var _binding: BottomSheetEditPlayerBinding? = null
     private val binding get() = _binding!!
 
-    // ... (outras variáveis continuam iguais)
     private val playerViewModel: PlayerViewModel by activityViewModels {
         PlayerViewModelFactory((requireActivity().application as PlayersApplication).repository)
     }
@@ -48,6 +49,26 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): android.app.Dialog {
+        val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+        dialog.setOnShowListener { dialogInterface ->
+            val bottomSheetDialog = dialogInterface as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+
+            bottomSheet?.let {
+                it.setBackgroundResource(android.R.color.transparent)
+                val behavior = BottomSheetBehavior.from(it)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.skipCollapsed = true
+            }
+        }
+
+        return dialog
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = BottomSheetEditPlayerBinding.inflate(inflater, container, false)
         return binding.root
@@ -55,8 +76,6 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         savedInstanceState?.getString("current_image_uri")?.let { uriString ->
             currentImageUri = Uri.parse(uriString)
@@ -84,35 +103,40 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
             updatePlayer()
         }
 
+        // Adiciona ação de salvar ao pressionar "Pronto" no teclado
+        binding.editTextAge.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                updatePlayer()
+                true
+            } else {
+                false
+            }
+        }
+
         binding.layoutAddImage.setOnClickListener {
             imagePickerLauncher.launch("image/*")
         }
 
-        // --- LÓGICA DO BOTÃO DELETAR ADICIONADA ---
         binding.deleteImage.setOnClickListener {
-            currentImageUri = null // Remove a referência da imagem
-            updateAvatarPreview() // Atualiza a UI para mostrar o placeholder
+            currentImageUri = null
+            updateAvatarPreview()
             Toast.makeText(requireContext(), "Imagem removida.", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // ... (funções onSaveInstanceState e updatePlayer continuam iguais)
-
-    // --- FUNÇÃO ATUALIZADA PARA CONTROLAR A VISIBILIDADE DO BOTÃO ---
     private fun updateAvatarPreview() {
         if (currentImageUri != null) {
             binding.imageAvatarPreview.load(currentImageUri)
             binding.imageAvatarPreview.visibility = View.VISIBLE
             binding.imageAvatarPlaceholder.visibility = View.GONE
-            binding.deleteImage.visibility = View.VISIBLE // MOSTRA o botão de deletar
+            binding.deleteImage.visibility = View.VISIBLE
         } else {
             binding.imageAvatarPreview.visibility = View.GONE
             binding.imageAvatarPlaceholder.visibility = View.VISIBLE
-            binding.deleteImage.visibility = View.GONE // ESCONDE o botão de deletar
+            binding.deleteImage.visibility = View.GONE
         }
     }
 
-    // ... (resto do arquivo, como onStart, onDismiss, etc. continua igual) ...
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString("current_image_uri", currentImageUri?.toString())
@@ -144,7 +168,8 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
         dialog?.window?.let { window ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 originalNavBarColor = requireActivity().window.navigationBarColor
-                window.navigationBarColor = ContextCompat.getColor(requireContext(), R.color.cor_destaque)
+                val corDoTema = MaterialColors.getColor(requireView(), com.google.android.material.R.attr.colorPrimary)
+                window.navigationBarColor = corDoTema
             }
         }
     }

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fundo"
+    android:backgroundTint="?attr/background"
+    android:background="?attr/background"
     tools:context=".ui.home.HomeFragment">
 
     <TextView
@@ -14,7 +15,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="56dp"
         android:text="@string/king_of_boz"
-        android:textColor="@android:color/darker_gray"
+        android:alpha="0.5"
+        android:textColor="?attr/textFillColor"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,72 +27,91 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/bom_dia"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/textFillColor"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@id/text_app_title"
         app:layout_constraintTop_toBottomOf="@id/text_app_title" />
 
     <ImageView
-        android:id="@+id/image_logo"
+        android:id="@+id/image_logo_fundo"
         android:layout_width="326dp"
         android:layout_height="247dp"
         android:layout_marginHorizontal="60dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo_king_of_boz"
-        android:src="@drawable/logo_king_of_bozo"
+        app:tint="?attr/colorPrimary"
+        android:src="@drawable/fundo_logo"
         app:layout_constraintBottom_toTopOf="@+id/button_jogar_proximo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_greeting" />
+
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="280dp"
+        android:layout_height="200dp"
+        android:layout_marginHorizontal="60dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/logo_king_of_boz"
+        app:tint="?attr/textBackground"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toBottomOf="@+id/image_logo_fundo"
+        app:layout_constraintEnd_toEndOf="@+id/image_logo_fundo"
+        app:layout_constraintStart_toStartOf="@+id/image_logo_fundo"
+        app:layout_constraintTop_toTopOf="@+id/image_logo_fundo" />
 
     <TextView
         android:id="@+id/button_jogar_proximo"
-        android:layout_width="364dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginHorizontal="42dp"
+        android:layout_marginHorizontal="48dp"
+        android:backgroundTint="?attr/cardBackgroundColor"
         android:background="@drawable/button_background_dark"
-        android:drawableEnd="@drawable/ic_bluetooth_connected"
+        android:drawableEnd="@drawable/ic_share_marker"
         android:drawablePadding="-60px"
-        android:drawableTint="@color/cor_destaque"
+        android:drawableTint="?attr/colorPrimary"
         android:gravity="center"
         android:paddingHorizontal="24dp"
         android:layout_marginBottom="25dp"
-        android:text="JOGAR PRÓXIMO"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/button_jogar_sozinho"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/button_jogar_sozinho"
-        android:layout_width="364dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/button_background_dark"
-        android:drawableStart="@drawable/ic_robot_2"
-        android:drawablePadding="-60px"
-        android:drawableTint="@color/cor_destaque"
-        android:gravity="center"
-        android:paddingHorizontal="24dp"
-        android:text="JOGAR SOZINHO"
-        android:textColor="@android:color/white"
+        android:text="COMPARTILHAR MARCADOR"
+        android:textColor="?attr/textFillColor"
         app:layout_constraintBottom_toTopOf="@+id/button_marcador"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+<!--    <TextView-->
+<!--        android:id="@+id/button_jogar_sozinho"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:layout_marginBottom="24dp"-->
+<!--        android:layout_marginHorizontal="48dp"-->
+<!--        android:backgroundTint="?attr/cardBackgroundColor"-->
+<!--        android:background="@drawable/button_background_dark"-->
+<!--        android:drawableStart="@drawable/ic_robot_2"-->
+<!--        android:drawablePadding="-60px"-->
+<!--        android:drawableTint="?attr/colorPrimary"-->
+<!--        android:gravity="center"-->
+<!--        android:paddingHorizontal="24dp"-->
+<!--        android:text="JOGAR SOZINHO"-->
+<!--        android:textColor="?attr/textFillColor"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/button_marcador"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
     <TextView
         android:id="@+id/button_marcador"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginRight="27dp"
-        android:layout_marginLeft="27dp"
-        android:layout_marginBottom="50dp"
+        android:layout_height="150dp"
+        android:layout_marginHorizontal="48dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="?attr/colorPrimary"
         android:background="@drawable/background_card_2_destaque"
-        android:gravity="center"
-        android:paddingBottom="50dp"
-        android:text="MACADOR"
-        android:textColor="@color/black"
+        android:gravity="top|center"
+        android:paddingTop="25dp"
+        android:text="MARCAR BOZÓ"
+        android:elevation="1dp"
+        android:textColor="?attr/textBackground"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

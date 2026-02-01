@@ -3,28 +3,22 @@ package com.wendellugalds.kingofbozo.ui.players
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.AutoTransition
-import androidx.transition.TransitionManager
-import coil.load
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayersBinding
-import com.wendellugalds.kingofbozo.model.Player
+import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
-import java.lang.NumberFormatException
 
 private fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
@@ -40,20 +34,6 @@ class PlayersFragment : Fragment() {
 
     private lateinit var playerAdapter: PlayerAdapter
 
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-        uri?.let {
-
-            val takeFlags: Int = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            requireActivity().contentResolver.takePersistableUriPermission(it, takeFlags)
-
-            selectedImageUri = it
-            binding.imageAvatarPreview.load(it)
-            binding.imageAvatarPreview.visibility = View.VISIBLE
-            binding.imageAvatarPlaceholder.visibility = View.GONE
-            binding.deleteImage.visibility = View.VISIBLE
-        }
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPlayersBinding.inflate(inflater, container, false)
         return binding.root
@@ -62,37 +42,36 @@ class PlayersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        setupClickListeners()
         setupContextualActionBar()
         setupOnBackPressed()
 
         playerViewModel.players.observe(viewLifecycleOwner) { players ->
             playerAdapter.submitList(players)
             updatePlayerCount(players.size)
+            binding.personSelect.visibility = if (players.size > 1) View.VISIBLE else View.GONE
             if (playerAdapter.isSelectionMode) {
                 updateContextualActionBar()
             }
         }
 
-        binding.deleteImage.setOnClickListener {
-            selectedImageUri = null
-            updateAvatarPreview()
-            Toast.makeText(requireContext(), "Imagem removida.", Toast.LENGTH_SHORT).show()
-        }
+        setupClickListeners()
     }
 
     private fun setupClickListeners() {
-        binding.buttonAdicionarJogador.setOnClickListener { expandForm() }
-        binding.buttonCloseForm.setOnClickListener { collapseForm() }
-        binding.buttonSave.setOnClickListener { savePlayer() }
-        binding.layoutAddImage.setOnClickListener {
-            imagePickerLauncher.launch("image/*")
+        binding.buttonAdicionarJogador.setOnClickListener {
+            val addSheet = AddPlayerBottomSheet()
+            addSheet.show(parentFragmentManager, "AddPlayerSheet")
         }
 
+        binding.personSelect.setOnClickListener {
+            if (playerAdapter.isSelectionMode) {
+                playerAdapter.finishSelectionMode()
+            } else {
+                playerAdapter.startSelectionMode()
+            }
+            updateContextualActionBar()
+        }
     }
-
-
-
 
     private fun setupRecyclerView() {
         playerAdapter = PlayerAdapter(
@@ -110,53 +89,6 @@ class PlayersFragment : Fragment() {
         }
     }
 
-    private fun savePlayer() {
-        val name = binding.editTextName.text.toString().trim()
-        val ageString = binding.editTextAge.text.toString().trim()
-
-        if (name.isNotEmpty() && ageString.isNotEmpty()) {
-            try {
-                val newPlayer = Player(
-                    name = name,
-                    age = ageString.toInt(),
-                    imageUri = selectedImageUri?.toString()
-                )
-                playerViewModel.addPlayer(newPlayer)
-                collapseForm()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(requireContext(), "Por favor, insira uma idade válida.", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(requireContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun resetForm() {
-        binding.editTextName.text.clear()
-        binding.editTextAge.text.clear()
-        selectedImageUri = null
-        binding.imageAvatarPreview.visibility = View.GONE
-        binding.imageAvatarPlaceholder.visibility = View.VISIBLE
-        binding.deleteImage.visibility = View.GONE
-    }
-
-    private fun expandForm() {
-        TransitionManager.beginDelayedTransition(binding.root as ViewGroup, AutoTransition())
-        binding.formAddPlayer.visibility = View.VISIBLE
-        binding.buttonAdicionarJogador.visibility = View.GONE
-        binding.recyclerViewPlayers.visibility = View.GONE
-        binding.actionBar.visibility = View.GONE
-    }
-
-    private fun collapseForm() {
-        TransitionManager.beginDelayedTransition(binding.root as ViewGroup, AutoTransition())
-        binding.formAddPlayer.visibility = View.GONE
-        binding.buttonAdicionarJogador.visibility = View.VISIBLE
-        binding.recyclerViewPlayers.visibility = View.VISIBLE
-        binding.actionBar.visibility = View.VISIBLE
-        resetForm()
-    }
-
     private fun setupOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -164,9 +96,6 @@ class PlayersFragment : Fragment() {
                     playerAdapter.isSelectionMode -> {
                         playerAdapter.finishSelectionMode()
                         updateContextualActionBar()
-                    }
-                    binding.formAddPlayer.visibility == View.VISIBLE -> {
-                        collapseForm()
                     }
                     else -> {
                         isEnabled = false
@@ -187,15 +116,23 @@ class PlayersFragment : Fragment() {
             showDeleteConfirmationDialog()
         }
         customToolbar.actionDeselectAll.setOnClickListener {
-            playerAdapter.selectAll()
+            playerAdapter.finishSelectionMode()
+            updateContextualActionBar()
         }
     }
 
-    private fun animateButton(button: View, hFrom: Int, hTo: Int, ptFrom: Int, ptTo: Int, pbFrom: Int, pbTo: Int) {
+    private fun animateButton(button: View, hFrom: Int, hTo: Int, mbFrom: Int, mbTo: Int, ptFrom: Int, ptTo: Int, pbFrom: Int, pbTo: Int) {
         val heightAnimator = ValueAnimator.ofInt(hFrom.dpToPx(requireContext()), hTo.dpToPx(requireContext()))
         heightAnimator.addUpdateListener {
-            val params = button.layoutParams
+            val params = button.layoutParams as ViewGroup.MarginLayoutParams
             params.height = it.animatedValue as Int
+            button.layoutParams = params
+        }
+
+        val marginAnimator = ValueAnimator.ofInt(mbFrom.dpToPx(requireContext()), mbTo.dpToPx(requireContext()))
+        marginAnimator.addUpdateListener {
+            val params = button.layoutParams as ViewGroup.MarginLayoutParams
+            params.bottomMargin = it.animatedValue as Int
             button.layoutParams = params
         }
 
@@ -208,7 +145,7 @@ class PlayersFragment : Fragment() {
         }
 
         val animatorSet = AnimatorSet()
-        animatorSet.playTogether(heightAnimator, paddingAnimator)
+        animatorSet.playTogether(heightAnimator, marginAnimator, paddingAnimator)
         animatorSet.duration = 300
         animatorSet.start()
     }
@@ -238,7 +175,14 @@ class PlayersFragment : Fragment() {
 
         val toolbarHeight = actionBar.height.toFloat()
 
-        if (selectedCount > 0) {
+        if (playerAdapter.isSelectionMode) {
+            binding.personSelect.setImageResource(R.drawable.ic_deselect)
+        } else {
+            binding.personSelect.setImageResource(R.drawable.ic_person_check)
+        }
+
+        if (selectedCount > 1) {
+            addPlayerButton.isEnabled = false
             if (customToolbarLayout.visibility == View.GONE) {
                 actionBar.animate()
                     .translationY(-toolbarHeight)
@@ -256,11 +200,14 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .start()
 
-                animateButton(addPlayerButton, 120, 35, 0, 25, 50, 0)
+                // h: 150->82, mb: 20->20, pt: 25->25, pb: 0->0
+                animateButton(addPlayerButton, 150, 82, 20, 20, 25, 25, 0, 0)
                 animateRecyclerViewPadding(recyclerView, 180, 110)
+                addPlayerButton.setBackgroundResource(R.drawable.background_card_dark)
             }
             binding.customToolbar.textSelectionCount.text = if (selectedCount == 1) "$selectedCount selecionado" else "$selectedCount selecionados"
         } else {
+            addPlayerButton.isEnabled = true
             if (customToolbarLayout.visibility == View.VISIBLE) {
                 customToolbarLayout.animate()
                     .translationY(-toolbarHeight)
@@ -268,7 +215,6 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .withEndAction {
                         customToolbarLayout.visibility = View.GONE
-                        playerAdapter.finishSelectionMode()
                     }
                     .start()
 
@@ -281,17 +227,15 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .start()
 
-                animateButton(addPlayerButton, 35, 120, 25, 0, 0, 50)
+                // h: 82->150, mb: 20->20, pt: 25->25, pb: 0->0
+                animateButton(addPlayerButton, 82, 150, 20, 20, 25, 25, 0, 0)
                 animateRecyclerViewPadding(recyclerView, 110, 180)
+                addPlayerButton.setBackgroundResource(R.drawable.background_card_2_destaque)
             }
         }
 
         val deselectIcon = binding.customToolbar.actionDeselectAll
-        if (selectedCount == totalCount && totalCount > 0) {
-            deselectIcon.setImageResource(R.drawable.ic_deselect)
-        } else {
-            deselectIcon.setImageResource(R.drawable.ic_select_all)
-        }
+        deselectIcon.setImageResource(R.drawable.ic_deselect)
     }
 
     private fun showDeleteConfirmationDialog() {
@@ -324,17 +268,8 @@ class PlayersFragment : Fragment() {
         }
     }
 
-    // --- FUNÇÃO MOVIDA PARA DENTRO DA CLASSE ---
-    private fun updateAvatarPreview() {
-        binding.imageAvatarPreview.visibility = View.GONE
-        binding.imageAvatarPlaceholder.visibility = View.VISIBLE
-        binding.deleteImage.visibility = View.GONE
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
-
-// --- FUNÇÃO REMOVIDA DE FORA DA CLASSE ---
