@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
+import com.wendellugalds.kingofbozo.databinding.DialogDeletePlayerBinding
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayersBinding
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
+
 
 private fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
@@ -176,12 +178,16 @@ class PlayersFragment : Fragment() {
         val toolbarHeight = actionBar.height.toFloat()
 
         if (playerAdapter.isSelectionMode) {
-            binding.personSelect.setImageResource(R.drawable.ic_deselect)
-        } else {
             binding.personSelect.setImageResource(R.drawable.ic_person_check)
-        }
+            binding.personSelect.visibility = View.GONE
+//            binding.personSelect.setImageResource(R.drawable.ic_deselect)
+        }else {
+            binding.personSelect.setImageResource(R.drawable.ic_person_check)
+            binding.personSelect.visibility = View.VISIBLE
+//            binding.personSelect.setImageResource(R.drawable.ic_person_check)
+     }
 
-        if (selectedCount > 1) {
+        if (playerAdapter.isSelectionMode) {
             addPlayerButton.isEnabled = false
             if (customToolbarLayout.visibility == View.GONE) {
                 actionBar.animate()
@@ -244,19 +250,31 @@ class PlayersFragment : Fragment() {
             Toast.makeText(requireContext(), "Nenhum jogador selecionado", Toast.LENGTH_SHORT).show()
             return
         }
-        val title = if (itemsToDelete.size == 1) "Apagar Jogador" else "Apagar Jogadores"
-        val message = if (itemsToDelete.size == 1) "Tem certeza que deseja apagar o jogador selecionado?" else "Tem certeza que deseja apagar ${itemsToDelete.size} jogadores?"
-        AlertDialog.Builder(requireContext())
-            .setTitle(title)
-            .setMessage(message)
-            .setPositiveButton("Apagar") { _, _ ->
-                playerViewModel.deletePlayers(itemsToDelete)
-                playerAdapter.finishSelectionMode()
-                updateContextualActionBar()
-                Toast.makeText(requireContext(), "Jogadores apagados", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+
+        val dialogBinding = DialogDeletePlayerBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogBinding.root)
+            .create()
+
+        dialogBinding.dialogTitle.text = if (itemsToDelete.size == 1) "Apagar Jogador" else "Apagar Jogadores"
+        dialogBinding.dialogMessage.text = if (itemsToDelete.size == 1) 
+            "Tem certeza que deseja apagar o jogador selecionado?" 
+            else "Tem certeza que deseja apagar ${itemsToDelete.size} jogadores?"
+
+        dialogBinding.btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogBinding.btnDelete.setOnClickListener {
+            playerViewModel.deletePlayers(itemsToDelete)
+            playerAdapter.finishSelectionMode()
+            updateContextualActionBar()
+            Toast.makeText(requireContext(), "Jogadores apagados", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     private fun updatePlayerCount(count: Int) {

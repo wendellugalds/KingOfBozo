@@ -136,7 +136,7 @@
 
     <!-- SOM -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/card_som"
+        android:id="@+id/card_tema"
         android:layout_width="0dp"
         android:layout_height="160dp"
         android:layout_marginTop="16dp"
@@ -149,30 +149,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_cor">
 
-        <com.google.android.material.materialswitch.MaterialSwitch
-            style="@style/Widget.App.MaterialSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
+        <ImageView
+            android:id="@+id/icon_mode"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_system_mode"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/textFillColor" />
 
         <TextView
-            android:id="@+id/text_som_title"
+            android:id="@+id/text_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SOM"
+            android:text="TEMA"
             android:textColor="?attr/textFillColor"
             android:textSize="28sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/text_som_desc"
+            app:layout_constraintBottom_toTopOf="@id/info_mode"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/text_som_desc"
+            android:id="@+id/info_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sonoros"
+            android:text="MODO SYSTEMA"
             android:textColor="?attr/textFillColor"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -191,8 +192,8 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/card_som"
-        app:layout_constraintTop_toTopOf="@+id/card_som">
+        app:layout_constraintStart_toEndOf="@+id/card_tema"
+        app:layout_constraintTop_toTopOf="@+id/card_tema">
 
         <ImageView
             android:layout_width="32dp"

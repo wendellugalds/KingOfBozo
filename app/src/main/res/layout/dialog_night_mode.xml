@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Escolha o Tema"
+        android:textColor="?attr/textFillColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/toogle_tema_claro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:id="@+id/icon_tema_claro"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_light_mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/textFillColor" />
+
+        <TextView
+            android:id="@+id/text_tema_claro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tema Claro"
+            android:layout_weight="1"
+            android:paddingStart="15dp"
+            android:textColor="?attr/textFillColor"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/radioLight"
+            style="@style/Widget.App.MaterialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toogle_tema_escuro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:id="@+id/icon_tema_escuro"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_dark_mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/textFillColor" />
+
+        <TextView
+            android:id="@+id/text_tema_escuro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tema Escuro"
+            android:layout_weight="1"
+            android:paddingStart="15dp"
+            android:textColor="?attr/textFillColor"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/radioDark"
+            style="@style/Widget.App.MaterialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/toogle_tema_system"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:id="@+id/icon_tema_system"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_system_mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/textFillColor" />
+
+        <TextView
+            android:id="@+id/text_tema_system"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modo do Sistema"
+            android:layout_weight="1"
+            android:paddingStart="15dp"
+            android:textColor="?attr/textFillColor"
+            android:textSize="16sp"/>
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/radioSystem"
+            style="@style/Widget.App.MaterialSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingTop="15dp">
+
+        <Button
+            android:id="@+id/btn_cancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textColor="?attr/textFillColor"
+            android:backgroundTint="?attr/colorPrimary"
+            app:iconTint="?attr/textFillColor"
+            app:icon="@drawable/ic_close"/>
+
+    </LinearLayout>
+
+</LinearLayout>
