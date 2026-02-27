@@ -2,18 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:layout_marginTop="8dp"
-    android:backgroundTint="?attr/colorPrimary"
+    android:backgroundTint="?attr/textFillColor"
     android:background="@drawable/item_background_selector">
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:backgroundTint="?attr/textBackground"
-        android:background="@drawable/item_background_selector"
-        android:alpha="0.2"/>
 
     <FrameLayout
         android:id="@+id/container_avatar"
@@ -28,13 +23,14 @@
             android:id="@+id/sigla_nome"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="?attr/colorPrimary"
-            android:background="@drawable/circle_background"
+            android:backgroundTint="?attr/textFillColor"
+            android:background="@drawable/background_circle"
             android:text="WU"
-            android:textColor="?attr/textBackground"
             android:textStyle="bold"
             android:textSize="20dp"
-            android:gravity="center"/>
+            android:textColor="?attr/colorPrimary"
+            android:gravity="center"
+            android:visibility="visible"/>
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -42,9 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:visibility="gone"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
     </FrameLayout>
 
     <TextView
@@ -52,9 +47,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:textColor="?attr/textBackground"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:textColor="?attr/textFillColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/container_action"
         app:layout_constraintStart_toEndOf="@+id/container_avatar"
@@ -76,8 +71,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:buttonTint="?attr/textBackground"
             android:clickable="false"
+            android:checked="false"
             android:button="@drawable/checkbox_selector_numbered" />
 
         <ImageView
@@ -86,9 +81,8 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_gravity="center"
-            app:tint="?attr/textBackground"
             tools:src="@drawable/ic_1"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
     </FrameLayout>
 

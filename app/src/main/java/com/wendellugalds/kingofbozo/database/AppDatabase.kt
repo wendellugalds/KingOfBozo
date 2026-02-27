@@ -4,19 +4,21 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.wendellugalds.kingofbozo.model.Converters
 import com.wendellugalds.kingofbozo.model.Player
+import com.wendellugalds.kingofbozo.model.SavedGame
 
-// A versão do banco de dados permanece em 3.
-@Database(entities = [Player::class], version = 3, exportSchema = false)
+@Database(entities = [Player::class, SavedGame::class], version = 5, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun playerDao(): PlayerDao
+    abstract fun savedGameDao(): SavedGameDao
 
     companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
-
-        // A MIGRAÇÃO MANUAL FOI REMOVIDA DAQUI
 
         fun getDatabase(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
@@ -25,8 +27,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "king_of_bozo_database"
                 )
-                    // --- ESTA É A LINHA QUE VOCÊ LEMBRAVA ---
-                    // Ela substitui o .addMigrations() e resolve o problema.
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
