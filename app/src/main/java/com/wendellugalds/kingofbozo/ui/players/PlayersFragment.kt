@@ -1,23 +1,35 @@
 package com.wendellugalds.kingofbozo.ui.players
 
+import android.animation.Animator
 import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
 import android.animation.ValueAnimator
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
+import androidx.transition.TransitionSet
+import androidx.transition.TransitionValues
+import androidx.transition.Visibility
+import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
-import com.wendellugalds.kingofbozo.databinding.DialogDeletePlayerBinding
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayersBinding
+import com.wendellugalds.kingofbozo.databinding.DialogDeletePlayerBinding
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
 
@@ -57,6 +69,18 @@ class PlayersFragment : Fragment() {
         }
 
         setupClickListeners()
+        configurarCoresDaBarra()
+    }
+
+    private fun configurarCoresDaBarra() {
+        val window = requireActivity().window
+        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        window.statusBarColor = corDoFundo
+        window.navigationBarColor = corDoFundo
+        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
+        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
+        controller.isAppearanceLightStatusBars = isLightBackground
+        controller.isAppearanceLightNavigationBars = isLightBackground
     }
 
     private fun setupClickListeners() {
@@ -117,8 +141,12 @@ class PlayersFragment : Fragment() {
         customToolbar.actionDelete.setOnClickListener {
             showDeleteConfirmationDialog()
         }
+        customToolbar.actionSelectAll.setOnClickListener {
+            playerAdapter.selectAll()
+            updateContextualActionBar()
+        }
         customToolbar.actionDeselectAll.setOnClickListener {
-            playerAdapter.finishSelectionMode()
+            playerAdapter.deselectAll()
             updateContextualActionBar()
         }
     }
@@ -170,7 +198,7 @@ class PlayersFragment : Fragment() {
     private fun updateContextualActionBar() {
         val selectedCount = playerAdapter.getSelectedItems().size
         val totalCount = playerAdapter.itemCount
-        val customToolbarLayout = binding.customToolbar.root
+        val customToolbarLayout = binding.customToolbar.root as ViewGroup
         val actionBar = binding.actionBar
         val addPlayerButton = binding.buttonAdicionarJogador
         val recyclerView = binding.recyclerViewPlayers
@@ -180,12 +208,10 @@ class PlayersFragment : Fragment() {
         if (playerAdapter.isSelectionMode) {
             binding.personSelect.setImageResource(R.drawable.ic_person_check)
             binding.personSelect.visibility = View.GONE
-//            binding.personSelect.setImageResource(R.drawable.ic_deselect)
-        }else {
+        } else {
             binding.personSelect.setImageResource(R.drawable.ic_person_check)
             binding.personSelect.visibility = View.VISIBLE
-//            binding.personSelect.setImageResource(R.drawable.ic_person_check)
-     }
+        }
 
         if (playerAdapter.isSelectionMode) {
             addPlayerButton.isEnabled = false
@@ -206,7 +232,6 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .start()
 
-                // h: 150->82, mb: 20->20, pt: 25->25, pb: 0->0
                 animateButton(addPlayerButton, 150, 82, 20, 20, 25, 25, 0, 0)
                 animateRecyclerViewPadding(recyclerView, 180, 110)
                 addPlayerButton.setBackgroundResource(R.drawable.background_card_dark)
@@ -233,15 +258,46 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .start()
 
-                // h: 82->150, mb: 20->20, pt: 25->25, pb: 0->0
                 animateButton(addPlayerButton, 82, 150, 20, 20, 25, 25, 0, 0)
                 animateRecyclerViewPadding(recyclerView, 110, 180)
                 addPlayerButton.setBackgroundResource(R.drawable.background_card_2_destaque)
             }
         }
 
-        val deselectIcon = binding.customToolbar.actionDeselectAll
-        deselectIcon.setImageResource(R.drawable.ic_deselect)
+        // TRANSICAO UNIFICADA QUE GERENCIA TUDO (REPOSICIONAMENTO E ESCALA)
+        val transitionSet = TransitionSet()
+            .addTransition(ChangeBounds().setInterpolator(AccelerateDecelerateInterpolator()))
+            .addTransition(ScaleFadeTransition().setInterpolator(OvershootInterpolator(1.2f)))
+            .setOrdering(TransitionSet.ORDERING_TOGETHER)
+            .setDuration(400)
+        
+        TransitionManager.beginDelayedTransition(customToolbarLayout, transitionSet)
+
+        // ATUALIZA VISIBILIDADE - O motor de transição cuida da animação de escala e deslize lateral
+        binding.customToolbar.actionDelete.isVisible = selectedCount > 0
+        binding.customToolbar.actionDeselectAll.isVisible = selectedCount > 0
+        binding.customToolbar.actionSelectAll.isVisible = selectedCount < totalCount
+    }
+
+    // CLASSE DE TRANSIÇÃO PERSONALIZADA PARA ESCALA E ALPHA
+    private class ScaleFadeTransition : Visibility() {
+        override fun onAppear(sceneRoot: ViewGroup, view: View, startValues: TransitionValues?, endValues: TransitionValues?): Animator {
+            return ObjectAnimator.ofPropertyValuesHolder(
+                view,
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 0.4f, 1f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.4f, 1f),
+                PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
+            )
+        }
+
+        override fun onDisappear(sceneRoot: ViewGroup, view: View, startValues: TransitionValues?, endValues: TransitionValues?): Animator {
+            return ObjectAnimator.ofPropertyValuesHolder(
+                view,
+                PropertyValuesHolder.ofFloat(View.SCALE_X, 1f, 0.4f),
+                PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f, 0.4f),
+                PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f)
+            )
+        }
     }
 
     private fun showDeleteConfirmationDialog() {
@@ -252,14 +308,16 @@ class PlayersFragment : Fragment() {
         }
 
         val dialogBinding = DialogDeletePlayerBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        
+        val title = if (itemsToDelete.size == 1) "Apagar Jogador" else "Apagar Jogadores"
+        val message = if (itemsToDelete.size == 1) "Tem certeza que deseja apagar o jogador selecionado?" else "Tem certeza que deseja apagar ${itemsToDelete.size} jogadores?"
+
+        dialogBinding.dialogTitle.text = title
+        dialogBinding.dialogMessage.text = message
+
+        val dialog = AlertDialog.Builder(requireContext())
             .setView(dialogBinding.root)
             .create()
-
-        dialogBinding.dialogTitle.text = if (itemsToDelete.size == 1) "Apagar Jogador" else "Apagar Jogadores"
-        dialogBinding.dialogMessage.text = if (itemsToDelete.size == 1) 
-            "Tem certeza que deseja apagar o jogador selecionado?" 
-            else "Tem certeza que deseja apagar ${itemsToDelete.size} jogadores?"
 
         dialogBinding.btnCancel.setOnClickListener {
             dialog.dismiss()
@@ -273,8 +331,8 @@ class PlayersFragment : Fragment() {
             dialog.dismiss()
         }
 
-        dialog.show()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
     }
 
     private fun updatePlayerCount(count: Int) {

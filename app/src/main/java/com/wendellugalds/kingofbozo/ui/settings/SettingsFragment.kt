@@ -1,25 +1,69 @@
 package com.wendellugalds.kingofbozo.ui.settings
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.viewModelScope
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.wendellugalds.kingofbozo.BuildConfig
+import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentSettingsBinding
+import com.wendellugalds.kingofbozo.ui.game.GameViewModel
+import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
+import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
+import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
 import com.wendellugalds.kingofbozo.util.ThemeStorage
+import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
+
+    private val playerViewModel: PlayerViewModel by activityViewModels {
+        PlayerViewModelFactory((requireActivity().application as PlayersApplication).repository)
+    }
+
+    private val gameViewModel: GameViewModel by activityViewModels {
+        GameViewModelFactory((requireActivity().application as PlayersApplication).repository)
+    }
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var countdownSeconds = 0
+    private val countdownRunnable = object : Runnable {
+        override fun run() {
+            if (_binding != null && countdownSeconds >= 0) {
+                val minutes = countdownSeconds / 60
+                val seconds = countdownSeconds % 60
+                
+                binding.textTelaDesc.text = if (minutes > 0) {
+                    String.format("APAGAR EM | %02d:%02ds", minutes, seconds)
+                } else {
+                    String.format("APAGAR EM | %02ds", seconds)
+                }
+                
+                countdownSeconds--
+                handler.postDelayed(this, 1000)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +79,10 @@ class SettingsFragment : Fragment() {
         updateVersionDisplay()
         configurarCoresDaBarra()
         updateNightModeDisplay()
+        updateThemeName()
 
         binding.cardCor.setOnClickListener {
+            resetCountdown()
             val bottomSheet = ThemeSelectionBottomSheet { themeResId ->
                 ThemeStorage.saveTheme(requireContext(), themeResId)
                 requireActivity().recreate()
@@ -45,7 +91,143 @@ class SettingsFragment : Fragment() {
         }
 
         binding.cardTema.setOnClickListener {
+            resetCountdown()
             showNightModeDialog()
+        }
+
+        binding.cardTela.setOnClickListener {
+            val isChecked = !binding.switchKeepScreenOn.isChecked
+            binding.switchKeepScreenOn.isChecked = isChecked
+            saveKeepScreenOn(isChecked)
+        }
+
+        binding.switchKeepScreenOn.setOnCheckedChangeListener { _, isChecked ->
+            saveKeepScreenOn(isChecked)
+        }
+        
+        binding.cardReset.setOnClickListener {
+            resetCountdown()
+            showResetDataDialog()
+        }
+
+        binding.cardVersao.setOnClickListener {
+            resetCountdown()
+        }
+    }
+
+    private fun showResetDataDialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_delete_player, null)
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogView)
+            .create()
+
+        val title = dialogView.findViewById<TextView>(R.id.dialog_title)
+        val message = dialogView.findViewById<TextView>(R.id.dialog_message)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btn_cancel)
+        val btnDelete = dialogView.findViewById<MaterialButton>(R.id.btn_delete)
+
+        title.text = "Limpar Todos os Dados"
+        message.text = "Isso apagará todos os jogos salvos e zerará todas as estatísticas de todos os jogadores. Os jogadores NÃO serão excluídos. Deseja continuar?"
+        btnDelete.text = "LIMPAR TUDO"
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnDelete.setOnClickListener {
+            resetAllData()
+            dialog.dismiss()
+            Toast.makeText(requireContext(), "Todos os dados foram limpos!", Toast.LENGTH_SHORT).show()
+        }
+
+        dialog.show()
+    }
+
+    private fun resetAllData() {
+        playerViewModel.viewModelScope.launch {
+            // 1. Zerar estatísticas de todos os jogadores
+            playerViewModel.resetAllPlayerStats()
+            
+            // 2. Apagar todos os jogos salvos
+            gameViewModel.allSavedGames.value?.forEach { game ->
+                gameViewModel.deleteSavedGame(game)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateKeepScreenOnDisplay()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(countdownRunnable)
+    }
+
+    private fun updateThemeName() {
+        val currentThemeId = ThemeStorage.getTheme(requireContext())
+        val themeName = when (currentThemeId) {
+            R.style.Base_Theme_KingOfBozo_Standard -> "PADRÃO"
+            R.style.Base_Theme_KingOfBozo_verde -> "VERDE"
+            R.style.Base_Theme_KingOfBozo_roxo -> "ROXO"
+            R.style.Base_Theme_KingOfBozo_pink -> "PINK"
+            R.style.Base_Theme_KingOfBozo_laranja -> "LARANJA"
+            R.style.Base_Theme_KingOfBozo_vermelho -> "VERMELHO"
+            else -> "PADRÃO"
+        }
+        binding.textCorDesc.text = themeName
+    }
+
+    private fun saveKeepScreenOn(enabled: Boolean) {
+        ThemeStorage.saveKeepScreenOn(requireContext(), enabled)
+        updateKeepScreenOnDisplay()
+        applyKeepScreenOn(enabled)
+    }
+
+    private fun updateKeepScreenOnDisplay() {
+        if (_binding == null) return
+        val isKeepOn = ThemeStorage.getKeepScreenOn(requireContext())
+        binding.switchKeepScreenOn.isChecked = isKeepOn
+        
+        handler.removeCallbacks(countdownRunnable)
+
+        if (isKeepOn) {
+            binding.textTelaDesc.text = "LIGADA"
+        } else {
+            resetCountdown()
+        }
+    }
+
+    private fun resetCountdown() {
+        if (_binding == null) return
+        val isKeepOn = ThemeStorage.getKeepScreenOn(requireContext())
+        if (isKeepOn) {
+            binding.textTelaDesc.text = "LIGADA"
+            handler.removeCallbacks(countdownRunnable)
+            return
+        }
+
+        val timeout = try {
+            Settings.System.getInt(requireContext().contentResolver, Settings.System.SCREEN_OFF_TIMEOUT)
+        } catch (e: Exception) {
+            -1
+        }
+        
+        if (timeout != -1) {
+            countdownSeconds = timeout / 1000
+            handler.removeCallbacks(countdownRunnable)
+            handler.post(countdownRunnable)
+        } else {
+            binding.textTelaDesc.text = "PADRÃO DO SISTEMA"
+        }
+    }
+
+    private fun applyKeepScreenOn(enabled: Boolean) {
+        if (enabled) {
+            requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
     }
 
@@ -121,7 +303,6 @@ class SettingsFragment : Fragment() {
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
-
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
         val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
         controller.isAppearanceLightStatusBars = isLightBackground
@@ -135,6 +316,7 @@ class SettingsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        handler.removeCallbacks(countdownRunnable)
         _binding = null
     }
 }

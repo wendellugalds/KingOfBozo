@@ -40,6 +40,9 @@ class PlayerSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Limpa a seleção ao entrar na tela
+        gameViewModel.clearSelection()
+
         setupRecyclerView()
         setupClickListeners()
         observeViewModel()
@@ -48,12 +51,10 @@ class PlayerSelectionFragment : Fragment() {
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
-
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
-
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = false
+        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
         controller.isAppearanceLightStatusBars = isLightBackground
         controller.isAppearanceLightNavigationBars = isLightBackground
     }

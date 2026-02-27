@@ -22,13 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_logo_fundo" />
 
-    <ImageView
+    <View
         android:id="@+id/view_color_preview"
-        android:layout_width="70dp"
-        android:layout_height="125dp"
+        android:layout_width="60dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/celular_cor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/text_theme_name"
+        app:layout_constraintEnd_toEndOf="@+id/image_logo_fundo"
+        app:layout_constraintStart_toStartOf="@+id/image_logo_fundo" />
 
 
     <ImageView
@@ -37,7 +39,7 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo_king_of_boz"
-        android:src="@drawable/celular"
+        android:src="?attr/phoneImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

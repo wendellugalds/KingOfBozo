@@ -37,4 +37,10 @@ class PlayerViewModel(private val repository: PlayerRepository) : ViewModel() {
             repository.deletePlayers(playersToDelete)
         }
     }
+
+    fun resetAllPlayerStats() {
+        viewModelScope.launch {
+            repository.resetAllPlayerStats()
+        }
+    }
 }

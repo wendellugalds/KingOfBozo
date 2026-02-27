@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_card_black"
+    android:padding="24dp"
+    android:backgroundTint="?attr/background">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:textColor="?attr/textFillColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Deseja salvar o progresso desta partida para continuar depois?"
+        android:textColor="?attr/textFillColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:text="Cancelar"
+        android:textColor="?attr/textFillColor"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_close"
+        app:iconSize="20dp"
+        app:iconTint="?attr/textFillColor"
+        app:layout_constraintEnd_toStartOf="@+id/btn_no_save"
+        app:layout_constraintTop_toBottomOf="@id/dialog_message" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_no_save"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="10dp"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:focusable="auto"
+        android:text="Não"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_nulo"
+        app:iconSize="20dp"
+        app:iconTint="?attr/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/btn_save"
+        app:layout_constraintTop_toBottomOf="@id/dialog_message" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="30dp"
+        android:text="Sim"
+        android:textColor="?attr/textBackground"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:focusable="auto"
+        android:backgroundTint="?attr/colorPrimary"
+        app:icon="@drawable/ic_game_active"
+        app:iconSize="20dp"
+        app:iconTint="?attr/textBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_message" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

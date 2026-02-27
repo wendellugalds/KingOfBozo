@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/theme_king"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:background="@drawable/item_background_selector"
+        android:padding="8dp">
+
+        <FrameLayout
+            android:id="@+id/container_avatar_king"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/sigla_nome_king"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/textBackground"
+                android:gravity="center"
+                android:text="WU"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_player_avatar_king"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_player_name_king"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="?attr/textBackground"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_player_wins_king"
+            app:layout_constraintEnd_toStartOf="@+id/container_action_king"
+            app:layout_constraintStart_toEndOf="@+id/container_avatar_king"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Wendell Ugalds" />
+
+        <TextView
+            android:id="@+id/text_player_wins_king"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textColor="?attr/textBackground"
+            android:textSize="15sp"
+            app:drawableStartCompat="@drawable/ic_score"
+            app:drawableTint="?attr/textBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/container_action_king"
+            app:layout_constraintStart_toStartOf="@+id/text_player_name_king"
+            app:layout_constraintTop_toBottomOf="@+id/text_player_name_king"
+            tools:text="25435 Pontos" />
+
+        <FrameLayout
+            android:id="@+id/container_action_king"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/button_details_king"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/opacity"
+                android:padding="16dp"
+                android:rotation="-45"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_crown"
+                app:tint="?attr/textBackground" />
+
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/theme_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:background="@drawable/item_background_selector"
+        android:padding="8dp">
+
+        <FrameLayout
+            android:id="@+id/container_avatar"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/sigla_nome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/colorPrimary"
+                android:background="@drawable/background_circle"
+                android:text="WU"
+                android:textColor="?attr/textBackground"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:gravity="center"/>
+
+
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_player_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_player_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="?attr/textFillColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_player_wins"
+            app:layout_constraintEnd_toStartOf="@+id/container_action"
+            app:layout_constraintStart_toEndOf="@+id/container_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Wendell Ugalds" />
+
+        <TextView
+            android:id="@+id/text_player_wins"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textColor="?attr/textFillColor"
+            android:textSize="15sp"
+            app:drawableStartCompat="@drawable/ic_score"
+            app:drawableTint="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/container_action"
+            app:layout_constraintStart_toStartOf="@+id/text_player_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_player_name"
+            tools:text="25435 Pontos" />
+
+        <FrameLayout
+            android:id="@+id/container_action"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/button_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/opacity"
+                android:background="@drawable/circle_background"
+                android:padding="16dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_2"
+                app:tint="?attr/colorPrimary" />
+
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
+

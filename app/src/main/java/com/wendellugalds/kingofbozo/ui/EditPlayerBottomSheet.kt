@@ -1,10 +1,14 @@
 package com.wendellugalds.kingofbozo.ui
 
+import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +16,24 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.BottomSheetEditPlayerBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class EditPlayerBottomSheet : BottomSheetDialogFragment() {
 
@@ -35,6 +46,7 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
     private var playerToEdit: Player? = null
     private var originalNavBarColor: Int = 0
     private var currentImageUri: Uri? = null
+    private var tempImageUri: Uri? = null
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -44,7 +56,25 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
                 updateAvatarPreview()
             } catch (e: SecurityException) {
                 e.printStackTrace()
-                Toast.makeText(requireContext(), "Erro de permissão para a imagem.", Toast.LENGTH_SHORT).show()
+                currentImageUri = it
+                updateAvatarPreview()
+            }
+        }
+    }
+
+    private val cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        if (success) {
+            currentImageUri = tempImageUri
+            updateAvatarPreview()
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        if (isVisible) {
+            if (isGranted) {
+                openCamera()
+            } else {
+                Toast.makeText(requireContext(), "Permissão de câmera negada", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -114,7 +144,7 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
         }
 
         binding.layoutAddImage.setOnClickListener {
-            imagePickerLauncher.launch("image/*")
+            showImageSourceOptions()
         }
 
         binding.deleteImage.setOnClickListener {
@@ -122,6 +152,43 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
             updateAvatarPreview()
             Toast.makeText(requireContext(), "Imagem removida.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun showImageSourceOptions() {
+        val options = arrayOf("Câmera", "Galeria")
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Selecionar Imagem")
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> checkCameraPermission()
+                    1 -> imagePickerLauncher.launch("image/*")
+                }
+            }
+            .show()
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            openCamera()
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    private fun openCamera() {
+        val photoFile = createTempImageFile()
+        tempImageUri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.fileprovider",
+            photoFile
+        )
+        cameraLauncher.launch(tempImageUri)
+    }
+
+    private fun createTempImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
     }
 
     private fun updateAvatarPreview() {

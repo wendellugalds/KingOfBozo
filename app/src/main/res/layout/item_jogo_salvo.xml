@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:backgroundTint="?attr/cardBackgroundColor"
+    android:background="@drawable/background_card_2_destaque"
+    android:padding="16dp"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingBottom="15dp">
+
+        <TextView
+            android:id="@+id/saved_game_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Nome do jogo"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="?attr/textFillColor"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/saved_game_time"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            tools:text="TIME 25:36"
+            android:textSize="15dp"
+            android:backgroundTint="?attr/background"
+            android:background="@drawable/background_settings_card"
+            android:paddingStart="25dp"
+            android:paddingEnd="70dp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textFillColor"/>
+
+        <ImageView
+            android:id="@+id/delete_saved_game"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/background_circle"
+            android:backgroundTint="?attr/colorPrimary"
+            android:padding="12dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="-48dp"
+            android:src="@drawable/ic_delete"
+            app:tint="?attr/textBackground" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/saved_game_players"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimary"
+        android:background="@drawable/background_card_destaque"
+        tools:text="02 JOGADORES"
+        android:textColor="?attr/textBackground"
+        android:textSize="15dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        app:drawableEndCompat="@drawable/ic_players_active"
+        app:drawableTint="?attr/textBackground"
+        android:layout_marginVertical="5dp"/>
+
+    <TextView
+        android:id="@+id/saved_game_rounds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/background"
+        android:background="@drawable/background_card_destaque"
+        tools:text="25 rodadas"
+        android:textColor="?attr/textFillColor"
+        android:textSize="15dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        app:drawableEndCompat="@drawable/ic_game_active"
+        app:drawableTint="?attr/textFillColor"
+        android:layout_marginVertical="5dp"/>
+
+    <TextView
+        android:id="@+id/saved_game_total_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/background"
+        android:background="@drawable/background_card_destaque"
+        tools:text="2536 PONTOS ACUMULADOS"
+        android:textColor="?attr/textFillColor"
+        android:textSize="15dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        app:drawableEndCompat="@drawable/ic_score"
+        app:drawableTint="?attr/textFillColor"
+        android:layout_marginVertical="5dp"/>
+
+</LinearLayout>

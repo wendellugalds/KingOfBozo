@@ -13,7 +13,6 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE id = :playerId")
     fun getPlayerById(playerId: Long): Flow<Player>
 
-    // --- FUNÇÃO ADICIONADA ---
     @Query("SELECT * FROM players WHERE id IN (:playerIds)")
     fun getPlayersByIds(playerIds: List<Long>): Flow<List<Player>>
 
@@ -28,4 +27,7 @@ interface PlayerDao {
 
     @Delete
     suspend fun deletePlayers(players: List<Player>)
+
+    @Query("UPDATE players SET wins = 0, totalRounds = 0, risksTaken = 0, totalPoints = 0, generals = 0, mouthPlays = 0")
+    suspend fun resetAllPlayerStats()
 }

@@ -1,10 +1,20 @@
 package com.wendellugalds.kingofbozo.ui.playerdetail
 
+import android.animation.ValueAnimator
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.Paint
+import android.graphics.PixelFormat
+import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -12,6 +22,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayerDetailBinding
@@ -19,13 +31,12 @@ import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.EditPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
-
+import kotlin.math.min
 
 class PlayerDetailFragment : Fragment() {
 
     private var _binding: FragmentPlayerDetailBinding? = null
     private val binding get() = _binding!!
-
 
     private val playerViewModel: PlayerViewModel by activityViewModels {
         PlayerViewModelFactory((requireActivity().application as PlayersApplication).repository)
@@ -33,8 +44,6 @@ class PlayerDetailFragment : Fragment() {
 
     private val args: PlayerDetailFragmentArgs by navArgs()
     private var currentPlayer: Player? = null
-
-    // A lógica de escolher imagem foi REMOVIDA daqui
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,18 +62,42 @@ class PlayerDetailFragment : Fragment() {
             if (player != null) {
                 currentPlayer = player
                 bind(player)
+                binding.swipeRefreshLayout.isRefreshing = false
             } else {
-                // Se o jogador for nulo (ex: foi deletado), volta para a tela anterior
-                findNavController().navigateUp()
+                findNavController().popBackStack()
             }
         }
 
         setupClickListeners()
+        configurarCoresDaBarra()
+        setupSwipeRefresh()
+    }
+
+    private fun setupSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            currentPlayer?.let { player ->
+                // Ao atualizar, o bind(player) será chamado novamente pelo Observer
+                // e as animações serão disparadas.
+                bind(player)
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+        }
+    }
+
+    private fun configurarCoresDaBarra() {
+        val window = requireActivity().window
+        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        window.statusBarColor = corDoFundo
+        window.navigationBarColor = corDoFundo
+        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
+        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
+        controller.isAppearanceLightStatusBars = isLightBackground
+        controller.isAppearanceLightNavigationBars = isLightBackground
     }
 
     private fun setupClickListeners() {
         binding.buttonBack.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
 
         binding.buttonDelete.setOnClickListener {
@@ -77,50 +110,50 @@ class PlayerDetailFragment : Fragment() {
                 editSheet.show(parentFragmentManager, "EditPlayerSheet")
             }
         }
-
-        // Os cliques na imagem foram REMOVIDOS daqui
     }
 
     private fun showDeleteConfirmationDialog() {
         currentPlayer?.let { playerToDelete ->
-            AlertDialog.Builder(requireContext())
-                .setTitle("Apagar Jogador")
-                .setMessage("Tem certeza que deseja apagar ${playerToDelete.name}?")
-                .setPositiveButton("Apagar") { _, _ ->
-                    playerViewModel.deletePlayers(listOf(playerToDelete))
-                    Toast.makeText(requireContext(), "${playerToDelete.name} foi apagado.", Toast.LENGTH_SHORT).show()
-                    // findNavController().navigateUp() é chamado automaticamente pelo observer
-                }
-                .setNegativeButton("Cancelar", null)
-                .show()
+            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_delete_player, null)
+            val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+                .setView(dialogView)
+                .create()
+
+            val title = dialogView.findViewById<TextView>(R.id.dialog_title)
+            val message = dialogView.findViewById<TextView>(R.id.dialog_message)
+            val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btn_cancel)
+            val btnDelete = dialogView.findViewById<MaterialButton>(R.id.btn_delete)
+
+            title.text = "Apagar Jogador"
+            message.text = "Tem certeza que deseja apagar ${playerToDelete.name}?"
+
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            btnDelete.setOnClickListener {
+                playerViewModel.deletePlayers(listOf(playerToDelete))
+                Toast.makeText(requireContext(), "${playerToDelete.name} foi apagado.", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            }
+
+            dialog.show()
         }
     }
 
     private fun bind(player: Player) {
         binding.textPlayerNameDetail.text = player.name
-        binding.textRankingWins.text = player.wins.toString()
         binding.textIdade.text = "${player.age} aninhos"
 
-        val losses = player.totalRounds - player.wins
-
         if (!player.imageUri.isNullOrEmpty()) {
-            // CASO 1: TEM IMAGEM
-            // Mostra o ImageView
             binding.imagePlayerAvatarDetail.visibility = View.VISIBLE
             binding.imagePlayerAvatarDetail.load(Uri.parse(player.imageUri))
-
-            // Esconde o TextView das iniciais
             binding.siglaNome.visibility = View.GONE
         } else {
-            // CASO 2: NÃO TEM IMAGEM
-            // Esconde o ImageView (essa é a mudança principal)
             binding.imagePlayerAvatarDetail.visibility = View.GONE
-
-            // Mostra o TextView das iniciais
             binding.siglaNome.visibility = View.VISIBLE
 
-            // Sua lógica para as iniciais (que já estava correta)
-            val name = player.name?.trim() ?: ""
+            val name = player.name.trim()
             val words = name.split(" ").filter { it.isNotBlank() }
             if (words.size > 1) {
                 val firstInitial = words.first().first()
@@ -134,23 +167,118 @@ class PlayerDetailFragment : Fragment() {
             }
         }
 
-        binding.textLoseValue.text = losses.toString()
-        binding.textJogadasValue.text = player.totalRounds.toString()
+        // --- ANIMAÇÃO DOS NÚMEROS ---
+        animateNumber(binding.textRankingWins, player.wins)
+        animateNumber(binding.textJogadasValue, player.totalRounds)
+        animateNumber(binding.textPontosRiscados, player.risksTaken)
+        animateNumber(binding.textPontosBoca, player.mouthPlays)
+        animateNumber(binding.textPontosAcumulados, player.totalPoints, " Pontos acumulados")
+        animateNumber(binding.textGenerais, player.generals, " Generais")
 
-        if (player.totalRounds > 0) {
-            binding.progressStats.max = player.totalRounds
-            binding.progressStats.progress = player.wins
-        } else {
-            binding.progressStats.progress = 0
-            binding.progressStats.max = 1
+        setupArcProgress(player)
+
+        // --- ANIMAÇÃO DOS PESOS DAS BARRAS ---
+        animateWeights(player.risksTaken, player.mouthPlays)
+    }
+
+    private fun animateNumber(textView: TextView, targetValue: Int, suffix: String = "") {
+        ValueAnimator.ofInt(0, targetValue).apply {
+            duration = 1200
+            interpolator = DecelerateInterpolator()
+            addUpdateListener {
+                textView.text = "${it.animatedValue}$suffix"
+            }
+            start()
+        }
+    }
+
+    private fun animateWeights(risksTaken: Int, mouthPlays: Int) {
+        val targetRisksWeight = 10f + risksTaken.toFloat()
+        val targetMouthWeight = 10f + mouthPlays.toFloat()
+
+        val paramsRiscos = binding.containerRiscos.layoutParams as LinearLayout.LayoutParams
+        val paramsPontosBoca = binding.containerDeBoca.layoutParams as LinearLayout.LayoutParams
+
+        // Resetar para um valor inicial para forçar a animação sempre
+        paramsRiscos.weight = 1f
+        paramsPontosBoca.weight = 1f
+
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 1200
+            interpolator = DecelerateInterpolator()
+            addUpdateListener { animator ->
+                val fraction = animator.animatedFraction
+                
+                paramsRiscos.weight = 1f + (targetRisksWeight - 1f) * fraction
+                paramsPontosBoca.weight = 1f + (targetMouthWeight - 1f) * fraction
+                
+                binding.containerRiscos.layoutParams = paramsRiscos
+                binding.containerDeBoca.layoutParams = paramsPontosBoca
+            }
+            start()
+        }
+    }
+
+    private fun setupArcProgress(player: Player) {
+        val winsProgress = player.wins.toFloat() / 100f
+        val finalProgress = min(winsProgress, 1.0f)
+
+        val colorPrimary = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
+        val colorSurfaceVariant = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceVariant)
+
+        val arcDrawable = object : Drawable() {
+            var progress = 0f
+            val paint = Paint().apply {
+                isAntiAlias = true
+                style = Paint.Style.STROKE
+                strokeCap = Paint.Cap.ROUND
+            }
+
+            override fun draw(canvas: Canvas) {
+                val width = bounds.width().toFloat()
+                val height = bounds.height().toFloat()
+                if (width <= 0 || height <= 0) return
+
+                val scaleX = width / 200f
+                val scaleY = height / 120f
+                val scale = min(scaleX, scaleY)
+                
+                val offsetX = (width - 200f * scale) / 2f
+                val offsetY = (height - 120f * scale) / 2f
+                
+                val radius = 70f * scale
+                val centerX = offsetX + 100f * scale
+                val centerY = offsetY + 100f * scale
+                
+                val rect = RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
+                paint.strokeWidth = 30f * scale
+
+                // DESENHA O BACKGROUND SEMPRE (arco completo de 180 graus)
+                paint.color = colorSurfaceVariant
+                canvas.drawArc(rect, 180f, 180f, false, paint)
+
+                // DESENHA O PROGRESSO (proporcional às vitórias)
+                paint.color = colorPrimary
+                canvas.drawArc(rect, 180f, 180f * progress, false, paint)
+            }
+
+            override fun setAlpha(alpha: Int) { paint.alpha = alpha }
+            override fun setColorFilter(colorFilter: ColorFilter?) { paint.colorFilter = colorFilter }
+            override fun getOpacity(): Int = PixelFormat.TRANSLUCENT
         }
 
-        binding.textStatGenerais.text = getString(R.string.generais_conquistados_format, player.generals)
-        binding.textStatBocas.text = getString(R.string.jogadas_de_bocas_format, player.mouthPlays)
-        binding.textStatRodadas.text = getString(R.string.rodadas_feitas_format, player.totalRounds)
-        binding.textLoseValue.text = losses.toString()
-        binding.textPontosGerais.text = "${player.totalRounds} Rodadas"
+        binding.imageArc.setImageDrawable(arcDrawable)
 
+        // Animação do progresso baseado em vitorias/100
+        ValueAnimator.ofFloat(0f, finalProgress).apply {
+            duration = 1200
+            interpolator = DecelerateInterpolator()
+            addUpdateListener {
+                arcDrawable.progress = it.animatedValue as Float
+                arcDrawable.invalidateSelf()
+            }
+            start()
+        }
     }
 
     override fun onDestroyView() {

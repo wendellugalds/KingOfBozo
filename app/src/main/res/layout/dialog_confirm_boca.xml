@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_card_black"
+    android:padding="24dp"
+    android:backgroundTint="?attr/appBackground">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Ganhou de Boca?"
+        android:textColor="?attr/textFillColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/dialog_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Confirmar pontuação máxima por ganhar de boca (na primeira jogada)?"
+        android:textColor="?attr/textFillColor"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_title" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="Não"
+        android:textColor="?attr/textFillColor"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_close"
+        app:iconSize="20dp"
+        app:iconTint="?attr/textFillColor"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        app:layout_constraintEnd_toStartOf="@id/btn_confirm"
+        app:layout_constraintTop_toBottomOf="@id/dialog_message" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_confirm"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Sim, de Boca"
+        android:textColor="?attr/textBackground"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:backgroundTint="?attr/colorPrimary"
+        app:icon="@drawable/ic_de_boca"
+        app:iconSize="20dp"
+        app:iconTint="?attr/textBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_message" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

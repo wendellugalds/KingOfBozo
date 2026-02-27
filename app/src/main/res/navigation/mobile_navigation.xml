@@ -30,7 +30,11 @@
         android:id="@+id/navigation_saved_games"
         android:name="com.wendellugalds.kingofbozo.ui.savedgames.SavedGamesFragment"
         android:label="Saved Games"
-        tools:layout="@layout/fragment_saved_games" />
+        tools:layout="@layout/fragment_saved_games" >
+        <action
+            android:id="@+id/action_navigation_saved_games_to_marcadorFragment"
+            app:destination="@id/marcadorFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -62,10 +66,39 @@
         android:id="@+id/marcadorFragment"
         android:name="com.wendellugalds.kingofbozo.ui.game.MarcadorFragment"
         android:label="Marcador"
-        tools:layout="@layout/fragment_marker" >
+        tools:layout="@layout/fragment_marcar_jogo" >
         <argument
             android:name="selectedPlayerIds"
-            app:argType="long[]" />
+            app:argType="long[]"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_marcadorFragment_to_rankingFragment"
+            app:destination="@id/rankingFragment" />
+        <action
+            android:id="@+id/action_marcadorFragment_to_rankingDuranteJogoFragment"
+            app:destination="@id/rankingDuranteJogoFragment" />
+        <action
+            android:id="@+id/action_marcadorFragment_to_managePlayersFragment"
+            app:destination="@id/managePlayersFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/rankingFragment"
+        android:name="com.wendellugalds.kingofbozo.ui.game.RankingFragment"
+        android:label="Ranking"
+        tools:layout="@layout/fragment_ranking" />
+
+    <fragment
+        android:id="@+id/rankingDuranteJogoFragment"
+        android:name="com.wendellugalds.kingofbozo.ui.game.RankingDuranteJogoFragment"
+        android:label="Ranking Durante o Jogo"
+        tools:layout="@layout/fragment_ranking_durante_jogo" />
+
+    <fragment
+        android:id="@+id/managePlayersFragment"
+        android:name="com.wendellugalds.kingofbozo.ui.game.ManagePlayersFragment"
+        android:label="Gerenciar Jogadores"
+        tools:layout="@layout/fragment_manage_players" />
 
 </navigation>

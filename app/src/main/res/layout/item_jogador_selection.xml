@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <RelativeLayout
+        android:id="@+id/avatar_container_jogo"
+        android:layout_width="81dp"
+        android:layout_height="81dp"
+        android:padding="8dp"
+        tools:ignore="MissingConstraints"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+        <ImageView
+            android:id="@+id/icon_king"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:importantForAccessibility="no"
+            android:rotation="-45"
+            android:layout_marginTop="-3dp"
+            android:layout_marginStart="-3dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_crown"
+            app:tint="@color/king"/>
+
+
+        <ImageView
+            android:id="@+id/icon_position"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:elevation="1dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_1"
+            app:tint="?attr/colorPrimary"
+            android:layout_marginBottom="-6dp"
+            android:backgroundTint="?attr/textBackground"
+            android:background="@drawable/circle_background"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/icon_empate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/colorPrimary"
+            android:background="@drawable/background_circle"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/sigla_nome"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:backgroundTint="?attr/background"
+            android:background="@drawable/background_circle"
+            android:text="WU"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"/>
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imagePlayerAvatarJogo"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            android:layout_centerInParent="true"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

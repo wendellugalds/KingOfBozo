@@ -1,20 +1,26 @@
 package com.wendellugalds.kingofbozo.ui.players.adapter
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.AttrRes
+import androidx.core.widget.TextViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.ItemPlayerGamersBinding
 import com.wendellugalds.kingofbozo.model.Player
 
 class PlayerAdapter(
     private val clickListener: (Player) -> Unit,
-    private val selectionListener: () -> Unit
+    private val selectionListener: () -> Unit,
 ) : ListAdapter<Player, PlayerAdapter.PlayerViewHolder>(PlayerDiffCallback()) {
 
     var isSelectionMode = false
@@ -48,7 +54,7 @@ class PlayerAdapter(
 
             itemView.setOnLongClickListener {
                 if (bindingAdapterPosition != RecyclerView.NO_POSITION) {
-                    if (!isSelectionMode && itemCount > 1) {
+                    if (!isSelectionMode && itemCount >= 1) {
                         startSelectionMode()
                         toggleSelection(getItem(bindingAdapterPosition))
                     }
@@ -61,30 +67,63 @@ class PlayerAdapter(
 
         fun bind(player: Player) {
             val isSelected = selectedItems.contains(player)
+            val context = binding.root.context
             binding.textPlayerName.text = player.name
 
-            if (!player.imageUri.isNullOrEmpty()) {
-                binding.imagePlayerAvatar.load(Uri.parse(player.imageUri))
-                binding.imagePlayerAvatar.visibility = View.VISIBLE
+            // Cores baseadas no tema
+            val colorPrimary = context.getColorFromAttr(com.google.android.material.R.attr.colorPrimary)
+            val textAppearanceButton = context.getColorFromAttr(com.google.android.material.R.attr.textAppearanceButton)
+            val cardForegroundColor = context.getColorFromAttr(com.google.android.material.R.attr.cardBackgroundColor)
+            val corfixa = Color.parseColor("#FFFFFF")
+
+
+
+
+
+            if (isSelected) {
+                // Tema Selecionado (Fundo Escuro/Verde Neon)
+                binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
+                binding.rootLayout.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+                binding.textPlayerName.setTextColor(corfixa)
+                binding.textPlayerWins.setTextColor(corfixa)
+                TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(corfixa))
+                binding.textPlayerWins.alpha = 0.7f
+                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(corfixa)
+                binding.siglaNome.setTextColor(colorPrimary)
+                binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(corfixa)
             } else {
+                // Tema Não Selecionado (Inverso ou Padrão)
+                binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
+                binding.rootLayout.backgroundTintList = ColorStateList.valueOf(cardForegroundColor)
+                binding.textPlayerName.setTextColor(textAppearanceButton)
+                binding.textPlayerWins.setTextColor(textAppearanceButton)
+                TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(colorPrimary))
+                binding.textPlayerWins.alpha = 0.7f
+                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+                binding.siglaNome.setTextColor(corfixa)
+                binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
+            }
+
+            if (!player.imageUri.isNullOrEmpty()) {
+                binding.imagePlayerAvatar.load(Uri.parse(player.imageUri)) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_person)
+                    transformations(CircleCropTransformation())
+                }
+                binding.imagePlayerAvatar.visibility = View.VISIBLE
+                binding.siglaNome.visibility = View.GONE
+            } else {
+                binding.imagePlayerAvatar.visibility = View.GONE
+                binding.siglaNome.visibility = View.VISIBLE
                 val name = player.name?.trim() ?: ""
                 val words = name.split(" ").filter { it.isNotBlank() }
-
-                val initials = if (words.size > 1) {
-                    val firstInitial = words.first().first()
-                    val lastInitial = words.last().first()
-                    binding.siglaNome.text = "$firstInitial$lastInitial"
+                binding.siglaNome.text = if (words.size > 1) {
+                    "${words.first().first()}${words.last().first()}"
                 } else if (words.isNotEmpty()) {
-                    val word = words.first()
-                    if (word.length >= 2) {
-                        binding.siglaNome.text = word.substring(0, 2)
-                    } else {
-                        binding.siglaNome.text = word
-                    }
+                    words.first().take(2).uppercase()
                 } else {
                     "--"
                 }
-                binding.imagePlayerAvatar.visibility = View.GONE
             }
 
             if (isSelectionMode) {
@@ -95,12 +134,19 @@ class PlayerAdapter(
                 binding.checkboxSelectPlayer.visibility = View.GONE
                 binding.buttonDetails.visibility = View.VISIBLE
             }
-            itemView.isActivated = isSelected
+
+            binding.textPlayerWins.text = if (player.wins == 1) "1 Vitória" else "${player.wins} Vitórias"
+        }
+
+        private fun android.content.Context.getColorFromAttr(@AttrRes attr: Int): Int {
+            val typedValue = TypedValue()
+            theme.resolveAttribute(attr, typedValue, true)
+            return typedValue.data
         }
     }
 
     fun startSelectionMode() {
-        if (!isSelectionMode && itemCount > 1) {
+        if (!isSelectionMode && itemCount >= 1) {
             isSelectionMode = true
             notifyItemRangeChanged(0, itemCount)
         }
@@ -127,12 +173,14 @@ class PlayerAdapter(
     }
 
     fun selectAll() {
-        if (selectedItems.size == itemCount) {
-            selectedItems.clear()
-        } else {
-            selectedItems.clear()
-            selectedItems.addAll(currentList)
-        }
+        selectedItems.clear()
+        selectedItems.addAll(currentList)
+        notifyItemRangeChanged(0, itemCount)
+        selectionListener()
+    }
+
+    fun deselectAll() {
+        selectedItems.clear()
         notifyItemRangeChanged(0, itemCount)
         selectionListener()
     }

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="10dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/theme_king_raking_geral"
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:backgroundTint="?attr/textBackground"
+        android:padding="16dp"
+        android:background="@drawable/background_score_option_riscar">
+
+
+
+
+        <FrameLayout
+            android:id="@+id/container_avatar_king"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:layout_constraintEnd_toEndOf="@+id/text_player_name_king"
+            android:elevation="1dp">
+
+
+            <TextView
+                android:id="@+id/sigla_nome_king"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/textBackground"
+                android:gravity="center"
+                android:text="WU"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_player_avatar_king"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                tools:visibility="invisible" />
+
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/text_player_name_king"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wendell Ugalds"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="?attr/textBackground"
+            android:textAlignment="textStart"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="15dp"
+            app:drawableStartCompat="@drawable/ic_crown"
+            app:drawableTint="?attr/textBackground"
+            android:drawablePadding="10dp"
+            android:elevation="1dp"/>
+
+        <TextView
+            android:id="@+id/text_wins_king"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp"
+            android:text="25 Vitórias"
+            android:textAlignment="textStart"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/textBackground"
+            android:background="@drawable/background_card_2_dark"
+            app:drawableStartCompat="@drawable/ic_victory"
+            app:drawableTint="?attr/colorPrimary"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_player_name_king"
+            android:elevation="1dp"/>
+
+
+        <TextView
+            android:id="@+id/text_score_wins_king"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp"
+            android:text="25 Vitórias"
+            android:textAlignment="textStart"
+            android:textColor="?attr/textBackground"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/textBackground"
+            android:background="@drawable/background_score_option_riscar"
+            app:drawableStartCompat="@drawable/ic_score"
+            android:layout_marginTop="10dp"
+            app:drawableTint="?attr/textBackground"
+            app:layout_constraintTop_toBottomOf="@+id/text_wins_king"
+            android:elevation="1dp"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/theme_raking_geral"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:background="@drawable/background_card_2_dark">
+
+
+        <FrameLayout
+            android:id="@+id/container_avatar"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            app:layout_constraintEnd_toEndOf="@+id/text_player_name">
+
+
+            <TextView
+                android:id="@+id/sigla_nome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="?attr/colorPrimary"
+                android:background="@drawable/background_circle"
+                android:text="WU"
+                android:textColor="?attr/textBackground"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:visibility="visible"/>
+
+
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_player_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                tools:visibility="invisible" />
+
+        </FrameLayout>
+
+
+        <TextView
+            android:id="@+id/text_player_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wendell Ugalds"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textColor="?attr/textFillColor"
+            android:textAlignment="textStart"
+            android:paddingVertical="15dp"
+            android:paddingHorizontal="15dp"
+            app:drawableStartCompat="@drawable/ic_2"
+            app:drawableTint="?attr/colorPrimary"
+            android:drawablePadding="10dp"/>
+
+        <TextView
+            android:id="@+id/text_wins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp"
+            android:text="25 Vitórias"
+            android:textAlignment="textStart"
+            android:textColor="?attr/textBackground"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/colorPrimary"
+            android:background="@drawable/background_card_2_dark"
+            app:drawableStartCompat="@drawable/ic_victory"
+            app:drawableTint="?attr/textBackground"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_player_name"/>
+
+
+        <TextView
+            android:id="@+id/text_score_wins"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="10dp"
+            android:paddingHorizontal="25dp"
+            android:paddingVertical="10dp"
+            android:text="25 Vitórias"
+            android:textAlignment="textStart"
+            android:textColor="?attr/textFillColor"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:backgroundTint="?attr/background"
+            android:background="@drawable/background_card_2_dark"
+            app:drawableStartCompat="@drawable/ic_score"
+            android:layout_marginTop="10dp"
+            app:drawableTint="?attr/textFillColor"
+            app:layout_constraintTop_toBottomOf="@+id/text_wins" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

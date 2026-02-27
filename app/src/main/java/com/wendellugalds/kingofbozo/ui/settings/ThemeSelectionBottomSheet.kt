@@ -1,5 +1,6 @@
 package com.wendellugalds.kingofbozo.ui.settings
 
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,16 +22,15 @@ class ThemeSelectionBottomSheet(private val onThemeSelected: (Int) -> Unit) : Bo
     private var _binding: BottomSheetThemeSelectionBinding? = null
     private val binding get() = _binding!!
     private var originalNavBarColor: Int = 0
-    data class ThemeOption(val name: String, val resId: Int, val colorRes: Int)
+    data class ThemeOption(val name: String, val resId: Int, val colorRes: Int, val colorResNight: Int)
 
     private val themes = listOf(
-        ThemeOption("Verde", R.style.Base_Theme_KingOfBozo_verde, R.color.verde),
-        ThemeOption("Azul", R.style.Base_Theme_KingOfBozo_azul, R.color.azul),
-        ThemeOption("Roxo", R.style.Base_Theme_KingOfBozo_roxo, R.color.roxo),
-        ThemeOption("Pink", R.style.Base_Theme_KingOfBozo_pink, R.color.pink),
-        ThemeOption("Amarelo", R.style.Base_Theme_KingOfBozo_amarelo, R.color.amarelo),
-        ThemeOption("Laranja", R.style.Base_Theme_KingOfBozo_laranja, R.color.laranja),
-        ThemeOption("Vermelho", R.style.Base_Theme_KingOfBozo_vermelho, R.color.vermelho),
+        ThemeOption("Padrão", R.style.Base_Theme_KingOfBozo_Standard, R.color.padrao, R.color.padrao_night),
+        ThemeOption("Verde", R.style.Base_Theme_KingOfBozo_verde, R.color.whatsapp_02, R.color.whatsapp_01),
+        ThemeOption("Roxo", R.style.Base_Theme_KingOfBozo_roxo, R.color.roxo, R.color.roxo_neon),
+        ThemeOption("Vermelho", R.style.Base_Theme_KingOfBozo_vermelho, R.color.vermelho, R.color.vermelho_neon),
+        ThemeOption("Laranja", R.style.Base_Theme_KingOfBozo_laranja, R.color.laranja, R.color.laranja_neon),
+        ThemeOption("Pink", R.style.Base_Theme_KingOfBozo_pink, R.color.pink, R.color.pink_neon)
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -100,9 +100,14 @@ class ThemeSelectionBottomSheet(private val onThemeSelected: (Int) -> Unit) : Bo
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val theme = options[position]
             holder.nameText.text = theme.name
-            holder.colorPreview.setBackgroundResource(R.drawable.background_circle)
+            holder.colorPreview.setBackgroundResource(R.drawable.celular_cor)
+
+            val context = holder.itemView.context
+            val isNightMode = (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+            val colorRes = if (isNightMode) theme.colorResNight else theme.colorRes
+
             holder.colorPreview.backgroundTintList = android.content.res.ColorStateList.valueOf(
-                androidx.core.content.ContextCompat.getColor(holder.itemView.context, theme.colorRes)
+                androidx.core.content.ContextCompat.getColor(context, colorRes)
             )
             holder.itemView.setOnClickListener { onClick(theme) }
         }

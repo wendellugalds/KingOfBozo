@@ -1,9 +1,14 @@
 package com.wendellugalds.kingofbozo.ui.game.adapter
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.AttrRes
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -46,7 +51,34 @@ class PlayerSelectionAdapter(
 
         fun bind(item: SelectablePlayerItem) {
             val player = item.player
+            val context = binding.root.context
             binding.textPlayerName.text = player.name
+
+            // Cores baseadas no tema
+            val colorPrimary = context.getColorFromAttr(com.google.android.material.R.attr.colorPrimary)
+            val corfixa = Color.parseColor("#FFFFFF")
+
+            if (item.isSelected) {
+                // Tema Selecionado (Fundo Escuro/Verde Neon)
+                binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
+                binding.rootLayout.backgroundTintList = ColorStateList.valueOf(corfixa)
+                binding.textPlayerName.setTextColor(colorPrimary)
+                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+                binding.siglaNome.setTextColor(corfixa)
+                binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
+                binding.imageSelectionIconBadge.imageTintList = ColorStateList.valueOf(colorPrimary)
+            } else {
+                // Tema Não Selecionado (Inverso ou Padrão)
+                binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
+                binding.rootLayout.backgroundTintList = ColorStateList.valueOf(
+                    ColorUtils.setAlphaComponent(corfixa, 25) // 15% Alpha
+                )
+                binding.textPlayerName.setTextColor(corfixa)
+                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(corfixa)
+                binding.siglaNome.setTextColor(colorPrimary)
+                binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(corfixa)
+                binding.imageSelectionIconBadge.imageTintList = ColorStateList.valueOf(corfixa)
+            }
 
             if (!player.imageUri.isNullOrEmpty()) {
                 binding.imagePlayerAvatar.load(Uri.parse(player.imageUri)) {
@@ -57,30 +89,20 @@ class PlayerSelectionAdapter(
                 binding.imagePlayerAvatar.visibility = View.VISIBLE
             } else {
                 binding.imagePlayerAvatar.visibility = View.GONE
-
                 val name = player.name?.trim() ?: ""
-
                 val words = name.split(" ").filter { it.isNotBlank() }
-
-                val initials = if (words.size > 1) {
-                    val firstInitial = words.first().first()
-                    val lastInitial = words.last().first()
-                    binding.siglaNome.text = "$firstInitial$lastInitial"
+                binding.siglaNome.text = if (words.size > 1) {
+                    "${words.first().first()}${words.last().first()}"
                 } else if (words.isNotEmpty()) {
-                    val word = words.first()
-                    if (word.length >= 2) {
-                        binding.siglaNome.text = word.substring(0, 2)
-                    } else {
-                        binding.siglaNome.text = word
-                    }
+                    words.first().take(2).uppercase()
                 } else {
                     "--"
                 }
             }
 
             binding.checkboxSelectPlayer.isChecked = item.isSelected
-
             binding.imageSelectionIconBadge.isVisible = item.isSelected
+            
             if (item.isSelected) {
                 val badgeDrawable = when (item.selectionOrder) {
                     1 -> R.drawable.ic_1
@@ -100,6 +122,12 @@ class PlayerSelectionAdapter(
                     binding.imageSelectionIconBadge.setImageDrawable(null)
                 }
             }
+        }
+
+        private fun android.content.Context.getColorFromAttr(@AttrRes attr: Int): Int {
+            val typedValue = TypedValue()
+            theme.resolveAttribute(attr, typedValue, true)
+            return typedValue.data
         }
     }
 }

@@ -28,9 +28,9 @@
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="ALTERAR JOGADOR"
+            android:text="COR DESTAQUE"
             android:paddingTop="15dp"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/textFillColor"
             android:textSize="22sp"
             android:textStyle="bold" />
 

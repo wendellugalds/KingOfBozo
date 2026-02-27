@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/background"
+    android:paddingTop="5dp"
+    android:id="@+id/contrai">
+
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="21dp">
+
+        <LinearLayout
+            android:id="@+id/action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/button_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="?attr/colorPrimary"
+                android:background="@drawable/background_circle"
+                android:padding="12dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="?attr/textBackground" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingHorizontal="15dp">
+
+                <TextView
+                    android:id="@+id/text_app_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:alpha="0.5"
+                    android:text="RANKING"
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/text_title_jogadores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:text="RODADA"
+                    android:textColor="?attr/textFillColor"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/btn_raking_geral"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginEnd="8dp"
+                android:text="Ranking geral"
+                android:textColor="?attr/textBackground"
+                app:icon="@drawable/ic_ranking"
+                app:iconGravity="textStart"
+                app:iconTint="?attr/textBackground" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_lista_jogadores_ranking_jogo_atual"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_container"
+        android:paddingBottom="10dp"
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_player_rodada_ranking" />
+
+</RelativeLayout>

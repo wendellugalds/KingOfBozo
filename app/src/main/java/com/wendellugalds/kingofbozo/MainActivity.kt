@@ -1,13 +1,19 @@
 package com.wendellugalds.kingofbozo
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.color.MaterialColors
@@ -19,12 +25,39 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
+    override fun attachBaseContext(newBase: Context) {
+        val newConfig = Configuration(newBase.resources.configuration)
+
+        // 1. TAMANHO DA FONTE (1.0f = 100%)
+        newConfig.fontScale = 1.0f
+
+        // 2. ZOOM DA TELA (DPI)
+        // DisplayMetrics.DENSITY_DEVICE_STABLE -> Zoom padrão de fábrica do aparelho.
+        // Você pode colocar um número fixo aqui para testar o que fica melhor:
+        // Exemplos: 320 (Elementos pequenos), 480 (Médio), 600 (Elementos grandes)
+        val meuZoomPreferido = 420
+
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            newConfig.densityDpi = meuZoomPreferido
+        }
+
+        applyOverrideConfiguration(newConfig)
+        super.attachBaseContext(newBase)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         ThemeStorage.applySettings(this)
         setTheme(ThemeStorage.getTheme(this))
         super.onCreate(savedInstanceState)
+        
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        configurarCoresDaBarra()
+        applyKeepScreenOn(ThemeStorage.getKeepScreenOn(this))
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
@@ -34,7 +67,29 @@ class MainActivity : AppCompatActivity() {
         setupNavigationVisibility()
     }
 
+    private fun configurarCoresDaBarra() {
+        val window = this.window
+        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        
+        window.statusBarColor = corDoFundo
+        window.navigationBarColor = corDoFundo
+        
+        val controller = WindowInsetsControllerCompat(window, binding.root)
+        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
+        
+        controller.isAppearanceLightStatusBars = isLightBackground
+        controller.isAppearanceLightNavigationBars = isLightBackground
+        
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+    }
 
+    private fun applyKeepScreenOn(enabled: Boolean) {
+        if (enabled) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        } else {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
 
     private fun setupCustomNavigation() {
         binding.navHome.setOnClickListener {
@@ -66,16 +121,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {
-        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.icon, Color.GRAY)
+        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.textAppearanceButton, Color.GRAY)
         val activeColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary, Color.BLACK)
         
         val alpha = 0.10f
 //        val activeBgColor = inactiveColor
         val activeBgColor = Color.argb(
             (alpha * 255).toInt(),
-            Color.red(activeColor),
-            Color.green(activeColor),
-            Color.blue(activeColor)
+            Color.red(inactiveColor),
+            Color.green(inactiveColor),
+            Color.blue(inactiveColor)
         )
 
         // Reset all to inactive state
