@@ -74,6 +74,7 @@ class PlayersFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
+        // Corrected reference to R.attr.background
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo

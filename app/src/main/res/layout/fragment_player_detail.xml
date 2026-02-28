@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/appBackground"
+            android:background="?attr/background"
             android:padding="16dp">
 
             <LinearLayout
@@ -138,7 +138,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/background_circle"
-                            android:backgroundTint="?attr/appBackground"
+                            android:backgroundTint="?attr/background"
                             android:text="WU"
                             android:textColor="?attr/colorPrimary"
                             android:textStyle="bold"

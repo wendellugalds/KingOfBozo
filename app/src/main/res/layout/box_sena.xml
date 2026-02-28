@@ -5,7 +5,7 @@
     android:id="@+id/numbers_points"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="?attr/appBackground"
+    android:backgroundTint="?attr/background"
     android:background="@drawable/bottom_sheet_background"
     android:orientation="vertical"
     android:padding="24dp">

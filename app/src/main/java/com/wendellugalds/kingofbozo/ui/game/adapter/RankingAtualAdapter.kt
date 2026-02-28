@@ -46,9 +46,9 @@ class RankingAtualAdapter(private val isDuranteJogo: Boolean = false) : ListAdap
                 binding.textPlayerNameKing.text = player.playerName
                 binding.textPlayerWinsKing.text = "${player.totalScore} Pontos"
                 
-                // Se estiver empatado, usa o ícone de empate. Caso contrário, é o Rei isolado.
+                // Se estiver empatado, usa o ícone de empate (ic_bug_tie). Caso contrário, é o Rei isolado.
                 if (isEmpate) {
-                    binding.buttonDetailsKing.setImageResource(R.drawable.ic_empate)
+                    binding.buttonDetailsKing.setImageResource(R.drawable.ic_bug_tie)
                     binding.buttonDetailsKing.rotation = 0f
                 } else {
                     binding.buttonDetailsKing.setImageResource(R.drawable.ic_crown)

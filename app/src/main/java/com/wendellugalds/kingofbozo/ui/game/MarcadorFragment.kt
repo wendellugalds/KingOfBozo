@@ -13,12 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
-import android.widget.LinearLayout
-import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -38,10 +34,8 @@ import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.*
 import com.wendellugalds.kingofbozo.model.CategoryType
-import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
-
 
 class MarcadorFragment : Fragment() {
 
@@ -66,11 +60,6 @@ class MarcadorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        gameViewModel.gameState.value?.let { state ->
-            val currentPlayer = state.playersState[state.currentPlayerIndex]
-            binding.pontos.text = currentPlayer.totalScore.toString()
-        }
-
         setupRecyclerView()
         setupCategoryButtons()
         observeGameState()
@@ -79,62 +68,36 @@ class MarcadorFragment : Fragment() {
 
         binding.buttonBack.setOnClickListener { showExitConfirmationDialog() }
         
-        binding.btnRakingAtual.setOnClickListener {
+        binding.btnJogarMaisUm.setOnClickListener {
             if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
                 findNavController().navigate(R.id.action_marcadorFragment_to_rankingDuranteJogoFragment)
             }
         }
 
-        binding.gerenciarJogadores.setOnClickListener {
+        binding.buttonGerenciarJogadores.setOnClickListener {
             if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
                 findNavController().navigate(R.id.action_marcadorFragment_to_managePlayersFragment)
             }
         }
     }
 
-    private fun showSaveGameDialog() {
-        val dialogBinding = DialogSaveGameBinding.inflate(layoutInflater)
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogBinding.root)
-            .create()
-
-        dialogBinding.btnSave.setOnClickListener {
-            gameViewModel.saveCurrentGame()
-            dialog.dismiss()
-            Toast.makeText(requireContext(), "Jogo salvo!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.navigation_saved_games)
-        }
-
-        dialogBinding.btnNoSave.setOnClickListener {
-            dialog.dismiss()
-            findNavController().navigate(R.id.navigation_saved_games)
-        }
-
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
-    }
-
-
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
         val corDoNavegation = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.cardBackgroundColor)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoNavegation
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
+        val isLightBackground = false 
         controller.isAppearanceLightStatusBars = isLightBackground
         controller.isAppearanceLightNavigationBars = isLightBackground
     }
+
     private fun setupRecyclerView() {
         playerMarkerAdapter = PlayerMarkerAdapter { index ->
             gameViewModel.setCurrentPlayer(index)
         }
-        binding.recyclerViewJogadores.apply {
+        binding.recyclerViewJogadoresRodada.apply {
             adapter = playerMarkerAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             clipChildren = false
@@ -175,34 +138,26 @@ class MarcadorFragment : Fragment() {
         dialog.show()
     }
 
-    private fun animateCarJogo() {
-        val carAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.slide_up_car_jogo)
-        val avatarAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.scale_up_avatar)
-        
-        binding.carJogo.startAnimation(carAnimation)
-        binding.avatarContainerJogo.startAnimation(avatarAnimation)
-    }
-
     private fun setupCategoryButtons() {
         val buttons = mapOf(
-            binding.btnAz to CategoryType.AS,
-            binding.btnDuque to CategoryType.DUQUE,
-            binding.btnTerno to CategoryType.TERNO,
-            binding.btnQuadra to CategoryType.QUADRA,
-            binding.btnQuina to CategoryType.QUINA,
-            binding.btnSena to CategoryType.SENA,
-            binding.btnFull to CategoryType.FULL,
-            binding.btnSeguida to CategoryType.SEGUIDA,
-            binding.btnQuadrada to CategoryType.QUADRADA,
-            binding.btnGeneral to CategoryType.GENERAL
+            binding.valorAz to CategoryType.AS,
+            binding.valorDuque to CategoryType.DUQUE,
+            binding.valorTerno to CategoryType.TERNO,
+            binding.valorQuadra to CategoryType.QUADRA,
+            binding.valorQuina to CategoryType.QUINA,
+            binding.valorSena to CategoryType.SENA,
+            binding.valorFull to CategoryType.FULL,
+            binding.valorSeguida to CategoryType.SEGUIDA,
+            binding.valorQuadrada to CategoryType.QUADRADA,
+            binding.valorGeneral to CategoryType.GENERAL
         )
 
         buttons.forEach { (view, type) ->
-            view.setOnClickListener { openScoringBottomSheet(type, view as TextView) }
+            view.setOnClickListener { openScoringBottomSheet(type) }
         }
     }
 
-    private fun openScoringBottomSheet(type: CategoryType, btnView: TextView) {
+    private fun openScoringBottomSheet(type: CategoryType) {
         val dialog = BottomSheetDialog(requireContext())
         val layoutId = when (type) {
             CategoryType.AS -> R.layout.box_az
@@ -220,7 +175,6 @@ class MarcadorFragment : Fragment() {
         val sheetView = layoutInflater.inflate(layoutId, null)
         dialog.setContentView(sheetView)
 
-
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         dialog.setOnShowListener { dialogInterface ->
@@ -235,112 +189,26 @@ class MarcadorFragment : Fragment() {
             }
         }
 
-        setupSheetValueClicks(sheetView, dialog, type, btnView)
-        setupInfoAnimation(sheetView)
+        setupSheetValueClicks(sheetView, dialog, type)
         
         dialog.show()
     }
 
-    private fun setupInfoAnimation(view: View) {
-        val buttonInfo = view.findViewById<View>(R.id.button_info) ?: return
-        val infoDados = view.findViewById<LinearLayout>(R.id.info_dados) ?: return
-
-        buttonInfo.setOnClickListener {
-            if (infoDados.visibility == View.GONE) {
-                showInfoWithAnimation(buttonInfo, infoDados)
-            } else {
-                hideInfoWithAnimation(buttonInfo, infoDados)
-            }
-        }
-    }
-
-    private fun showInfoWithAnimation(buttonInfo: View, infoDados: LinearLayout) {
-        infoDados.visibility = View.VISIBLE
-        infoDados.post {
-            val buttonLocation = IntArray(2)
-            buttonInfo.getLocationOnScreen(buttonLocation)
-            val buttonCenterX = buttonLocation[0] + buttonInfo.width / 2
-            val buttonCenterY = buttonLocation[1] + buttonInfo.height / 2
-
-            for (i in 0 until infoDados.childCount) {
-                val child = infoDados.getChildAt(i)
-                val childLocation = IntArray(2)
-                child.getLocationOnScreen(childLocation)
-
-                val childCenterX = childLocation[0] + child.width / 2
-                val childCenterY = childLocation[1] + child.height / 2
-
-                child.translationX = (buttonCenterX - childCenterX).toFloat()
-                child.translationY = (buttonCenterY - childCenterY).toFloat()
-                child.alpha = 0f
-                child.scaleX = 0f
-                child.scaleY = 0f
-
-                child.animate()
-                    .translationX(0f)
-                    .translationY(0f)
-                    .alpha(1f)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(400)
-                    .setStartDelay(i * 50L)
-                    .setInterpolator(DecelerateInterpolator())
-                    .start()
-            }
-        }
-    }
-
-    private fun hideInfoWithAnimation(buttonInfo: View, infoDados: LinearLayout) {
-        val buttonLocation = IntArray(2)
-        buttonInfo.getLocationOnScreen(buttonLocation)
-        val buttonCenterX = buttonLocation[0] + buttonInfo.width / 2
-        val buttonCenterY = buttonLocation[1] + buttonInfo.height / 2
-
-        val totalCount = infoDados.childCount
-        var finishedCount = 0
-
-        for (i in 0 until totalCount) {
-            val child = infoDados.getChildAt(i)
-            val childLocation = IntArray(2)
-            child.getLocationOnScreen(childLocation)
-
-            val childCenterX = childLocation[0] + child.width / 2
-            val childCenterY = childLocation[1] + child.height / 2
-
-            child.animate()
-                .translationX((buttonCenterX - childCenterX).toFloat())
-                .translationY((buttonCenterY - childCenterY).toFloat())
-                .alpha(0f)
-                .scaleX(0f)
-                .scaleY(0f)
-                .setDuration(400)
-                .setStartDelay((totalCount - 1 - i) * 50L)
-                .setInterpolator(DecelerateInterpolator())
-                .withEndAction {
-                    finishedCount++
-                    if (finishedCount == totalCount) {
-                        infoDados.visibility = View.GONE
-                    }
-                }
-                .start()
-        }
-    }
-
-    private fun setupSheetValueClicks(view: View, dialog: BottomSheetDialog, type: CategoryType, btnView: TextView) {
+    private fun setupSheetValueClicks(view: View, dialog: BottomSheetDialog, type: CategoryType) {
         val values = listOf(R.id.valor_01, R.id.valor_02, R.id.valor_03, R.id.valor_04, R.id.valor_05, R.id.valor_boca)
         
         view.findViewById<View>(R.id.btn_nulo)?.setOnClickListener {
-            updateScore(type, 0, null, btnView, shouldAutoAdvance = false, isClear = true)
+            gameViewModel.submitScore(type, 0, isScratch = false, shouldAutoAdvance = false, isClear = true)
             dialog.dismiss()
         }
 
         view.findViewById<TextView>(R.id.btn_riscar)?.setOnClickListener {
-            updateScore(type, 0, "X", btnView, isScratch = true)
+            gameViewModel.submitScore(type, 0, isScratch = true, shouldAutoAdvance = true, isClear = false)
             dialog.dismiss()
         }
 
         view.findViewById<View>(R.id.valor_ganhou_boca)?.setOnClickListener {
-            showConfirmBocaDialog(type, btnView, dialog)
+            showConfirmBocaDialog(type, dialog)
         }
 
         values.forEach { id ->
@@ -357,7 +225,7 @@ class MarcadorFragment : Fragment() {
                     else -> 0
                 }
                 
-                updateScore(type, score, score.toString(), btnView)
+                gameViewModel.submitScore(type, score, isScratch = false, shouldAutoAdvance = true, isClear = false)
                 dialog.dismiss()
             }
         }
@@ -365,7 +233,7 @@ class MarcadorFragment : Fragment() {
         view.findViewById<View>(R.id.button_cancel)?.setOnClickListener { dialog.dismiss() }
     }
 
-    private fun showConfirmBocaDialog(type: CategoryType, btnView: TextView, parentDialog: BottomSheetDialog) {
+    private fun showConfirmBocaDialog(type: CategoryType, parentDialog: BottomSheetDialog) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_confirm_boca, null)
         val alertDialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
             .setView(dialogView)
@@ -383,7 +251,7 @@ class MarcadorFragment : Fragment() {
                 CategoryType.GENERAL -> 1000
                 else -> 0
             }
-            updateScore(type, score, score.toString(), btnView)
+            gameViewModel.submitScore(type, score, isScratch = false, shouldAutoAdvance = true, isClear = false)
             
             alertDialog.dismiss()
             parentDialog.dismiss()
@@ -392,17 +260,13 @@ class MarcadorFragment : Fragment() {
         alertDialog.show()
     }
 
-    private fun updateScore(type: CategoryType, score: Int, display: String?, btnView: TextView, isScratch: Boolean = false, shouldAutoAdvance: Boolean = true, isClear: Boolean = false) {
-        gameViewModel.submitScore(type, score, isScratch, shouldAutoAdvance, isClear)
-    }
-
     private fun animateScoreChange(start: Int, end: Int) {
         scoreAnimator?.cancel()
         scoreAnimator = ValueAnimator.ofInt(start, end).apply {
             duration = 600
             addUpdateListener { valueAnimator ->
                 _binding?.let {
-                    it.pontos.text = valueAnimator.animatedValue.toString()
+                    it.pontosRodada.text = valueAnimator.animatedValue.toString()
                 }
             }
             start()
@@ -417,17 +281,16 @@ class MarcadorFragment : Fragment() {
                 if (lastPlayerIndex == -1) {
                     lastPlayerIndex = it.currentPlayerIndex
                     lastTotalScore = currentPlayer.totalScore
-                    binding.pontos.text = lastTotalScore.toString()
+                    binding.pontosRodada.text = lastTotalScore.toString()
                 } else if (it.currentPlayerIndex != lastPlayerIndex) {
                     lastPlayerIndex = it.currentPlayerIndex
-                    animateCarJogo()
                     
                     scoreAnimator?.cancel()
                     animateScoreChange(0, currentPlayer.totalScore)
                     lastTotalScore = currentPlayer.totalScore
                 } else if (currentPlayer.totalScore != lastTotalScore) {
                     scoreAnimator?.cancel()
-                    binding.pontos.text = currentPlayer.totalScore.toString()
+                    binding.pontosRodada.text = currentPlayer.totalScore.toString()
                     lastTotalScore = currentPlayer.totalScore
                 }
 
@@ -435,53 +298,39 @@ class MarcadorFragment : Fragment() {
                 val maxScore = players.maxOfOrNull { p -> p.totalScore } ?: 0
                 val winnersCount = players.count { p -> p.totalScore == maxScore && maxScore > 0 }
                 
-                binding.btnRakingAtual.isVisible = players.any { p -> p.totalScore > 0 }
-
-                val currentFirstName = currentPlayer.playerName.split(Regex("\\s+")).firstOrNull() ?: ""
+                binding.textPlayerName.text = currentPlayer.playerName
                 
-                val spannable = SpannableStringBuilder()
-
                 val tiedPlayers = players.filter { it.totalScore == currentPlayer.totalScore && it.totalScore > 0 }
+                val isWinning = currentPlayer.totalScore == maxScore && maxScore > 0
 
-                if (tiedPlayers.size > 1) {
-                    val others = tiedPlayers.filter { it.playerName != currentPlayer.playerName }
-                    spannable.append(currentPlayer.playerName.substringBefore(" "))
-
-                    others.forEach { player ->
-                        val firstName = player.playerName.substringBefore(" ")
-                        spannable.append("  ")
-                        val iconStart = spannable.length - 2
-
-                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_empate)?.mutate()?.apply {
-                            val size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 20f, resources.displayMetrics).toInt()
-                            setTint(MaterialColors.getColor(binding.root, com.google.android.material.R.attr.iconTint))
-                            setBounds(20, 0, size, size)
-
-                            spannable.setSpan(ImageSpan(this, ImageSpan.ALIGN_CENTER), iconStart, iconStart + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        }
-                        spannable.append(firstName)
+                if (isWinning) {
+                    if (winnersCount > 1) {
+                        val others = tiedPlayers.filter { it.playerName != currentPlayer.playerName }
+                        val othersNames = others.joinToString(", ") { it.playerName.substringBefore(" ") }
+                        binding.textStatus.text = "Empatado com $othersNames"
+                        binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bug_tie, 0, 0, 0)
+                    } else {
+                        binding.textStatus.text = "Ganhando"
+                        binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_crown, 0, 0, 0)
                     }
-                    binding.iconEmpateNumbers.isVisible = true
                 } else {
-                    spannable.append(currentFirstName)
-                    binding.iconEmpateNumbers.isVisible = false
+                    binding.textStatus.text = "Perdendo"
+                    binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 }
                 
-                binding.nomeJogador.text = spannable
-                
-                updatePlayerAvatar(currentPlayer, maxScore, winnersCount)
+                updatePlayerAvatar(currentPlayer)
 
                 if (isFirstLoad) {
-                    isFirstLoad = true
+                    isFirstLoad = false
                     playerMarkerAdapter.updateState(it.currentPlayerIndex, it.playersState)
-                    scrollToPositionCentered(it.currentPlayerIndex, isImmediate = false)
+                    scrollToPositionCentered(it.currentPlayerIndex, isImmediate = true)
                 } else {
                     scrollToPositionCentered(it.currentPlayerIndex, isImmediate = false) {
                         playerMarkerAdapter.updateState(it.currentPlayerIndex, it.playersState)
                     }
                 }
 
-                binding.textTitleJogadores.text = "RODADA ${it.currentRound.toString().padStart(2, '0')}"
+                binding.totalRodadas.text = "RODADA ${it.currentRound.toString().padStart(2, '0')}"
                 updateCategoryButtonsForPlayer(currentPlayer)
             }
         }
@@ -497,7 +346,7 @@ class MarcadorFragment : Fragment() {
     }
 
     private fun scrollToPositionCentered(position: Int, isImmediate: Boolean, onComplete: (() -> Unit)? = null) {
-        val recyclerView = binding.recyclerViewJogadores
+        val recyclerView = binding.recyclerViewJogadoresRodada
         recyclerView.post {
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
             val screenWidth = recyclerView.width
@@ -541,52 +390,38 @@ class MarcadorFragment : Fragment() {
         }
     }
 
-    private fun updatePlayerAvatar(player: PlayerState, maxScore: Int, winnersCount: Int) {
+    private fun updatePlayerAvatar(player: PlayerState) {
         if (!player.playerImage.isNullOrEmpty()) {
-            binding.imagePlayerAvatarJogo.visibility = View.VISIBLE
-            binding.imagePlayerAvatarJogo.load(Uri.parse(player.playerImage))
+            binding.imagePlayerAvatarDetail.visibility = View.VISIBLE
+            binding.imagePlayerAvatarDetail.load(Uri.parse(player.playerImage))
             binding.siglaNome.visibility = View.GONE
         } else {
-            binding.imagePlayerAvatarJogo.visibility = View.GONE
+            binding.imagePlayerAvatarDetail.visibility = View.GONE
             binding.siglaNome.visibility = View.VISIBLE
             binding.siglaNome.text = player.playerName.take(2).uppercase()
-        }
-
-        val isWinning = player.totalScore == maxScore && maxScore > 0
-        if (isWinning) {
-            if (winnersCount > 1) {
-                binding.iconKing.isVisible = false
-            } else {
-                binding.iconKing.isVisible = true
-            }
-        } else {
-            binding.iconKing.isVisible = false
         }
     }
 
     private fun updateCategoryButtonsForPlayer(player: PlayerState) {
         val config = mapOf(
-            CategoryType.AS to (binding.btnAz to "Àz"),
-            CategoryType.DUQUE to (binding.btnDuque to "Duque"),
-            CategoryType.TERNO to (binding.btnTerno to "Terno"),
-            CategoryType.QUADRA to (binding.btnQuadra to "Quadra"),
-            CategoryType.QUINA to (binding.btnQuina to "Quina"),
-            CategoryType.SENA to (binding.btnSena to "Sena"),
-            CategoryType.FULL to (binding.btnFull to "Full"),
-            CategoryType.SEGUIDA to (binding.btnSeguida to "Seguida"),
-            CategoryType.QUADRADA to (binding.btnQuadrada to "Quadrada"),
-            CategoryType.GENERAL to (binding.btnGeneral to "General")
+            CategoryType.AS to (binding.valorAz to "Áz"),
+            CategoryType.DUQUE to (binding.valorDuque to "Duque"),
+            CategoryType.TERNO to (binding.valorTerno to "Terno"),
+            CategoryType.QUADRA to (binding.valorQuadra to "Quadra"),
+            CategoryType.QUINA to (binding.valorQuina to "Quina"),
+            CategoryType.SENA to (binding.valorSena to "Sena"),
+            CategoryType.FULL to (binding.valorFull to "Full"),
+            CategoryType.SEGUIDA to (binding.valorSeguida to "Seguida"),
+            CategoryType.QUADRADA to (binding.valorQuadrada to "Quadrada"),
+            CategoryType.GENERAL to (binding.valorGeneral to "General")
         )
 
         val typedValue = TypedValue()
         val theme = requireContext().theme
-        val corfixa = Color.parseColor("#FFFFFF")
-
-        theme.resolveAttribute(com.google.android.material.R.attr.textAppearanceButton, typedValue, true)
-        val colorTextBackground = typedValue.data
-        
         theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
         val colorPrimary = typedValue.data
+        theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+        val colorOnPrimary = typedValue.data
 
         config.forEach { (type, views) ->
             val scoreEntry = player.scores[type]
@@ -594,18 +429,19 @@ class MarcadorFragment : Fragment() {
             
             if (scoreEntry != null && (scoreEntry.value > 0 || scoreEntry.isScratch)) {
                 btn.alpha = 1.0f
-                
+                btn.setTextColor(colorPrimary)
+                btn.setBackgroundResource(R.drawable.background_card_black)
+                btn.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+
                 if (scoreEntry.isScratch) {
                     btn.text = "" 
-                    val iconSizeDp = 35 
+                    val iconSizeDp = 30
                     val iconSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconSizeDp.toFloat(), resources.displayMetrics).toInt()
-                    
-                    btn.setBackgroundResource(R.drawable.background_score_option_riscar)
-                    btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                     
                     val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_riscar)
                     icon?.let {
-                        it.setTint(corfixa)
+                        it.mutate()
+                        it.setTint(colorPrimary)
                         it.setBounds(0, 0, iconSizePx, iconSizePx)
                         btn.setCompoundDrawables(it, null, null, null)
 
@@ -616,20 +452,20 @@ class MarcadorFragment : Fragment() {
                             }
                         }
                     }
-                    btn.backgroundTintList = ColorStateList.valueOf(corfixa)
                 } else {
                     val isBoca = when(type) {
                         CategoryType.FULL -> scoreEntry.value == 15
                         CategoryType.SEGUIDA -> scoreEntry.value == 25
                         CategoryType.QUADRADA -> scoreEntry.value == 35
+                        CategoryType.GENERAL -> scoreEntry.value == 1000
                         else -> false
                     }
 
                     if (isBoca) {
-                        val scoreText = scoreEntry.value.toString()
-                        val spannable = SpannableStringBuilder(" $scoreText")
+                        val scoreValue = if (type == CategoryType.GENERAL) "G" else scoreEntry.value.toString()
+                        val spannable = SpannableStringBuilder(" $scoreValue")
                         
-                        val iconSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt()
+                        val iconSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt()
                         val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_de_boca)
                         icon?.let {
                             it.mutate()
@@ -641,16 +477,13 @@ class MarcadorFragment : Fragment() {
                         
                         btn.text = spannable
                         btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                        btn.setPadding(0, 0, 0, 0)
                     } else {
                         btn.text = scoreEntry.value.toString()
                         btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                        btn.setPadding(0, 0, 0, 0)
                     }
-
-                    btn.textSize = 45f
-                    btn.setPadding(0, 0, 0, 0)
-                    btn.setBackgroundResource(R.drawable.background_card_black)
-                    btn.backgroundTintList = ColorStateList.valueOf(corfixa)
-                    btn.setTextColor(colorPrimary)
+                    btn.textSize = 35f
                 }
             } else {
                 btn.text = views.second
@@ -659,7 +492,7 @@ class MarcadorFragment : Fragment() {
                 btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 btn.setPadding(0, 0, 0, 0)
                 btn.setBackgroundResource(R.drawable.background_card_black)
-                btn.backgroundTintList = ColorStateList.valueOf(corfixa)
+                btn.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
                 btn.setTextColor(colorPrimary)
             }
         }

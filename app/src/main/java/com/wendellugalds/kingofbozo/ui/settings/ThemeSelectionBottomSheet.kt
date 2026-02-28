@@ -17,27 +17,27 @@ import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.BottomSheetThemeSelectionBinding
 
-class ThemeSelectionBottomSheet(private val onThemeSelected: (Int) -> Unit) : BottomSheetDialogFragment() {
+class ThemeSelectionBottomSheet(private val onThemeSelected: (String) -> Unit) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetThemeSelectionBinding? = null
     private val binding get() = _binding!!
     private var originalNavBarColor: Int = 0
-    data class ThemeOption(val name: String, val resId: Int, val colorRes: Int, val colorResNight: Int)
+    data class ThemeOption(val name: String, val themeKey: String, val colorRes: Int, val colorResNight: Int)
 
     private val themes = listOf(
-        ThemeOption("Padrão", R.style.Base_Theme_KingOfBozo_Standard, R.color.padrao, R.color.padrao_night),
-        ThemeOption("Verde", R.style.Base_Theme_KingOfBozo_verde, R.color.whatsapp_02, R.color.whatsapp_01),
-        ThemeOption("Roxo", R.style.Base_Theme_KingOfBozo_roxo, R.color.roxo, R.color.roxo_neon),
-        ThemeOption("Vermelho", R.style.Base_Theme_KingOfBozo_vermelho, R.color.vermelho, R.color.vermelho_neon),
-        ThemeOption("Laranja", R.style.Base_Theme_KingOfBozo_laranja, R.color.laranja, R.color.laranja_neon),
-        ThemeOption("Pink", R.style.Base_Theme_KingOfBozo_pink, R.color.pink, R.color.pink_neon)
+        ThemeOption("Padrão", "PADRAO", R.color.padrao, R.color.padrao_night),
+        ThemeOption("Verde", "VERDE", R.color.whatsapp_02, R.color.whatsapp_01),
+        ThemeOption("Roxo", "ROXO", R.color.roxo, R.color.roxo_neon),
+        ThemeOption("Vermelho", "VERMELHO", R.color.vermelho, R.color.vermelho_neon),
+        ThemeOption("Laranja", "LARANJA", R.color.laranja, R.color.laranja_neon),
+        ThemeOption("Pink", "PINK", R.color.pink, R.color.pink_neon)
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = BottomSheetThemeSelectionBinding.inflate(inflater, container, false)
 
         binding.recyclerViewThemes.adapter = ThemeAdapter(themes) { theme ->
-            onThemeSelected(theme.resId)
+            onThemeSelected(theme.themeKey)
             dismiss()
         }
         binding.recyclerViewThemes.layoutManager = LinearLayoutManager(

@@ -83,8 +83,8 @@ class SettingsFragment : Fragment() {
 
         binding.cardCor.setOnClickListener {
             resetCountdown()
-            val bottomSheet = ThemeSelectionBottomSheet { themeResId ->
-                ThemeStorage.saveTheme(requireContext(), themeResId)
+            val bottomSheet = ThemeSelectionBottomSheet { themeKey ->
+                ThemeStorage.saveTheme(requireContext(), themeKey)
                 requireActivity().recreate()
             }
             bottomSheet.show(parentFragmentManager, "ThemeSelection")
@@ -145,10 +145,7 @@ class SettingsFragment : Fragment() {
 
     private fun resetAllData() {
         playerViewModel.viewModelScope.launch {
-            // 1. Zerar estatísticas de todos os jogadores
             playerViewModel.resetAllPlayerStats()
-            
-            // 2. Apagar todos os jogos salvos
             gameViewModel.allSavedGames.value?.forEach { game ->
                 gameViewModel.deleteSavedGame(game)
             }
@@ -170,8 +167,10 @@ class SettingsFragment : Fragment() {
         val themeName = when (currentThemeId) {
             R.style.Base_Theme_KingOfBozo_Standard -> "PADRÃO"
             R.style.Base_Theme_KingOfBozo_verde -> "VERDE"
+            R.style.Base_Theme_KingOfBozo_azul -> "AZUL"
             R.style.Base_Theme_KingOfBozo_roxo -> "ROXO"
             R.style.Base_Theme_KingOfBozo_pink -> "PINK"
+            R.style.Base_Theme_KingOfBozo_amarelo -> "AMARELO"
             R.style.Base_Theme_KingOfBozo_laranja -> "LARANJA"
             R.style.Base_Theme_KingOfBozo_vermelho -> "VERMELHO"
             else -> "PADRÃO"
@@ -245,7 +244,6 @@ class SettingsFragment : Fragment() {
         
         val btnCancelar = dialogView.findViewById<Button>(R.id.btn_cancelar)
 
-        // Inicializar os switches baseado no tema atual
         switchLight.isChecked = currentMode == AppCompatDelegate.MODE_NIGHT_NO
         switchDark.isChecked = currentMode == AppCompatDelegate.MODE_NIGHT_YES
         switchSystem.isChecked = currentMode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
@@ -300,6 +298,7 @@ class SettingsFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
+        // Corrected reference to R.attr.background
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo

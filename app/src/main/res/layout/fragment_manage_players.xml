@@ -4,86 +4,114 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/appBackground"
-    tools:context=".ui.manageplayers.ManagePlayersFragment">
+    android:background="?attr/background">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="?attr/textFillColor"
-        app:title="Gerenciar Jogadores"
-        app:titleTextColor="?attr/textFillColor" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_players"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/card_add_player"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/item_manage_player" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_add_player"
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:strokeWidth="0dp">
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:id="@+id/buttonBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="?attr/textFillColor"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Gerenciar Jogadores"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="?attr/textFillColor"
+            android:layout_marginStart="16dp"/>
+
+        <TextView
+            android:id="@+id/totalJOGADORESLISTA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textSize="18sp"
+            android:textColor="?attr/textFillColor"
+            android:background="@drawable/background_circle"
+            android:backgroundTint="?attr/cardBackgroundColor"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerInGame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/item_manage_player"/>
+
+    <LinearLayout
+        android:id="@+id/jogadoresForaJogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?attr/cardBackgroundColor"
+        android:elevation="8dp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/appBackground"
-            android:padding="16dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp">
 
             <TextView
-                android:id="@+id/text_add_player"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Adicionar Novo Jogador"
-                android:textColor="?attr/textFillColor"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_layout_name"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
-                android:hint="Nome do jogador"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_add"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_add_player">
+                android:layout_weight="1"
+                android:text="Disponíveis"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?attr/textFillColor"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edit_player_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName|textCapWords" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_add"
+            <TextView
+                android:id="@+id/totalNoJOGADORESLISTA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add"
-                app:layout_constraintBottom_toBottomOf="@+id/input_layout_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/input_layout_name" />
+                android:text="0"
+                android:textColor="?attr/textFillColor"
+                android:alpha="0.7"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/btnJogarMaisUm"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_person_add"
+                app:tint="?attr/textFillColor"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/background"/>
 
-    </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerNoJogador"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            tools:listitem="@layout/item_manage_player"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

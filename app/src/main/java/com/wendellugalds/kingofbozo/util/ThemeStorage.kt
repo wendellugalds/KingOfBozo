@@ -6,18 +6,29 @@ import com.wendellugalds.kingofbozo.R
 
 object ThemeStorage {
     private const val PREFS_NAME = "theme_prefs"
-    private const val KEY_THEME = "selected_theme"
+    private const val KEY_THEME_NAME = "selected_theme_name"
     private const val KEY_NIGHT_MODE = "night_mode"
     private const val KEY_KEEP_SCREEN_ON = "keep_screen_on"
 
-    fun saveTheme(context: Context, themeResId: Int) {
+    fun saveTheme(context: Context, themeName: String) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().putInt(KEY_THEME, themeResId).apply()
+        prefs.edit().putString(KEY_THEME_NAME, themeName).apply()
     }
 
     fun getTheme(context: Context): Int {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getInt(KEY_THEME, R.style.Theme_KingOfBozo)
+        val themeName = prefs.getString(KEY_THEME_NAME, "VERDE")
+        return when (themeName) {
+            "PADRAO" -> R.style.Base_Theme_KingOfBozo_Standard
+            "VERDE" -> R.style.Base_Theme_KingOfBozo_verde
+            "AZUL" -> R.style.Base_Theme_KingOfBozo_azul
+            "ROXO" -> R.style.Base_Theme_KingOfBozo_roxo
+            "PINK" -> R.style.Base_Theme_KingOfBozo_pink
+            "AMARELO" -> R.style.Base_Theme_KingOfBozo_amarelo
+            "LARANJA" -> R.style.Base_Theme_KingOfBozo_laranja
+            "VERMELHO" -> R.style.Base_Theme_KingOfBozo_vermelho
+            else -> R.style.Theme_KingOfBozo
+        }
     }
 
     fun saveNightMode(context: Context, mode: Int) {

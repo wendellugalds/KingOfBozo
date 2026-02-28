@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configurarCoresDaBarra() {
         val window = this.window
+        // Changed com.google.android.material.R.attr.background to R.attr.background
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         
         window.statusBarColor = corDoFundo
@@ -121,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {
-        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.textAppearanceButton, Color.GRAY)
+        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.background, Color.GRAY)
         val activeColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary, Color.BLACK)
         
         val alpha = 0.10f

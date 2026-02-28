@@ -10,7 +10,7 @@
         android:id="@+id/theme_normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/appBackground"
+        android:backgroundTint="?attr/background"
         android:background="@drawable/item_background_selector"
         android:gravity="center_vertical"
         android:paddingStart="12dp">

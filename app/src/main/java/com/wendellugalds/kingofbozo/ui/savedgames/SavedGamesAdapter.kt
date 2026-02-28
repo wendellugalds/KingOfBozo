@@ -53,7 +53,7 @@ class SavedGamesAdapter(
         holder.binding.savedGameTotalScore.text = "$totalPoints PONTOS ACUMULADOS"
         
         holder.itemView.setOnClickListener { onClick(game) }
-        holder.binding.deleteSavedGame.setOnClickListener { onDelete(game) }
+        holder.binding.btnDelete.setOnClickListener { onDelete(game) }
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<SavedGame>() {

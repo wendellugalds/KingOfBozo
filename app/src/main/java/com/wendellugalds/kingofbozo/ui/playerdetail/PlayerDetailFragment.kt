@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import coil.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
@@ -76,8 +77,6 @@ class PlayerDetailFragment : Fragment() {
     private fun setupSwipeRefresh() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             currentPlayer?.let { player ->
-                // Ao atualizar, o bind(player) será chamado novamente pelo Observer
-                // e as animações serão disparadas.
                 bind(player)
                 binding.swipeRefreshLayout.isRefreshing = false
             }
@@ -86,6 +85,7 @@ class PlayerDetailFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
+        // Corrected reference to R.attr.background
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
@@ -167,7 +167,6 @@ class PlayerDetailFragment : Fragment() {
             }
         }
 
-        // --- ANIMAÇÃO DOS NÚMEROS ---
         animateNumber(binding.textRankingWins, player.wins)
         animateNumber(binding.textJogadasValue, player.totalRounds)
         animateNumber(binding.textPontosRiscados, player.risksTaken)
@@ -176,8 +175,6 @@ class PlayerDetailFragment : Fragment() {
         animateNumber(binding.textGenerais, player.generals, " Generais")
 
         setupArcProgress(player)
-
-        // --- ANIMAÇÃO DOS PESOS DAS BARRAS ---
         animateWeights(player.risksTaken, player.mouthPlays)
     }
 
@@ -199,7 +196,6 @@ class PlayerDetailFragment : Fragment() {
         val paramsRiscos = binding.containerRiscos.layoutParams as LinearLayout.LayoutParams
         val paramsPontosBoca = binding.containerDeBoca.layoutParams as LinearLayout.LayoutParams
 
-        // Resetar para um valor inicial para forçar a animação sempre
         paramsRiscos.weight = 1f
         paramsPontosBoca.weight = 1f
 
@@ -253,11 +249,9 @@ class PlayerDetailFragment : Fragment() {
                 val rect = RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
                 paint.strokeWidth = 30f * scale
 
-                // DESENHA O BACKGROUND SEMPRE (arco completo de 180 graus)
                 paint.color = colorSurfaceVariant
                 canvas.drawArc(rect, 180f, 180f, false, paint)
 
-                // DESENHA O PROGRESSO (proporcional às vitórias)
                 paint.color = colorPrimary
                 canvas.drawArc(rect, 180f, 180f * progress, false, paint)
             }
@@ -269,7 +263,6 @@ class PlayerDetailFragment : Fragment() {
 
         binding.imageArc.setImageDrawable(arcDrawable)
 
-        // Animação do progresso baseado em vitorias/100
         ValueAnimator.ofFloat(0f, finalProgress).apply {
             duration = 1200
             interpolator = DecelerateInterpolator()
