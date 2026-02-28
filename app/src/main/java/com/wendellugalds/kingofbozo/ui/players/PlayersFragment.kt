@@ -58,23 +58,23 @@ class PlayersFragment : Fragment() {
         setupRecyclerView()
         setupContextualActionBar()
         setupOnBackPressed()
+        setupClickListeners()
 
         playerViewModel.players.observe(viewLifecycleOwner) { players ->
             playerAdapter.submitList(players)
             updatePlayerCount(players.size)
             binding.personSelect.visibility = if (players.size > 1) View.VISIBLE else View.GONE
+            
             if (playerAdapter.isSelectionMode) {
                 updateContextualActionBar()
             }
         }
 
-        setupClickListeners()
         configurarCoresDaBarra()
     }
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        // Corrected reference to R.attr.background
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
@@ -265,7 +265,6 @@ class PlayersFragment : Fragment() {
             }
         }
 
-        // TRANSICAO UNIFICADA QUE GERENCIA TUDO (REPOSICIONAMENTO E ESCALA)
         val transitionSet = TransitionSet()
             .addTransition(ChangeBounds().setInterpolator(AccelerateDecelerateInterpolator()))
             .addTransition(ScaleFadeTransition().setInterpolator(OvershootInterpolator(1.2f)))
@@ -274,13 +273,11 @@ class PlayersFragment : Fragment() {
         
         TransitionManager.beginDelayedTransition(customToolbarLayout, transitionSet)
 
-        // ATUALIZA VISIBILIDADE - O motor de transição cuida da animação de escala e deslize lateral
         binding.customToolbar.actionDelete.isVisible = selectedCount > 0
         binding.customToolbar.actionDeselectAll.isVisible = selectedCount > 0
         binding.customToolbar.actionSelectAll.isVisible = selectedCount < totalCount
     }
 
-    // CLASSE DE TRANSIÇÃO PERSONALIZADA PARA ESCALA E ALPHA
     private class ScaleFadeTransition : Visibility() {
         override fun onAppear(sceneRoot: ViewGroup, view: View, startValues: TransitionValues?, endValues: TransitionValues?): Animator {
             return ObjectAnimator.ofPropertyValuesHolder(

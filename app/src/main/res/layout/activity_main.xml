@@ -6,6 +6,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -18,17 +19,19 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_navigation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="48dp"
         app:cardBackgroundColor="#00FFFFFF"
         app:cardElevation="0dp">
 
         <LinearLayout
-            android:id="@+id/nav_container"
-            android:layout_width="308dp"
-            android:layout_height="72dp"
+            android:id="@+id/bottom_navigation_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="72dp"
             android:orientation="horizontal"
             android:backgroundTint="?attr/cardBackgroundColor"
             android:background="@drawable/background_card_dark"

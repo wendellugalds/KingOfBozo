@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="?attr/background"
     android:background="?attr/background"
     android:paddingTop="5dp"
     android:id="@+id/contrai"
@@ -95,23 +96,25 @@
 
     </FrameLayout>
 
+
     <TextView
         android:id="@+id/button_adicionar_jogador"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_marginHorizontal="48dp"
+        android:layout_marginHorizontal="44dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="?attr/colorPrimary"
         android:background="@drawable/background_card_2_destaque"
         android:gravity="top|center"
         android:paddingTop="25dp"
-        android:text="ADICIONAR JOGADOR"
+        android:text="@string/adicionar_jogador"
         android:elevation="1dp"
+        android:visibility="visible"
         android:textColor="?attr/textBackground"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="24dp" />
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_players"

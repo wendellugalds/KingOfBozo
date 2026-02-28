@@ -47,13 +47,13 @@
         app:icon="@drawable/ic_close"
         app:iconSize="20dp"
         app:iconTint="?attr/textFillColor"
-        app:layout_constraintEnd_toStartOf="@+id/btn_save"
+        app:layout_constraintEnd_toStartOf="@+id/btn_delete"
         app:layout_constraintTop_toBottomOf="@id/dialog_message" />
 
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_save"
+        android:id="@+id/btn_delete"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

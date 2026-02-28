@@ -28,8 +28,8 @@
     <string name="jogadas_de_bocas_format">Jogadas de bocas: %d</string>
     <string name="rodadas_feitas_format">Rodadas feitas: %d</string>
     <string name="pontos_gerais_format">Total de pontos %d</string>
-
-
+    <string name="marcar_bozo">MARCAR BOZÓ</string>
+    <string name="adicionar_jogador">ADICIONAR JOGADOR</string>
 
     <plurals name="players_selected">
         <item quantity="one">%d jogador selecionado</item>

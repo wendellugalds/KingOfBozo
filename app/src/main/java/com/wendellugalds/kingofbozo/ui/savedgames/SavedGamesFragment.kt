@@ -40,6 +40,7 @@ class SavedGamesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         observeSavedGames()
+        setupClickListeners()
         configurarCoresDaBarra()
     }
 
@@ -52,6 +53,12 @@ class SavedGamesFragment : Fragment() {
         val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
         controller.isAppearanceLightStatusBars = isLightBackground
         controller.isAppearanceLightNavigationBars = isLightBackground
+    }
+
+    private fun setupClickListeners() {
+        binding.buttonMarcadorJogo.setOnClickListener {
+            findNavController().navigate(R.id.action_global_playerSelectionFragment)
+        }
     }
 
     private fun setupRecyclerView() {

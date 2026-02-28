@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
@@ -17,7 +20,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -29,10 +32,10 @@ class HomeFragment : Fragment() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
 
         val greeting = when (hour) {
-            in 0..5 -> "Ficou sem sono? Bora jogar então!"  // 00:00 às 05:59
-            in 6..11 -> "Bom dia!"       // 06:00 às 11:59
-            in 12..17 -> "Tarde!"    // 12:00 às 17:59
-            else -> "Olá boa noite!"         // 18:00 às 23:59
+            in 0..5 -> "FICOU SEM SONO?\nBORA JOGAR ENTÃO!"  // 00:00 às 05:59
+            in 6..11 -> "BOM DIA!"       // 06:00 às 11:59
+            in 12..17 -> "TARDE!"    // 12:00 às 17:59
+            else -> "OLÁ BOA NOITE!"         // 18:00 às 23:59
         }
 
         binding.textGreeting.text = greeting
@@ -41,22 +44,18 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // --- LÓGICA DO BOTÃO MARCADOR ADICIONADA ---
         binding.buttonMarcador.setOnClickListener {
-            // Usa a ação global para navegar para a tela de seleção de jogadores
             findNavController().navigate(R.id.action_global_playerSelectionFragment)
         }
 
-        // 1. Atualiza a saudação
         updateGreeting()
-
         configurarCoresDaBarra()
+//        setupWindowInsets()
     }
+
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-
-        // Corrected reference to R.attr.background
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
 
         window.statusBarColor = corDoFundo
