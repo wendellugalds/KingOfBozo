@@ -77,11 +77,11 @@ class PlayerAdapter(
             val corfixa = Color.parseColor("#FFFFFF")
 
 
-
-
+            // Detecta se o sistema está no modo noturno (Dark Mode)
+            val isNightMode = (context.resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
 
             if (isSelected) {
-                // Tema Selecionado (Fundo Escuro/Verde Neon)
+                // TEMA SELECIONADO (Fundo em destaque - Primary)
                 binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
                 binding.rootLayout.backgroundTintList = ColorStateList.valueOf(colorPrimary)
                 binding.textPlayerName.setTextColor(corfixa)
@@ -92,15 +92,36 @@ class PlayerAdapter(
                 binding.siglaNome.setTextColor(colorPrimary)
                 binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(corfixa)
             } else {
-                // Tema Não Selecionado (Inverso ou Padrão)
+                // TEMA NÃO SELECIONADO
                 binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
-                binding.rootLayout.backgroundTintList = ColorStateList.valueOf(cardForegroundColor)
-                binding.textPlayerName.setTextColor(textAppearanceButton)
-                binding.textPlayerWins.setTextColor(textAppearanceButton)
+
+                if (isNightMode) {
+                    // Tema Não Selecionado (Inverso ou Padrão)
+                    binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
+                    binding.rootLayout.backgroundTintList = ColorStateList.valueOf(cardForegroundColor)
+                    binding.textPlayerName.setTextColor(corfixa)
+                    binding.textPlayerWins.setTextColor(corfixa)
+                    TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(colorPrimary))
+                    binding.textPlayerWins.alpha = 0.7f
+                    binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+                    binding.siglaNome.setTextColor(corfixa)
+                    binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
+                } else {
+                    // Tema Não Selecionado (Inverso ou Padrão)
+                    binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
+                    binding.rootLayout.backgroundTintList = ColorStateList.valueOf(cardForegroundColor)
+                    binding.textPlayerName.setTextColor(textAppearanceButton)
+                    binding.textPlayerWins.setTextColor(textAppearanceButton)
+                    TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(colorPrimary))
+                    binding.textPlayerWins.alpha = 0.7f
+                    binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
+                    binding.siglaNome.setTextColor(corfixa)
+                    binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
+                }
+
+                // Propriedades comuns para ambos os modos quando não selecionado
                 TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(colorPrimary))
                 binding.textPlayerWins.alpha = 0.7f
-                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
-                binding.siglaNome.setTextColor(corfixa)
                 binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
             }
 
