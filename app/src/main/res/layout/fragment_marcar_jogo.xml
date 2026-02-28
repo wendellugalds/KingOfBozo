@@ -1,30 +1,413 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/appBackground"
-    android:backgroundTint="?attr/appBackground"
-    tools:context=".ui.game.MarcarJogoFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:backgroundTint="?attr/colorPrimary">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/action_bar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back"
-        app:navigationIconTint="?attr/textFillColor"
-        app:title="Marcador"
-        app:titleTextColor="?attr/textFillColor" />
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_categorias"
+        <ImageView
+            android:id="@+id/button_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:background="@drawable/background_circle"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="?attr/textBackground"
+            tools:ignore="ContentDescription" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marcador"
+                android:alpha="0.5"
+                android:textColor="?attr/textFillColor"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/total_rodadas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RODADA 02"
+                android:textColor="?attr/textFillColor"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_jogar_mais_um"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:text="Ranking"
+            android:textColor="?attr/textBackground"
+            app:icon="@drawable/ic_ranking"
+            app:iconGravity="textStart"
+            app:iconTint="?attr/textBackground" />
+
+        <ImageView
+            android:id="@+id/button_gerenciar_jogadores"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="?attr/colorPrimary"
+            android:background="@drawable/background_circle_yellow"
+            android:padding="12dp"
+            app:tint="?attr/textBackground"
+            android:src="@drawable/ic_gerenciar_jogador"
+            android:layout_marginLeft="10dp"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/pontos_rodada"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/box_az" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/form_add_player"
+        android:layout_below="@+id/action_bar"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:text="0"
+        android:gravity="center"
+        android:fontFamily="@font/agencyb"
+        android:textColor="?attr/textFillColor"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="50dp"
+        app:autoSizeMaxTextSize="250sp"
+        app:autoSizeStepGranularity="2sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/form_add_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/bottom_sheet_background"
+        android:backgroundTint="?attr/colorPrimary"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="140dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:paddingStart="16dp">
+                <TextView
+                    android:id="@+id/text_player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nome jogador"
+                    android:textColor="?attr/textBackground"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ganhando"
+                    android:alpha="0.6"
+                    android:textColor="?attr/textBackground"
+                    android:textSize="20sp"
+                    app:drawableStartCompat="@drawable/ic_crown"
+                    app:drawableTint="?attr/textBackground"
+                    android:drawablePadding="10dp"
+                    app:layout_constraintStart_toStartOf="@+id/text_player_name_detail"
+                    app:layout_constraintTop_toBottomOf="@+id/text_player_name_detail" />
+
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/avatarContainer"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:id="@+id/sigla_nome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_circle"
+                    android:backgroundTint="?attr/background"
+                    android:text="WU"
+                    android:textColor="?attr/colorPrimary"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:gravity="center" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imagePlayerAvatarDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_person"
+                    android:visibility="gone"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp">
+
+            <GridLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:rowCount="4">
+
+                <TextView
+                    android:id="@+id/valor_az"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Áz"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_full"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Full"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_quadra"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Quadra"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_duque"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Duque"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_seguida"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Seguida"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_quina"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Quina"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="1"
+                    android:layout_column="2"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_terno"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Terno"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_quadrada"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Quadrada"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_sena"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="Sena"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="2"
+                    android:layout_column="2"
+                    android:layout_columnSpan="1"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+                <TextView
+                    android:id="@+id/valor_general"
+                    android:layout_height="70dp"
+                    android:layout_width="0dp"
+                    android:backgroundTint="?attr/textBackground"
+                    android:background="@drawable/background_card_black"
+                    android:textColor="?attr/colorPrimary"
+                    android:text="General"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:alpha="0.5"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:layout_columnSpan="3"
+                    android:layout_columnWeight="1"
+                    android:layout_gravity="fill"
+                    android:layout_margin="4dp"/>
+
+
+
+            </GridLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
+        android:background="@drawable/bottom_sheet_background"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:orientation="vertical"
+        android:paddingTop="25dp"
+        android:paddingBottom="15dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewJogadores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            tools:listitem="@layout/item_jogador_selection" />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

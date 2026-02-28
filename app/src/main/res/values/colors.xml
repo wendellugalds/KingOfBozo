@@ -18,11 +18,17 @@
     <color name="pink_neon">#FF1493</color>
     <color name="laranja_neon">#fc4b08</color>
     <color name="vermelho_neon">#FF073A</color>
+    <color name="verde_neon">#00FF00</color>
+    <color name="azul_neon">#00E5FF</color>
+    <color name="amarelo_neon">#FFFF00</color>
 
     <color name="roxo">#543b6c</color>
     <color name="pink">#FF69B4</color>
     <color name="laranja">#F88104</color>
     <color name="vermelho">#EA1D2C</color>
+    <color name="verde">#2E7D32</color>
+    <color name="azul">#1565C0</color>
+    <color name="amarelo">#FBC02D</color>
 
     <color name="king">#D4AF37</color>
 
