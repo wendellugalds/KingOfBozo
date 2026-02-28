@@ -166,13 +166,6 @@ class SettingsFragment : Fragment() {
         val currentThemeId = ThemeStorage.getTheme(requireContext())
         val themeName = when (currentThemeId) {
             R.style.Base_Theme_KingOfBozo_Standard -> "PADRÃO"
-            R.style.Base_Theme_KingOfBozo_verde -> "VERDE"
-            R.style.Base_Theme_KingOfBozo_azul -> "AZUL"
-            R.style.Base_Theme_KingOfBozo_roxo -> "ROXO"
-            R.style.Base_Theme_KingOfBozo_pink -> "PINK"
-            R.style.Base_Theme_KingOfBozo_amarelo -> "AMARELO"
-            R.style.Base_Theme_KingOfBozo_laranja -> "LARANJA"
-            R.style.Base_Theme_KingOfBozo_vermelho -> "VERMELHO"
             else -> "PADRÃO"
         }
         binding.textCorDesc.text = themeName
@@ -279,15 +272,15 @@ class SettingsFragment : Fragment() {
         when (mode) {
             AppCompatDelegate.MODE_NIGHT_NO -> {
                 binding.iconMode.setImageResource(R.drawable.ic_light_mode)
-                binding.infoMode.text = "MODO CLARO"
+                binding.infoMode.text = "CLARO"
             }
             AppCompatDelegate.MODE_NIGHT_YES -> {
                 binding.iconMode.setImageResource(R.drawable.ic_dark_mode)
-                binding.infoMode.text = "MODO ESCURO"
+                binding.infoMode.text = "ESCURO"
             }
             else -> {
                 binding.iconMode.setImageResource(R.drawable.ic_system_mode)
-                binding.infoMode.text = "MODO SISTEMA"
+                binding.infoMode.text = "SISTEMA"
             }
         }
     }

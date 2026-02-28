@@ -39,6 +39,7 @@ class PlayerDetailFragment : Fragment() {
     private var _binding: FragmentPlayerDetailBinding? = null
     private val binding get() = _binding!!
 
+    private var animation: ValueAnimator? = null
     private val playerViewModel: PlayerViewModel by activityViewModels {
         PlayerViewModelFactory((requireActivity().application as PlayersApplication).repository)
     }
@@ -199,10 +200,13 @@ class PlayerDetailFragment : Fragment() {
         paramsRiscos.weight = 1f
         paramsPontosBoca.weight = 1f
 
-        ValueAnimator.ofFloat(0f, 1f).apply {
+        animation?.cancel()
+        animation = ValueAnimator.ofFloat(0f, 1f).apply {
             duration = 1200
             interpolator = DecelerateInterpolator()
             addUpdateListener { animator ->
+                if (_binding == null) return@addUpdateListener
+                
                 val fraction = animator.animatedFraction
                 
                 paramsRiscos.weight = 1f + (targetRisksWeight - 1f) * fraction
@@ -276,6 +280,7 @@ class PlayerDetailFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        animation?.cancel()
         _binding = null
     }
 }

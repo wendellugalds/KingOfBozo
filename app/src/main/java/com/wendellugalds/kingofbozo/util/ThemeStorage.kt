@@ -20,13 +20,6 @@ object ThemeStorage {
         val themeName = prefs.getString(KEY_THEME_NAME, "VERDE")
         return when (themeName) {
             "PADRAO" -> R.style.Base_Theme_KingOfBozo_Standard
-            "VERDE" -> R.style.Base_Theme_KingOfBozo_verde
-            "AZUL" -> R.style.Base_Theme_KingOfBozo_azul
-            "ROXO" -> R.style.Base_Theme_KingOfBozo_roxo
-            "PINK" -> R.style.Base_Theme_KingOfBozo_pink
-            "AMARELO" -> R.style.Base_Theme_KingOfBozo_amarelo
-            "LARANJA" -> R.style.Base_Theme_KingOfBozo_laranja
-            "VERMELHO" -> R.style.Base_Theme_KingOfBozo_vermelho
             else -> R.style.Theme_KingOfBozo
         }
     }

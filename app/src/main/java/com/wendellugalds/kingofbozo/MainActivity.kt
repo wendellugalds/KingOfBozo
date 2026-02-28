@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {
-        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.background, Color.GRAY)
+        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.icon, Color.GRAY)
         val activeColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary, Color.BLACK)
         
         val alpha = 0.10f

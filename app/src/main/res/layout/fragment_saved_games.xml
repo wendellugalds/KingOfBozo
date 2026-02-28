@@ -6,62 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/background"
-    android:paddingTop="5dp"
     android:id="@+id/contrai"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
 
     <FrameLayout
-        android:id="@+id/toolbar_container"
+        android:id="@+id/text_ajustes_title"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="21dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="15dp"
+        android:paddingTop="5dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
-        <LinearLayout
-            android:id="@+id/action_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center">
+        <TextView
+            android:id="@+id/text_app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:alpha="0.5"
+            android:text="@string/king_of_boz"
+            android:textColor="?attr/textFillColor"
+            android:textSize="16sp" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingHorizontal="15dp"
-                tools:ignore="MissingConstraints">
-
-                <TextView
-                    android:id="@+id/text_app_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:alpha="0.5"
-                    android:text="KING OF BOZÓ"
-                    android:textColor="?attr/textFillColor"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/text_title_jogadores"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
-                    android:text="JOGOS SALVOS"
-                    android:textColor="?attr/textFillColor"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-
-            </FrameLayout>
-
-
-
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/text_title_jogadores"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="JOGOS SALVOS"
+            android:textColor="?attr/textFillColor"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
 
     </FrameLayout>
@@ -71,12 +50,12 @@
         android:id="@+id/recycler_view_jogos_salvos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_container"
+        android:layout_below="@+id/text_ajustes_title"
         android:clipToPadding="false"
         android:paddingBottom="180dp"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_container"
+        app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title"
         tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/item_jogo_salvo" />
 
@@ -85,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="48dp"
+        android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/background_card_2_destaque"
         android:backgroundTint="?attr/colorPrimary"
