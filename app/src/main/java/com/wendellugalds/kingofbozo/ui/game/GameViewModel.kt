@@ -146,6 +146,15 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
             val currentState = _gameState.value ?: return@launch
             val currentPlayerIndex = currentState.currentPlayerIndex
 
+            // Determina se a pontuação atual é de boca
+            val isBoca = when (categoryType) {
+                CategoryType.FULL -> score == 15
+                CategoryType.SEGUIDA -> score == 25
+                CategoryType.QUADRADA -> score == 35
+                CategoryType.GENERAL -> score == 1000
+                else -> false
+            }
+
             val updatedPlayers = currentState.playersState.mapIndexed { index, playerState ->
                 if (index == currentPlayerIndex) {
                     val newScores = playerState.scores.toMutableMap()
@@ -154,7 +163,13 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
                     if (isClear) {
                         newScores[categoryType] = null
                     } else {
-                        newScores[categoryType] = ScoreEntry(value = score, isScratch = isScratch)
+                        // Persiste o estado isBoca no ScoreEntry
+                        newScores[categoryType] = ScoreEntry(
+                            value = score, 
+                            isScratch = isScratch, 
+                            isBoca = isBoca,
+                            isScored = true
+                        )
                     }
                     
                     playerState.copy(
@@ -228,24 +243,14 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
                     updatedTotalWins = player.wins
                     updatedTotalPoints = player.totalPoints
 
-                    // Contar generais (valor > 0 e não riscado)
+                    // Contar generais (valor \u003e 0 e não riscado)
                     val roundGenerals = if ((playerState.scores[CategoryType.GENERAL]?.value ?: 0) > 0 && playerState.scores[CategoryType.GENERAL]?.isScratch == false) 1 else 0
                     player.generals += roundGenerals
 
                     // Contar jogadas de "boca"
                     var roundMouthPlays = 0
                     playerState.scores.forEach { (type, entry) ->
-                        val value = entry?.value ?: 0
-                        if (value > 0 && entry?.isScratch == false) {
-                            val isBoca = when(type) {
-                                CategoryType.FULL -> value == 15
-                                CategoryType.SEGUIDA -> value == 25
-                                CategoryType.QUADRADA -> value == 35
-                                CategoryType.GENERAL -> value == 1000
-                                else -> false
-                            }
-                            if (isBoca) roundMouthPlays++
-                        }
+                        if (entry?.isBoca == true) roundMouthPlays++
                     }
                     player.mouthPlays += roundMouthPlays
 

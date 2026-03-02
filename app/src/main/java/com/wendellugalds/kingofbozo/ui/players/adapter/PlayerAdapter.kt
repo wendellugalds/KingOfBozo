@@ -74,7 +74,9 @@ class PlayerAdapter(
             val colorPrimary = context.getColorFromAttr(com.google.android.material.R.attr.colorPrimary)
             val textAppearanceButton = context.getColorFromAttr(com.google.android.material.R.attr.textAppearanceButton)
             val cardForegroundColor = context.getColorFromAttr(com.google.android.material.R.attr.cardBackgroundColor)
-            val corfixa = Color.parseColor("#FFFFFF")
+            val corBrancafixa = Color.parseColor("#FFFFFF")
+
+            val corPretafixa = Color.parseColor("#000000")
 
 
             // Detecta se o sistema está no modo noturno (Dark Mode)
@@ -84,13 +86,13 @@ class PlayerAdapter(
                 // TEMA SELECIONADO (Fundo em destaque - Primary)
                 binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
                 binding.rootLayout.backgroundTintList = ColorStateList.valueOf(colorPrimary)
-                binding.textPlayerName.setTextColor(corfixa)
-                binding.textPlayerWins.setTextColor(corfixa)
-                TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(corfixa))
+                binding.textPlayerName.setTextColor(corBrancafixa)
+                binding.textPlayerWins.setTextColor(corBrancafixa)
+                TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(corBrancafixa))
                 binding.textPlayerWins.alpha = 0.7f
-                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(corfixa)
+                binding.siglaNome.backgroundTintList = ColorStateList.valueOf(corBrancafixa)
                 binding.siglaNome.setTextColor(colorPrimary)
-                binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(corfixa)
+                binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(corBrancafixa)
             } else {
                 // TEMA NÃO SELECIONADO
                 binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
@@ -99,23 +101,23 @@ class PlayerAdapter(
                     // Tema Não Selecionado (Inverso ou Padrão)
                     binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
                     binding.rootLayout.backgroundTintList = ColorStateList.valueOf(cardForegroundColor)
-                    binding.textPlayerName.setTextColor(corfixa)
-                    binding.textPlayerWins.setTextColor(corfixa)
+                    binding.textPlayerName.setTextColor(corBrancafixa)
+                    binding.textPlayerWins.setTextColor(corBrancafixa)
                     TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(colorPrimary))
                     binding.textPlayerWins.alpha = 0.7f
                     binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
-                    binding.siglaNome.setTextColor(corfixa)
+                    binding.siglaNome.setTextColor(corBrancafixa)
                     binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
                 } else {
                     // Tema Não Selecionado (Inverso ou Padrão)
                     binding.rootLayout.setBackgroundResource(R.drawable.item_background_selector)
                     binding.rootLayout.backgroundTintList = ColorStateList.valueOf(cardForegroundColor)
-                    binding.textPlayerName.setTextColor(textAppearanceButton)
-                    binding.textPlayerWins.setTextColor(textAppearanceButton)
+                    binding.textPlayerName.setTextColor(corPretafixa)
+                    binding.textPlayerWins.setTextColor(corPretafixa)
                     TextViewCompat.setCompoundDrawableTintList(binding.textPlayerWins, ColorStateList.valueOf(colorPrimary))
                     binding.textPlayerWins.alpha = 0.7f
                     binding.siglaNome.backgroundTintList = ColorStateList.valueOf(colorPrimary)
-                    binding.siglaNome.setTextColor(corfixa)
+                    binding.siglaNome.setTextColor(corBrancafixa)
                     binding.checkboxSelectPlayer.buttonTintList = ColorStateList.valueOf(colorPrimary)
                 }
 

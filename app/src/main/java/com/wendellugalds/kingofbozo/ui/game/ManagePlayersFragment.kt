@@ -78,7 +78,7 @@ class ManagePlayersFragment : Fragment() {
             prepararTransicao()
             inGameAdapter.submitList(inGamePlayers, true)
             binding.totalJOGADORESLISTA.text = inGamePlayers.size.toString()
-            
+
             updateAvailableList(inGamePlayers)
         }
 
@@ -95,8 +95,8 @@ class ManagePlayersFragment : Fragment() {
         }
 
         binding.btnJogarMaisUm.setOnClickListener {
-            val addPlayerSheet = AddPlayerBottomSheet()
-            addPlayerSheet.show(parentFragmentManager, "AddPlayerBottomSheet")
+            val addPlayerBottomSheet = AddPlayerBottomSheet()
+            addPlayerBottomSheet.show(parentFragmentManager, "AddPlayerBottomSheet")
         }
 
         // Ajuste de padding dinâmico para o recycler proporcional ao painel inferior
@@ -162,12 +162,12 @@ class ManagePlayersFragment : Fragment() {
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 super.clearView(recyclerView, viewHolder)
                 viewHolder.itemView.alpha = 1.0f
-                
+
                 val location = IntArray(2)
                 binding.recyclerNoJogador.getLocationOnScreen(location)
                 val otherListTop = location[1]
                 val otherListBottom = otherListTop + binding.recyclerNoJogador.height
-                
+
                 val viewLocation = IntArray(2)
                 viewHolder.itemView.getLocationOnScreen(viewLocation)
                 val itemCenterY = viewLocation[1] + viewHolder.itemView.height / 2
@@ -197,12 +197,12 @@ class ManagePlayersFragment : Fragment() {
             override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
                 super.clearView(recyclerView, viewHolder)
                 viewHolder.itemView.alpha = 1.0f
-                
+
                 val location = IntArray(2)
                 binding.recyclerInGame.getLocationOnScreen(location)
                 val otherListTop = location[1]
                 val otherListBottom = otherListTop + binding.recyclerInGame.height
-                
+
                 val viewLocation = IntArray(2)
                 viewHolder.itemView.getLocationOnScreen(viewLocation)
                 val itemCenterY = viewLocation[1] + viewHolder.itemView.height / 2

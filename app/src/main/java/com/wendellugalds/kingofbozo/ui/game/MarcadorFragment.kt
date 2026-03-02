@@ -1,13 +1,7 @@
 package com.wendellugalds.kingofbozo.ui.game
 
 import android.animation.ValueAnimator
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ImageSpan
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +11,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -35,6 +28,7 @@ import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.*
 import com.wendellugalds.kingofbozo.model.CategoryType
 import com.wendellugalds.kingofbozo.model.PlayerState
+import com.wendellugalds.kingofbozo.ui.game.adapter.CategoryAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
 
 class MarcadorFragment : Fragment() {
@@ -83,12 +77,12 @@ class MarcadorFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
+        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
         val corDoNavegation = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.cardBackgroundColor)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoNavegation
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = false 
+        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
         controller.isAppearanceLightStatusBars = isLightBackground
         controller.isAppearanceLightNavigationBars = isLightBackground
     }
@@ -295,27 +289,40 @@ class MarcadorFragment : Fragment() {
                 }
 
                 val players = it.playersState
-                val maxScore = players.maxOfOrNull { p -> p.totalScore } ?: 0
-                val winnersCount = players.count { p -> p.totalScore == maxScore && maxScore > 0 }
+                val maxScore = players.maxOf { p -> p.totalScore }
+                val minScore = players.minOf { p -> p.totalScore }
                 
                 binding.textPlayerName.text = currentPlayer.playerName
                 
-                val tiedPlayers = players.filter { it.totalScore == currentPlayer.totalScore && it.totalScore > 0 }
-                val isWinning = currentPlayer.totalScore == maxScore && maxScore > 0
+                val isWinner = currentPlayer.totalScore == maxScore && maxScore > 0
+                binding.iconKing.isVisible = isWinner
 
-                if (isWinning) {
-                    if (winnersCount > 1) {
-                        val others = tiedPlayers.filter { it.playerName != currentPlayer.playerName }
-                        val othersNames = others.joinToString(", ") { it.playerName.substringBefore(" ") }
+                if (maxScore == 0) {
+                    binding.textStatus.text = ""
+                    binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                } else {
+                    val tiedWithOthers = players.filter { it.playerName != currentPlayer.playerName && it.totalScore == currentPlayer.totalScore }
+                    
+                    if (tiedWithOthers.isNotEmpty()) {
+                        val othersNames = tiedWithOthers.joinToString(", ") { it.playerName.substringBefore(" ") }
                         binding.textStatus.text = "Empatado com $othersNames"
                         binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bug_tie, 0, 0, 0)
                     } else {
-                        binding.textStatus.text = "Ganhando"
-                        binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_crown, 0, 0, 0)
+                        when (currentPlayer.totalScore) {
+                            maxScore -> {
+                                binding.textStatus.text = "Ganhando"
+                                binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_crown, 0, 0, 0)
+                            }
+                            minScore -> {
+                                binding.textStatus.text = "Perdendo"
+                                binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_perdendo, 0, 0, 0)
+                            }
+                            else -> {
+                                binding.textStatus.text = " "
+                                binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                            }
+                        }
                     }
-                } else {
-                    binding.textStatus.text = "Perdendo"
-                    binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 }
                 
                 updatePlayerAvatar(currentPlayer)
@@ -393,7 +400,7 @@ class MarcadorFragment : Fragment() {
     private fun updatePlayerAvatar(player: PlayerState) {
         if (!player.playerImage.isNullOrEmpty()) {
             binding.imagePlayerAvatarDetail.visibility = View.VISIBLE
-            binding.imagePlayerAvatarDetail.load(Uri.parse(player.playerImage))
+            binding.imagePlayerAvatarDetail.load(player.playerImage)
             binding.siglaNome.visibility = View.GONE
         } else {
             binding.imagePlayerAvatarDetail.visibility = View.GONE
@@ -403,99 +410,48 @@ class MarcadorFragment : Fragment() {
     }
 
     private fun updateCategoryButtonsForPlayer(player: PlayerState) {
-        val config = mapOf(
-            CategoryType.AS to (binding.valorAz to "Áz"),
-            CategoryType.DUQUE to (binding.valorDuque to "Duque"),
-            CategoryType.TERNO to (binding.valorTerno to "Terno"),
-            CategoryType.QUADRA to (binding.valorQuadra to "Quadra"),
-            CategoryType.QUINA to (binding.valorQuina to "Quina"),
-            CategoryType.SENA to (binding.valorSena to "Sena"),
-            CategoryType.FULL to (binding.valorFull to "Full"),
-            CategoryType.SEGUIDA to (binding.valorSeguida to "Seguida"),
-            CategoryType.QUADRADA to (binding.valorQuadrada to "Quadrada"),
-            CategoryType.GENERAL to (binding.valorGeneral to "General")
+        val categoryMap = mapOf(
+            CategoryType.AS to binding.valorAz,
+            CategoryType.DUQUE to binding.valorDuque,
+            CategoryType.TERNO to binding.valorTerno,
+            CategoryType.QUADRA to binding.valorQuadra,
+            CategoryType.QUINA to binding.valorQuina,
+            CategoryType.SENA to binding.valorSena,
+            CategoryType.FULL to binding.valorFull,
+            CategoryType.SEGUIDA to binding.valorSeguida,
+            CategoryType.QUADRADA to binding.valorQuadrada,
+            CategoryType.GENERAL to binding.valorGeneral
         )
-
-        val typedValue = TypedValue()
-        val theme = requireContext().theme
-        theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary, typedValue, true)
-        val colorPrimary = typedValue.data
-        theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
-        val colorOnPrimary = typedValue.data
-
-        config.forEach { (type, views) ->
+        val namesMap = mapOf(
+            CategoryType.AS to "Áz",
+            CategoryType.DUQUE to "Duque",
+            CategoryType.TERNO to "Terno",
+            CategoryType.QUADRA to "Quadra",
+            CategoryType.QUINA to "Quina",
+            CategoryType.SENA to "Sena",
+            CategoryType.FULL to "Full",
+            CategoryType.SEGUIDA to "Seguida",
+            CategoryType.QUADRADA to "Quadrada",
+            CategoryType.GENERAL to "General"
+        )
+        categoryMap.forEach { (type, btn) ->
             val scoreEntry = player.scores[type]
-            val btn = views.first
-            
-            if (scoreEntry != null && (scoreEntry.value > 0 || scoreEntry.isScratch)) {
-                btn.alpha = 1.0f
-                btn.setTextColor(colorPrimary)
-                btn.setBackgroundResource(R.drawable.background_card_black)
-                btn.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
 
-                if (scoreEntry.isScratch) {
-                    btn.text = "" 
-                    val iconSizeDp = 30
-                    val iconSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, iconSizeDp.toFloat(), resources.displayMetrics).toInt()
-                    
-                    val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_riscar)
-                    icon?.let {
-                        it.mutate()
-                        it.setTint(colorPrimary)
-                        it.setBounds(0, 0, iconSizePx, iconSizePx)
-                        btn.setCompoundDrawables(it, null, null, null)
-
-                        btn.post {
-                            if (isAdded && btn.width > 0) {
-                                val paddingLeft = (btn.width - iconSizePx) / 2
-                                btn.setPadding(paddingLeft, 0, 0, 0)
-                            }
-                        }
-                    }
-                } else {
-                    val isBoca = when(type) {
-                        CategoryType.FULL -> scoreEntry.value == 15
-                        CategoryType.SEGUIDA -> scoreEntry.value == 25
-                        CategoryType.QUADRADA -> scoreEntry.value == 35
-                        CategoryType.GENERAL -> scoreEntry.value == 1000
-                        else -> false
-                    }
-
-                    if (isBoca) {
-                        val scoreValue = if (type == CategoryType.GENERAL) "G" else scoreEntry.value.toString()
-                        val spannable = SpannableStringBuilder(" $scoreValue")
-                        
-                        val iconSizePx = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics).toInt()
-                        val icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_de_boca)
-                        icon?.let {
-                            it.mutate()
-                            it.setTint(colorPrimary)
-                            it.setBounds(0, 0, iconSizePx, iconSizePx)
-                            val imageSpan = ImageSpan(it, ImageSpan.ALIGN_CENTER)
-                            spannable.setSpan(imageSpan, 0, 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        }
-                        
-                        btn.text = spannable
-                        btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                        btn.setPadding(0, 0, 0, 0)
-                    } else {
-                        btn.text = scoreEntry.value.toString()
-                        btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                        btn.setPadding(0, 0, 0, 0)
-                    }
-                    btn.textSize = 35f
-                }
-            } else {
-                btn.text = views.second
-                btn.textSize = 20f
-                btn.alpha = 0.5f
-                btn.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                btn.setPadding(0, 0, 0, 0)
-                btn.setBackgroundResource(R.drawable.background_card_black)
-                btn.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-                btn.setTextColor(colorPrimary)
-            }
+            // CHAMA A LÓGICA CENTRALIZADA DO ADAPTER
+            CategoryAdapter.applyCategoryStyle(
+                textView = btn,
+                root = btn,
+                categoryName = namesMap[type] ?: "",
+                score = scoreEntry?.value,
+                isScored = scoreEntry?.isScored ?: false,
+                isScratch = scoreEntry?.isScratch ?: false,
+                isBoca = scoreEntry?.isBoca ?: false,
+                context = requireContext()
+            )
         }
+
+
+
     }
 
     override fun onDestroyView() {

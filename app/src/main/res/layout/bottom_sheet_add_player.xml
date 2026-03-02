@@ -7,14 +7,14 @@
     android:layout_height="wrap_content"
     android:backgroundTint="?attr/colorPrimary"
     android:background="@drawable/bottom_sheet_background"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="40dp"
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="24dp"
         app:tint="?attr/textBackground"
         android:src="@drawable/background_card_dark" />
 
@@ -45,7 +45,8 @@
         <LinearLayout
             android:id="@+id/layout_add_image"
             android:layout_width="100dp"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            android:orientation="horizontal">
 
 
 
@@ -90,39 +91,60 @@
     </LinearLayout>
 
 
-    <EditText
-        android:id="@+id/edit_text_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="?attr/textBackground"
-        android:hint="Nome Jogador"
-        android:imeOptions="actionNext"
-        android:inputType="textPersonName"
-        android:textColor="?attr/textBackground"
-        android:textColorHint="?attr/textBackground" />
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="24dp">
 
-    <EditText
-        android:id="@+id/edit_text_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="?attr/textBackground"
-        android:hint="Idade"
-        android:imeOptions="actionDone"
-        android:inputType="number"
-        android:textColor="?attr/textBackground"
-        android:textColorHint="?attr/textBackground" />
+        <EditText
+            android:id="@+id/edit_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="?attr/textBackground"
+            android:hint="Nome Jogador"
+            android:background="@drawable/background_score_option_riscar"
+            android:inputType="textPersonName"
+            android:padding="16dp"
+            android:layout_weight="1"
+            android:drawableStart="@drawable/ic_person_king"
+            android:drawablePadding="10dp"
+            android:drawableTint="?attr/textBackground"
+            android:textColor="?attr/textBackground"
+            android:textColorHint="?attr/textBackground" />
+
+        <EditText
+            android:id="@+id/edit_text_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/textBackground"
+            android:hint="Idade"
+            android:background="@drawable/background_score_option_riscar"
+            android:padding="16dp"
+            android:inputType="number"
+            android:maxLength="2"
+            android:layout_marginStart="16dp"
+            android:textColor="?attr/textBackground"
+            android:textColorHint="?attr/textBackground" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/button_save"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:paddingHorizontal="48dp"
         android:paddingVertical="12dp"
         android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="24dp"
         android:text="SALVAR"
-        android:textColor="?attr/textBackground"
+        android:background="@drawable/background_card_2_dark"
+        android:layout_marginBottom="24dp"
+        android:textColor="?attr/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
