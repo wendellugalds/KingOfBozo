@@ -51,7 +51,7 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo_king_of_boz"
         android:src="@drawable/fundo_logo"
-        app:layout_constraintBottom_toTopOf="@+id/button_jogar_proximo"
+        app:layout_constraintBottom_toTopOf="@+id/button_marcador"
         app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title"
         app:tint="?attr/colorPrimary"
         tools:ignore="MissingConstraints" />
@@ -64,29 +64,11 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo_king_of_boz"
         android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/button_jogar_proximo"
+        app:layout_constraintBottom_toTopOf="@+id/button_marcador"
         app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title"
         app:tint="?attr/textBackground"
         tools:layout_editor_absoluteX="60dp" />
 
-    <TextView
-        android:id="@+id/button_jogar_proximo"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="40dp"
-        android:backgroundTint="?attr/cardBackgroundColor"
-        android:background="@drawable/button_background_dark"
-        android:drawableEnd="@drawable/ic_share_marker"
-        android:drawablePadding="-60px"
-        android:drawableTint="?attr/colorPrimary"
-        android:gravity="center"
-        android:paddingHorizontal="24dp"
-        android:layout_marginBottom="25dp"
-        android:text="COMPARTILHAR MARCADOR"
-        android:textColor="?attr/textFillColor"
-        app:layout_constraintBottom_toTopOf="@+id/button_marcador"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/button_marcador"

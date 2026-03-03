@@ -104,12 +104,16 @@
         android:backgroundTint="?attr/colorPrimary"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="140dp">
+        android:paddingTop="25dp"
+        android:paddingBottom="140dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -148,11 +152,13 @@
 
             <FrameLayout
                 android:id="@+id/avatarContainer"
-                android:layout_width="85dp"
-                android:layout_height="85dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="10dp"
+                android:padding="15dp"
+                android:layout_marginTop="-20dp"
+                android:layout_marginEnd="-20dp"
                 android:clipChildren="false"
                 android:clipToPadding="false">
 
@@ -161,8 +167,8 @@
                     android:layout_width="37dp"
                     android:layout_height="35dp"
                     android:layout_alignParentTop="true"
-                    android:layout_marginStart="-15dp"
-                    android:layout_marginTop="-15dp"
+                    android:layout_marginStart="-16dp"
+                    android:layout_marginTop="-10dp"
                     android:elevation="1dp"
                     android:importantForAccessibility="no"
                     android:rotation="-45"
@@ -196,8 +202,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="16dp">
+            android:orientation="vertical">
 
             <GridLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -415,7 +420,7 @@
         android:background="@drawable/bottom_sheet_background"
         android:backgroundTint="?attr/cardBackgroundColor"
         android:orientation="vertical"
-        android:paddingTop="25dp"
+        android:paddingTop="-25dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingBottom="15dp">
@@ -426,7 +431,10 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="horizontal"
-            tools:listitem="@layout/item_jogador_selection" />
+            android:paddingTop="35dp"
+            tools:listitem="@layout/item_jogador_selection"
+            android:clipChildren="false"
+            android:clipToPadding="false"/>
 
     </LinearLayout>
 

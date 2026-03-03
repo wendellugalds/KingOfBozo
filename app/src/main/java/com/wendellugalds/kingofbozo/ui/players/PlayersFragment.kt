@@ -65,6 +65,11 @@ class PlayersFragment : Fragment() {
             updatePlayerCount(players.size)
             binding.personSelect.visibility = if (players.size > 1) View.VISIBLE else View.GONE
             
+            // Controle do Empty State
+            binding.imageEmptyState.isVisible = players.isEmpty()
+            binding.imageEmptyStateBack.isVisible = players.isEmpty()
+            binding.recyclerViewPlayers.isVisible = players.isNotEmpty()
+
             if (playerAdapter.isSelectionMode) {
                 updateContextualActionBar()
             }

@@ -48,6 +48,7 @@ class PlayerSelectionFragment : Fragment() {
         observeViewModel()
         configurarCoresDaBarra()
     }
+
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
         val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
@@ -101,6 +102,12 @@ class PlayerSelectionFragment : Fragment() {
             val selectedPlayers = gameViewModel.selectedPlayers.value.orEmpty()
             updateAdapterList(allPlayers, selectedPlayers)
             updateInfoText(allPlayers, selectedPlayers)
+            
+            // Controle do Empty State para seleção de jogadores
+            val isEmpty = allPlayers.isNullOrEmpty()
+            binding.imageEmptyState.isVisible = isEmpty
+            binding.imageEmptyStateBack.isVisible = isEmpty
+            binding.recyclerViewPlayers.isVisible = !isEmpty
         }
 
         gameViewModel.selectedPlayers.observe(viewLifecycleOwner) { selectedPlayers ->

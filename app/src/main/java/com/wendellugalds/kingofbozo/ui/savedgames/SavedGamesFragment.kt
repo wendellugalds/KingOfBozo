@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -80,7 +81,12 @@ class SavedGamesFragment : Fragment() {
     private fun observeSavedGames() {
         gameViewModel.allSavedGames.observe(viewLifecycleOwner) { games ->
             savedGamesAdapter.submitList(games)
-            // No TextView for 'no games' in XML, so removing the visibility logic to avoid crash
+            
+            // Controle do Empty State para Jogos Salvos
+            val isEmpty = games.isNullOrEmpty()
+            binding.imageEmptyState.isVisible = isEmpty
+            binding.imageEmptyStateBack.isVisible = isEmpty
+            binding.recyclerViewJogosSalvos.isVisible = !isEmpty
         }
     }
 

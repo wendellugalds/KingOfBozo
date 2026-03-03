@@ -5,30 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
+    android:paddingTop="5dp"
     android:theme="@style/ThemeOverlay.Material3.Dark"
     tools:context=".ui.game.PlayerSelectionFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="16dp"
-        android:gravity="center">
-
-        <LinearLayout
+            <LinearLayout
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="35dp"
             android:paddingBottom="16dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="16dp"
             tools:ignore="MissingConstraints">
+
             <ImageView
                 android:id="@+id/button_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:backgroundTint="?attr/textBackground"
                 android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/textBackground"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -41,16 +37,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:orientation="vertical"
                 android:layout_weight="1"
+                android:orientation="vertical"
                 app:layout_constraintStart_toEndOf="@+id/button_back">
 
                 <TextView
                     android:id="@+id/text_app_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/king_of_boz"
                     android:alpha="0.5"
+                    android:text="@string/king_of_boz"
                     android:textColor="?attr/textBackground"
                     android:textSize="16sp" />
 
@@ -69,62 +65,82 @@
                 android:id="@+id/button_adicionar_jogador"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:backgroundTint="?attr/textBackground"
                 android:background="@drawable/background_circle_yellow"
+                android:backgroundTint="?attr/textBackground"
                 android:padding="12dp"
-                app:tint="?attr/colorPrimary"
                 android:src="@drawable/ic_person_add"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorPrimary"
                 tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/tirar_seleção"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:backgroundTint="?attr/textBackground"
-                android:background="@drawable/background_circle_yellow"
-                android:padding="12dp"
                 android:layout_marginLeft="10dp"
-                app:tint="?attr/colorPrimary"
+                android:background="@drawable/background_circle_yellow"
+                android:backgroundTint="?attr/textBackground"
+                android:padding="12dp"
                 android:src="@drawable/ic_deselect"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorPrimary"
                 tools:ignore="ContentDescription" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/info_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/textBackground"
-            android:background="@drawable/background_card_2_dark"
-            android:layout_marginBottom="10dp"
-            android:layout_marginHorizontal="16dp"
-            android:text="Adicione 2 jogadores até 9 jogadores"
-            android:textColor="?attr/colorPrimary"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:background="@drawable/background_card_2_dark"
+        android:backgroundTint="?attr/textBackground"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Adicione 2 jogadores até 9 jogadores"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewPlayers"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="85dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/action_bar"
-            tools:listitem="@layout/item_player_selection" />
 
-    </LinearLayout>
 
+    <ImageView
+        android:id="@+id/image_empty_state_back"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:src="@drawable/imagem_no_list_02"
+        android:tint="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/info_text"
+        tools:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/image_empty_state"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:src="@drawable/imagem_no_list_01"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/info_text"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewPlayers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="-85dp"
+        app:layout_constraintTop_toBottomOf="@+id/info_text"
+        tools:listitem="@layout/item_player_selection" />
 
 
     <TextView

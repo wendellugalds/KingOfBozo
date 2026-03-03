@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
@@ -17,6 +18,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -96,6 +98,22 @@ class MarcadorFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             clipChildren = false
             clipToPadding = false
+
+            // SnapHelper para garantir que o item pare sempre no meio ao scrollar manualmente
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+
+            // Adiciona padding horizontal para permitir que o primeiro e último itens fiquem centralizados
+            post {
+                val itemWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 81f, resources.displayMetrics).toInt()
+                val horizontalPadding = (width / 2) - (itemWidth / 2)
+                setPadding(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
+                
+                // Centraliza o jogador inicial após o layout e padding estarem prontos
+                gameViewModel.gameState.value?.let { state ->
+                    scrollToPositionCentered(state.currentPlayerIndex, isImmediate = true)
+                }
+            }
         }
     }
 
@@ -282,6 +300,7 @@ class MarcadorFragment : Fragment() {
                     scoreAnimator?.cancel()
                     animateScoreChange(0, currentPlayer.totalScore)
                     lastTotalScore = currentPlayer.totalScore
+                    animatePlayerSwitch()
                 } else if (currentPlayer.totalScore != lastTotalScore) {
                     scoreAnimator?.cancel()
                     binding.pontosRodada.text = currentPlayer.totalScore.toString()
@@ -296,6 +315,13 @@ class MarcadorFragment : Fragment() {
                 
                 val isWinner = currentPlayer.totalScore == maxScore && maxScore > 0
                 binding.iconKing.isVisible = isWinner
+                
+                if (isWinner) {
+                    val floatingAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.floating)
+                    binding.iconKing.startAnimation(floatingAnim)
+                } else {
+                    binding.iconKing.clearAnimation()
+                }
 
                 if (maxScore == 0) {
                     binding.textStatus.text = ""
@@ -352,13 +378,37 @@ class MarcadorFragment : Fragment() {
         }
     }
 
+    private fun animatePlayerSwitch() {
+        // Animação do container principal (de baixo para cima)
+        binding.formAddPlayer.clearAnimation()
+        binding.formAddPlayer.translationY = 100f
+        binding.formAddPlayer.alpha = 0f
+        binding.formAddPlayer.animate()
+            .translationY(0f)
+            .alpha(1f)
+            .setDuration(400)
+            .setInterpolator(DecelerateInterpolator())
+            .start()
+
+        // Animação de escala do avatar
+        binding.avatarContainer.clearAnimation()
+        binding.avatarContainer.scaleX = 0.7f
+        binding.avatarContainer.scaleY = 0.7f
+        binding.avatarContainer.animate()
+            .scaleX(1.0f)
+            .scaleY(1.0f)
+            .setDuration(500)
+            .setInterpolator(android.view.animation.OvershootInterpolator())
+            .start()
+    }
+
     private fun scrollToPositionCentered(position: Int, isImmediate: Boolean, onComplete: (() -> Unit)? = null) {
         val recyclerView = binding.recyclerViewJogadoresRodada
         recyclerView.post {
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val screenWidth = recyclerView.width
-            val itemWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 81f, resources.displayMetrics).toInt()
-            val offset = (screenWidth / 2) - (itemWidth / 2)
+            
+            // Usamos o padding horizontal que definimos no setupRecyclerView
+            val offset = recyclerView.paddingStart
 
             if (isImmediate) {
                 layoutManager.scrollToPositionWithOffset(position, offset)
@@ -367,22 +417,22 @@ class MarcadorFragment : Fragment() {
                 val smoothScroller = object : LinearSmoothScroller(requireContext()) {
                     override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
 
-                    override fun calculateDxToMakeVisible(view: View, snapPreference: Int): Int {
-                        val dx = super.calculateDxToMakeVisible(view, snapPreference)
-                        return dx + (screenWidth / 2) - (view.width / 2)
-                    }
-
                     override fun calculateSpeedPerPixel(displayMetrics: android.util.DisplayMetrics): Float {
-                        return 80f / displayMetrics.densityDpi
+                        // Aumentando significativamente para tornar o movimento inicial mais lento
+                        return 450f / displayMetrics.densityDpi
                     }
 
                     override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
                         val dx = calculateDxToMakeVisible(targetView, horizontalSnapPreference)
                         val dy = calculateDyToMakeVisible(targetView, verticalSnapPreference)
                         val distance = Math.sqrt((dx * dx + dy * dy).toDouble()).toInt()
-                        val time = calculateTimeForDeceleration(distance)
+                        
+                        // Aumentando o tempo mínimo para 1.2 segundos para garantir suavidade
+                        val time = Math.max(1200, calculateTimeForDeceleration(distance))
+                        
                         if (time > 0) {
-                            action.update(-dx, -dy, time, DecelerateInterpolator(1.8f))
+                            // DecelerateInterpolator(3.0f) para uma desaceleração ainda mais gradual e elegante
+                            action.update(-dx, -dy, time, DecelerateInterpolator(3.0f))
                         }
                     }
 
