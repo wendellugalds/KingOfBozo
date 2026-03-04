@@ -16,12 +16,9 @@
         <item name="cardForegroundColor">@color/card_light</item>
 
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:statusBarColor">@color/fundo_light</item>
-        <item name="android:navigationBarColor">@color/fundo_light</item>
+        <item name="android:statusBarColor">@color/fundo_dark</item>
+        <item name="android:navigationBarColor">@color/fundo_dark</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
 
     </style>
-
-
-
 </resources>

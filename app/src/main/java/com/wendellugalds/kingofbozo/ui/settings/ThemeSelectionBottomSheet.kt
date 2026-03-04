@@ -25,12 +25,7 @@ class ThemeSelectionBottomSheet(private val onThemeSelected: (String) -> Unit) :
     data class ThemeOption(val name: String, val themeKey: String, val colorRes: Int, val colorResNight: Int)
 
     private val themes = listOf(
-        ThemeOption("Padrão", "PADRAO", R.color.padrao, R.color.padrao_night),
-        ThemeOption("Verde", "VERDE", R.color.whatsapp_02, R.color.whatsapp_01),
-        ThemeOption("Roxo", "ROXO", R.color.roxo, R.color.roxo_neon),
-        ThemeOption("Vermelho", "VERMELHO", R.color.vermelho, R.color.vermelho_neon),
-        ThemeOption("Laranja", "LARANJA", R.color.laranja, R.color.laranja_neon),
-        ThemeOption("Pink", "PINK", R.color.pink, R.color.pink_neon)
+        ThemeOption("Padrão", "PADRAO", R.color.padrao, R.color.padrao_night)
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
