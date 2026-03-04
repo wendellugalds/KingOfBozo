@@ -1,12 +1,13 @@
 package com.wendellugalds.kingofbozo.ui.home
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
@@ -19,26 +20,16 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-
-    private fun updateGreeting() {
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-
-        val greeting = when (hour) {
-            in 0..5 -> "FICOU SEM SONO?\nBORA JOGAR ENTÃO!"  // 00:00 às 05:59
-            in 6..11 -> "BOM DIA!"       // 06:00 às 11:59
-            in 12..17 -> "TARDE!"    // 12:00 às 17:59
-            else -> "OLÁ BOA NOITE!"         // 18:00 às 23:59
-        }
-
-        binding.textGreeting.text = greeting
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,9 +41,33 @@ class HomeFragment : Fragment() {
 
         updateGreeting()
         configurarCoresDaBarra()
-//        setupWindowInsets()
+        iniciarAnimacoesLoop()
     }
 
+    private fun iniciarAnimacoesLoop() {
+        // Animação da Coroa Flutuando Suavemente
+        ObjectAnimator.ofFloat(binding.crown, "translationY", 0f, -15f).apply {
+            duration = 1500L
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.REVERSE
+            interpolator = AccelerateDecelerateInterpolator()
+            start()
+        }
+    }
+
+    private fun updateGreeting() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+
+        val greeting = when (hour) {
+            in 0..5 -> "FICOU SEM SONO?\nBORA JOGAR ENTÃO!"
+            in 6..11 -> "BOM DIA!"
+            in 12..17 -> "TARDE!"
+            else -> "OLÁ BOA NOITE!"
+        }
+
+        binding.textGreeting.text = greeting
+    }
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window

@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="?attr/background"
     android:background="?attr/background"
     tools:context=".ui.home.HomeFragment">
 
@@ -51,23 +50,114 @@
         android:adjustViewBounds="true"
         android:contentDescription="@string/logo_king_of_boz"
         android:src="@drawable/fundo_logo"
+        android:transitionName="logo_fundo_main"
         app:layout_constraintBottom_toTopOf="@+id/button_marcador"
         app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title"
         app:tint="?attr/colorPrimary"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/image_logo"
+    <FrameLayout
+        android:id="@+id/logo_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="60dp"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/logo_king_of_boz"
-        android:src="@drawable/logo"
-        app:tint="?attr/textBackground"
+        android:transitionName="logo_main"
         app:layout_constraintBottom_toTopOf="@+id/button_marcador"
-        app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title"
-        tools:layout_editor_absoluteX="60dp" />
+        app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title">
+
+        <!-- KING -->
+        <ImageView
+            android:id="@+id/letter_k"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_k"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_i"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_i"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_n"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_n"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_g"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_g"
+            tools:ignore="ContentDescription" />
+
+        <!-- OF -->
+        <ImageView
+            android:id="@+id/letter_o_of"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_o_of"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_f"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_f"
+            tools:ignore="ContentDescription" />
+
+        <!-- BOZÓ -->
+        <ImageView
+            android:id="@+id/letter_b"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_b"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/logo_dice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_dice"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_z"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_z"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_o_bzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_o_bzo"
+            tools:ignore="ContentDescription" />
+
+        <!-- Crown -->
+        <ImageView
+            android:id="@+id/crown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_crown"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
 
 
     <TextView
