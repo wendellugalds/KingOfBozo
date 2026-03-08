@@ -1,5 +1,6 @@
 package com.wendellugalds.kingofbozo.ui.settings
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -24,6 +25,7 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.wendellugalds.kingofbozo.BuildConfig
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
+import com.wendellugalds.kingofbozo.SobreActivity
 import com.wendellugalds.kingofbozo.databinding.FragmentSettingsBinding
 import com.wendellugalds.kingofbozo.ui.game.GameViewModel
 import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
@@ -112,6 +114,8 @@ class SettingsFragment : Fragment() {
 
         binding.cardVersao.setOnClickListener {
             resetCountdown()
+            val intent = Intent(requireContext(), SobreActivity::class.java)
+            startActivity(intent)
         }
     }
 

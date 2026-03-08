@@ -2,6 +2,10 @@ package com.wendellugalds.kingofbozo.ui.game
 
 import android.animation.ValueAnimator
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.Fade
+import android.transition.TransitionManager
+import android.transition.TransitionSet
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -99,17 +103,14 @@ class MarcadorFragment : Fragment() {
             clipChildren = false
             clipToPadding = false
 
-            // SnapHelper para garantir que o item pare sempre no meio ao scrollar manualmente
             val snapHelper = LinearSnapHelper()
             snapHelper.attachToRecyclerView(this)
 
-            // Adiciona padding horizontal para permitir que o primeiro e último itens fiquem centralizados
             post {
                 val itemWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 81f, resources.displayMetrics).toInt()
                 val horizontalPadding = (width / 2) - (itemWidth / 2)
                 setPadding(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
                 
-                // Centraliza o jogador inicial após o layout e padding estarem prontos
                 gameViewModel.gameState.value?.let { state ->
                     scrollToPositionCentered(state.currentPlayerIndex, isImmediate = true)
                 }
@@ -208,7 +209,16 @@ class MarcadorFragment : Fragment() {
 
     private fun setupSheetValueClicks(view: View, dialog: BottomSheetDialog, type: CategoryType) {
         val values = listOf(R.id.valor_01, R.id.valor_02, R.id.valor_03, R.id.valor_04, R.id.valor_05, R.id.valor_boca)
-        
+
+        view.findViewById<View>(R.id.button_info)?.setOnClickListener { btn ->
+            val infoDados = view.findViewById<View>(R.id.info_dados)
+            if (infoDados != null) {
+
+                infoDados.isVisible = !infoDados.isVisible
+
+            }
+        }
+
         view.findViewById<View>(R.id.btn_nulo)?.setOnClickListener {
             gameViewModel.submitScore(type, 0, isScratch = false, shouldAutoAdvance = false, isClear = true)
             dialog.dismiss()
@@ -227,7 +237,7 @@ class MarcadorFragment : Fragment() {
             view.findViewById<View>(id)?.setOnClickListener { v ->
                 val clickedView = v
                 val isBoca = clickedView.id == R.id.valor_boca
-                
+
                 val score = when {
                     isBoca && type == CategoryType.FULL -> 15
                     isBoca && type == CategoryType.SEGUIDA -> 25
@@ -379,7 +389,6 @@ class MarcadorFragment : Fragment() {
     }
 
     private fun animatePlayerSwitch() {
-        // Animação do container principal (de baixo para cima)
         binding.formAddPlayer.clearAnimation()
         binding.formAddPlayer.translationY = 100f
         binding.formAddPlayer.alpha = 0f
@@ -390,7 +399,6 @@ class MarcadorFragment : Fragment() {
             .setInterpolator(DecelerateInterpolator())
             .start()
 
-        // Animação de escala do avatar
         binding.avatarContainer.clearAnimation()
         binding.avatarContainer.scaleX = 0.7f
         binding.avatarContainer.scaleY = 0.7f
@@ -406,8 +414,6 @@ class MarcadorFragment : Fragment() {
         val recyclerView = binding.recyclerViewJogadoresRodada
         recyclerView.post {
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            
-            // Usamos o padding horizontal que definimos no setupRecyclerView
             val offset = recyclerView.paddingStart
 
             if (isImmediate) {
@@ -416,26 +422,18 @@ class MarcadorFragment : Fragment() {
             } else {
                 val smoothScroller = object : LinearSmoothScroller(requireContext()) {
                     override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
-
                     override fun calculateSpeedPerPixel(displayMetrics: android.util.DisplayMetrics): Float {
-                        // Aumentando significativamente para tornar o movimento inicial mais lento
                         return 450f / displayMetrics.densityDpi
                     }
-
                     override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
                         val dx = calculateDxToMakeVisible(targetView, horizontalSnapPreference)
                         val dy = calculateDyToMakeVisible(targetView, verticalSnapPreference)
                         val distance = Math.sqrt((dx * dx + dy * dy).toDouble()).toInt()
-                        
-                        // Aumentando o tempo mínimo para 1.2 segundos para garantir suavidade
                         val time = Math.max(1200, calculateTimeForDeceleration(distance))
-                        
                         if (time > 0) {
-                            // DecelerateInterpolator(3.0f) para uma desaceleração ainda mais gradual e elegante
                             action.update(-dx, -dy, time, DecelerateInterpolator(3.0f))
                         }
                     }
-
                     override fun onStop() {
                         super.onStop()
                         recyclerView.post { onComplete?.invoke() }
@@ -486,8 +484,6 @@ class MarcadorFragment : Fragment() {
         )
         categoryMap.forEach { (type, btn) ->
             val scoreEntry = player.scores[type]
-
-            // CHAMA A LÓGICA CENTRALIZADA DO ADAPTER
             CategoryAdapter.applyCategoryStyle(
                 textView = btn,
                 root = btn,
@@ -499,9 +495,6 @@ class MarcadorFragment : Fragment() {
                 context = requireContext()
             )
         }
-
-
-
     }
 
     override fun onDestroyView() {

@@ -51,7 +51,7 @@ class SavedGamesAdapter(
         holder.binding.savedGamePlayers.text = if (totalPlayers == 1) "01 JOGADOR" else "${totalPlayers.toString().padStart(2, '0')} JOGADORES"
         holder.binding.savedGameRounds.text = "${game.currentRound} rodadas"
         holder.binding.savedGameTotalScore.text = "$totalPoints PONTOS ACUMULADOS"
-        
+
         holder.itemView.setOnClickListener { onClick(game) }
         holder.binding.btnDelete.setOnClickListener { onDelete(game) }
     }
