@@ -40,17 +40,14 @@ class SavedGamesAdapter(
         val hours = TimeUnit.MILLISECONDS.toHours(game.accumulatedTimeMillis)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(game.accumulatedTimeMillis) % 60
         val seconds = TimeUnit.MILLISECONDS.toSeconds(game.accumulatedTimeMillis) % 60
-        val durationStr = if (hours > 0) {
-            String.format("%02d:%02d:%02d", hours, minutes, seconds)
-        } else {
-            String.format("%02d:%02d", minutes, seconds)
-        }
+        val durationStr = String.format("%02d:%02d:%02d", hours, minutes, seconds)
 
-        holder.binding.savedGameTitle.text = "Partida em $dateStr"
-        holder.binding.savedGameTime.text = "TIME $durationStr"
-        holder.binding.savedGamePlayers.text = if (totalPlayers == 1) "01 JOGADOR" else "${totalPlayers.toString().padStart(2, '0')} JOGADORES"
-        holder.binding.savedGameRounds.text = "${game.currentRound} rodadas"
-        holder.binding.savedGameTotalScore.text = "$totalPoints PONTOS ACUMULADOS"
+
+        holder.binding.savedGameTitle.text = "$dateStr"
+        holder.binding.savedGameTime.text = "$durationStr"
+        holder.binding.savedGamePlayers.text = "${totalPlayers}"
+        holder.binding.savedGameRounds.text = "${game.currentRound}"
+        holder.binding.savedGameTotalScore.text = "$totalPoints PONTOS"
 
         holder.itemView.setOnClickListener { onClick(game) }
         holder.binding.btnDelete.setOnClickListener { onDelete(game) }
