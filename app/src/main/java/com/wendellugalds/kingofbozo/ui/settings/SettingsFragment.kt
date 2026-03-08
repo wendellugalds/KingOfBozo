@@ -167,12 +167,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateThemeName() {
-        val currentThemeId = ThemeStorage.getTheme(requireContext())
-        val themeName = when (currentThemeId) {
-            R.style.Base_Theme_KingOfBozo_Standard -> "PADRÃO"
-            else -> "PADRÃO"
-        }
-        binding.textCorDesc.text = themeName
+        val themeKey = ThemeStorage.getThemeKey(requireContext())
+        binding.textCorDesc.text = themeKey.uppercase()
     }
 
     private fun saveKeepScreenOn(enabled: Boolean) {

@@ -14,30 +14,26 @@
 
     <color name="opacity">#00000000</color>
 
-    <color name="roxo_neon">#9d00ff</color>
-    <color name="pink_neon">#FF1493</color>
-    <color name="laranja_neon">#fc4b08</color>
-    <color name="vermelho_neon">#FF073A</color>
-    <color name="verde_neon">#00FF00</color>
-    <color name="azul_neon">#00E5FF</color>
-    <color name="amarelo_neon">#FFFF00</color>
-
-    <color name="roxo">#543b6c</color>
-    <color name="pink">#FF69B4</color>
-    <color name="laranja">#F88104</color>
-    <color name="vermelho">#EA1D2C</color>
-    <color name="verde">#2E7D32</color>
-    <color name="azul">#1565C0</color>
-    <color name="amarelo">#FBC02D</color>
-
     <color name="king">#D4AF37</color>
 
 <!--    <color name="padrao">#34495e</color>-->
     <color name="padrao">#34495e</color>
     <color name="padrao_night">#5B80A4</color>
 
-    <color name="whatsapp_01">#25d366</color>
-    <color name="whatsapp_02">#075e54</color>
+    <color name="verde">#075e54</color>
+    <color name="verde_night">#25d366</color>
+
+    <color name="roxo">#543b6c</color>
+    <color name="roxo_night">#9d00ff</color>
+
+    <color name="rosa">#FF69B4</color>
+    <color name="rosa_night">#FF1493</color>
+
+    <color name="laranja">#F88104</color>
+    <color name="laranja_night">#fc4b08</color>
+
+    <color name="vermelho">#EA1D2C</color>
+    <color name="vermelho_night">#FF073A</color>
 
     <!-- Colors for switch selectors -->
     <color name="switch_thumb_on">#FFFFFF</color>

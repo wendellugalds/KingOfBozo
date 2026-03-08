@@ -17,11 +17,21 @@ object ThemeStorage {
 
     fun getTheme(context: Context): Int {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val themeName = prefs.getString(KEY_THEME_NAME, "VERDE")
+        val themeName = prefs.getString(KEY_THEME_NAME, "PADRAO")
         return when (themeName) {
             "PADRAO" -> R.style.Base_Theme_KingOfBozo_Standard
-            else -> R.style.Theme_KingOfBozo
+            "VERDE" -> R.style.Base_Theme_KingOfBozo_Verde
+            "ROXO" -> R.style.Base_Theme_KingOfBozo_Roxo
+            "Rosa" -> R.style.Base_Theme_KingOfBozo_Rosa
+            "LARANJA" -> R.style.Base_Theme_KingOfBozo_Laranja
+            "VERMELHO" -> R.style.Base_Theme_KingOfBozo_Vermelho
+            else -> R.style.Base_Theme_KingOfBozo_Standard
         }
+    }
+
+    fun getThemeKey(context: Context): String {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_THEME_NAME, "PADRAO") ?: "PADRAO"
     }
 
     fun saveNightMode(context: Context, mode: Int) {
