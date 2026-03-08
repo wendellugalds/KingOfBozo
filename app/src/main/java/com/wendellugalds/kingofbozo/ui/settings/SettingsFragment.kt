@@ -87,7 +87,10 @@ class SettingsFragment : Fragment() {
             resetCountdown()
             val bottomSheet = ThemeSelectionBottomSheet { themeKey ->
                 ThemeStorage.saveTheme(requireContext(), themeKey)
-                requireActivity().recreate()
+                val intent = Intent(requireContext(), ThemeLoadingActivity::class.java)
+                intent.putExtra("theme_key", themeKey)
+                startActivity(intent)
+                requireActivity().finish() // Opcional: fechar a Activity atual para limpar a pilha
             }
             bottomSheet.show(parentFragmentManager, "ThemeSelection")
         }
