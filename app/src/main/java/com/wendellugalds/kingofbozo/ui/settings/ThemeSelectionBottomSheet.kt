@@ -17,6 +17,7 @@ import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.BottomSheetThemeSelectionBinding
 
+@Suppress("DEPRECATION")
 class ThemeSelectionBottomSheet(private val onThemeSelected: (String) -> Unit) : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetThemeSelectionBinding? = null

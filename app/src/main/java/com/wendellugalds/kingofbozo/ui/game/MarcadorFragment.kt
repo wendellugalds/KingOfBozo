@@ -37,6 +37,7 @@ import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.adapter.CategoryAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
 
+@Suppress("DEPRECATION")
 class MarcadorFragment : Fragment() {
 
     private var _binding: FragmentMarcarJogoBinding? = null
