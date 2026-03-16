@@ -32,11 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         val newConfig = Configuration(newBase.resources.configuration)
+        
+        // Força a escala da fonte para 1.0 para evitar quebra de layout quando o usuário aumenta a fonte no sistema.
+        // Isso garante que o design do marcador permaneça funcional e legível em todas as telas.
         newConfig.fontScale = 1.0f
-        val meuZoomPreferido = 420
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            newConfig.densityDpi = meuZoomPreferido
-        }
+        
         applyOverrideConfiguration(newConfig)
         super.attachBaseContext(newBase)
     }
@@ -51,7 +51,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setupWindowInsets()
         configurarCoresDaBarra()
         applyKeepScreenOn(ThemeStorage.getKeepScreenOn(this))
 
@@ -62,19 +61,6 @@ class MainActivity : AppCompatActivity() {
         setupCustomNavigation()
         setupNavigationVisibility()
     }
-
-
-//    private fun setupWindowInsets() {
-//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
-//            val systemBars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            binding.navHostFragmentActivityMain.updatePadding(top = systemBars.top)
-//
-//            val extraPadding = (resources.displayMetrics.density).toInt()
-//            v.updatePadding(bottom = systemBars.bottom + extraPadding)
-//
-//            windowInsets
-//        }
-//    }
 
     private fun configurarCoresDaBarra() {
         val window = this.window
