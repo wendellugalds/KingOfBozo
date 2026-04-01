@@ -1,6 +1,8 @@
 package com.wendellugalds.kingofbozo.util
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatDelegate
 import com.wendellugalds.kingofbozo.R
 
@@ -13,6 +15,47 @@ object ThemeStorage {
     fun saveTheme(context: Context, themeName: String) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_THEME_NAME, themeName).apply()
+        updateAppIcon(context, themeName)
+    }
+
+    private fun updateAppIcon(context: Context, themeName: String) {
+        val packageName = "com.wendellugalds.kingofbozo"
+        
+        val aliasName = when (themeName) {
+            "PADRAO" -> "$packageName.SplashActivityPadrao"
+            "VERDE" -> "$packageName.SplashActivityVerde"
+            "ROXO" -> "$packageName.SplashActivityRoxo"
+            "Rosa" -> "$packageName.SplashActivityRosa"
+            "LARANJA" -> "$packageName.SplashActivityLaranja"
+            "VERMELHO" -> "$packageName.SplashActivityVermelho"
+            else -> "$packageName.SplashActivityPadrao"
+        }
+
+        val aliases = listOf(
+            "$packageName.SplashActivityPadrao",
+            "$packageName.SplashActivityVerde",
+            "$packageName.SplashActivityRoxo",
+            "$packageName.SplashActivityRosa",
+            "$packageName.SplashActivityLaranja",
+            "$packageName.SplashActivityVermelho"
+        )
+
+        val packageManager = context.packageManager
+
+        aliases.forEach { alias ->
+            val componentName = ComponentName(packageName, alias)
+            val state = if (alias == aliasName) {
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            } else {
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+            }
+
+            packageManager.setComponentEnabledSetting(
+                componentName,
+                state,
+                PackageManager.DONT_KILL_APP
+            )
+        }
     }
 
     fun getTheme(context: Context): Int {

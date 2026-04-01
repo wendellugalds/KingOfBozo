@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ic_dynamic_bg_padrao">@color/padrao</color>
+    <color name="ic_dynamic_bg_verde">@color/verde</color>
+    <color name="ic_dynamic_bg_roxo">@color/roxo</color>
+    <color name="ic_dynamic_bg_rosa">@color/rosa</color>
+    <color name="ic_dynamic_bg_laranja">@color/laranja</color>
+    <color name="ic_dynamic_bg_vermelho">@color/vermelho</color>
+</resources>

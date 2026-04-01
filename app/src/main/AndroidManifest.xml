@@ -22,12 +22,91 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Base.Theme.KingOfBozo.Standard">
+            android:theme="@style/Base.Theme.KingOfBozo.Standard" />
+
+        <activity-alias
+            android:name="com.wendellugalds.kingofbozo.SplashActivityPadrao"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_padrao"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_padrao"
+            android:targetActivity=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
+
+        <activity-alias
+            android:name="com.wendellugalds.kingofbozo.SplashActivityVerde"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_verde"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_verde"
+            android:targetActivity=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="com.wendellugalds.kingofbozo.SplashActivityRoxo"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_roxo"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_roxo"
+            android:targetActivity=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="com.wendellugalds.kingofbozo.SplashActivityRosa"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_rosa"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_rosa"
+            android:targetActivity=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="com.wendellugalds.kingofbozo.SplashActivityLaranja"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_laranja"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_laranja"
+            android:targetActivity=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="com.wendellugalds.kingofbozo.SplashActivityVermelho"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_vermelho"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_vermelho"
+            android:targetActivity=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name=".MainActivity"
