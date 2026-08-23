@@ -1,6 +1,7 @@
 package com.wendellugalds.kingofbozo
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,6 +15,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivitySplashBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 class SplashActivity : AppCompatActivity() {
 
@@ -104,17 +106,6 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = this.window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundo
-        
-        val controller = WindowInsetsControllerCompat(window, binding.root)
-
-        // Como o fundo da Splash usa colorPrimary (que é escuro tanto no modo claro quanto no escuro),
-        // mantemos os ícones da barra de status e navegação como claros (isAppearanceLight = false)
-        // para garantir o contraste.
-        controller.isAppearanceLightStatusBars = false
-        controller.isAppearanceLightNavigationBars = false
+        SystemBarUtil.applySystemBarColors(window, binding.root, statusBarAttr = R.attr.colorPrimary, navBarAttr = R.attr.colorPrimary)
     }
 }

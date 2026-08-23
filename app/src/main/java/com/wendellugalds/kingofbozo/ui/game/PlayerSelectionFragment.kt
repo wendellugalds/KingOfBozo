@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -40,31 +43,34 @@ class PlayerSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Limpa a seleção ao entrar na tela
+        // Força a barra de status a assumir a cor primária exata do tema de forma opaca
+        val window = requireActivity().window
+        val colorPrimary = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
+        window.statusBarColor = colorPrimary
+        window.navigationBarColor = colorPrimary
+
+        // Afasta o cabeçalho para baixo da barra de status (relógio/bateria)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.actionBar) { v, insets ->
+            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                topMargin = statusBarHeight + 16
+            }
+            insets
+        }
+
         gameViewModel.clearSelection()
 
         setupRecyclerView()
         setupClickListeners()
         observeViewModel()
-        configurarCoresDaBarra()
     }
 
-    private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundo
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
-    }
     private fun setupRecyclerView() {
         playerAdapter = PlayerSelectionAdapter { player ->
             gameViewModel.togglePlayerSelection(player)
         }
-        
-       binding.recyclerViewPlayers.apply {
+
+        binding.recyclerViewPlayers.apply {
             adapter = playerAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -102,8 +108,7 @@ class PlayerSelectionFragment : Fragment() {
             val selectedPlayers = gameViewModel.selectedPlayers.value.orEmpty()
             updateAdapterList(allPlayers, selectedPlayers)
             updateInfoText(allPlayers, selectedPlayers)
-            
-            // Controle do Empty State para seleção de jogadores
+
             val isEmpty = allPlayers.isNullOrEmpty()
             binding.imageEmptyState.isVisible = isEmpty
             binding.imageEmptyStateBack.isVisible = isEmpty
@@ -119,8 +124,7 @@ class PlayerSelectionFragment : Fragment() {
             binding.iniciar.isVisible = selectionCount >= 2
             binding.buttonAdicionarJogador.isVisible = selectionCount == 0
             binding.tirarSeleO.isVisible = selectionCount > 0
-            
-            // Atualiza o texto informativo
+
             binding.infoText.text = when {
                 selectionCount == 0 -> "Nenhum jogador selecionado"
                 selectionCount < 2 -> "Selecione pelo menos 2 jogadores"

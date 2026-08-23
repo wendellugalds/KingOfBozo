@@ -5,24 +5,17 @@ import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.R as MaterialR
 import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
 
@@ -33,11 +26,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         val newConfig = Configuration(newBase.resources.configuration)
-        
-        // Força a escala da fonte para 1.0 para evitar quebra de layout quando o usuário aumenta a fonte no sistema.
-        // Isso garante que o design do marcador permaneça funcional e legível em todas as telas.
         newConfig.fontScale = 1.0f
-        
         applyOverrideConfiguration(newConfig)
         super.attachBaseContext(newBase)
     }
@@ -46,9 +35,9 @@ class MainActivity : AppCompatActivity() {
         ThemeStorage.applySettings(this)
         setTheme(ThemeStorage.getTheme(this))
         super.onCreate(savedInstanceState)
-        
+
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -64,19 +53,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = this.window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        
-        window.statusBarColor = Color.TRANSPARENT
-        window.navigationBarColor = Color.TRANSPARENT
-        
-        val controller = WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
-        
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        val typedValue = android.util.TypedValue()
+        theme.resolveAttribute(R.attr.customBackground, typedValue, true)
+        val bgColor = typedValue.data
+
+        window.statusBarColor = bgColor
+        window.navigationBarColor = bgColor
     }
 
     private fun applyKeepScreenOn(enabled: Boolean) {
@@ -105,7 +87,32 @@ class MainActivity : AppCompatActivity() {
             }
             binding.cardNavigation.visibility = if (isVisible) View.VISIBLE else View.GONE
             updateNavIcons(destination.id)
+
+            val typedValuePrimary = android.util.TypedValue()
+            theme.resolveAttribute(R.attr.colorPrimary, typedValuePrimary, true)
+            val primaryColor = typedValuePrimary.data
+
+            val typedValueBackground = android.util.TypedValue()
+            theme.resolveAttribute(R.attr.customBackground, typedValueBackground, true)
+            val backgroundColor = typedValueBackground.data
+
+            // Altera diretamente a cor da barra de status e navegação baseada na tela ativa
+            if (destination.id == R.id.playerSelectionFragment) {
+                window.statusBarColor = primaryColor
+                window.navigationBarColor = primaryColor
+                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+            } else {
+                window.statusBarColor = backgroundColor
+                window.navigationBarColor = backgroundColor
+                val isLight = typedValueBackground.data == Color.WHITE || isColorLight(backgroundColor)
+                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = isLight
+            }
         }
+    }
+
+    private fun isColorLight(color: Int): Boolean {
+        val darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255
+        return darkness < 0.5
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {

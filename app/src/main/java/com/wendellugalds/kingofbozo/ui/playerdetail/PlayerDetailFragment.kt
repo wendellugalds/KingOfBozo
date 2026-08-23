@@ -32,6 +32,7 @@ import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.EditPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import kotlin.math.min
 
 class PlayerDetailFragment : Fragment() {
@@ -85,15 +86,7 @@ class PlayerDetailFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        // Corrected reference to R.attr.customBackground
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundo
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
+        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.customBackground)
     }
 
     private fun setupClickListeners() {

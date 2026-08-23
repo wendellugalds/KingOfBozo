@@ -11,6 +11,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentHomeBinding
 import java.util.Calendar
@@ -70,16 +71,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundo
-
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
+        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.cardBackgroundColor)
     }
 
     override fun onDestroyView() {

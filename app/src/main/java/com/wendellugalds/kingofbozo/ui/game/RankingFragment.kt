@@ -20,6 +20,7 @@ import com.wendellugalds.kingofbozo.databinding.FragmentRankingBinding
 import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingAtualAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingGeralAdapter
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 class RankingFragment : Fragment() {
 
@@ -50,15 +51,7 @@ class RankingFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        val corDoFundoBottomSheet = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundoBottomSheet
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
+        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.customBackground)
     }
 
     private fun setupRecyclerViews() {

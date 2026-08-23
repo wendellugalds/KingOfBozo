@@ -1,151 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/form_add_player"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:backgroundTint="?attr/colorPrimary"
     android:background="@drawable/bottom_sheet_background"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="4dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        app:tint="?attr/customTextBackground"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/background_card_dark" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:gravity="center"
-            android:text="ALTERAR JOGADOR"
-            android:paddingTop="15dp"
-            android:textColor="?attr/customTextBackground"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-    </FrameLayout>
-
+    android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/form_add_player"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            app:tint="?attr/customTextBackground"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/background_card_dark" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:text="ALTERAR JOGADOR"
+                android:paddingTop="15dp"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
 
         <LinearLayout
-            android:id="@+id/layout_add_image"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:orientation="horizontal">
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_add_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/image_avatar_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="?attr/customTextBackground"
+                    android:background="@drawable/background_circle_dark"
+                    android:padding="25dp"
+                    android:elevation="0dp"
+                    android:src="@drawable/ic_person_king_fill"
+                    app:tint="?attr/colorPrimary" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_avatar_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+
+            </LinearLayout>
+
 
             <ImageView
-                android:id="@+id/image_avatar_placeholder"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:id="@+id/delete_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
+                android:layout_marginLeft="-25dp"
+                android:elevation="5dp"
+                android:clickable="true"
+                android:focusable="true"
                 android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_circle_dark"
-                android:padding="25dp"
-                android:elevation="0dp"
-                android:src="@drawable/ic_person_king_fill"
-                app:tint="?attr/colorPrimary" />
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_avatar_preview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
+                android:src="@drawable/ic_close"
                 android:visibility="gone"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                app:tint="?attr/colorPrimary"
+                tools:visibility="visible" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="24dp">
+
+            <EditText
+                android:id="@+id/edit_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="?attr/customTextBackground"
+                android:hint="Nome Jogador"
+                android:background="@drawable/background_score_option_riscar"
+                android:inputType="textPersonName"
+                android:drawableStart="@drawable/ic_person_king"
+                android:drawablePadding="10dp"
+                android:drawableTint="?attr/customTextBackground"
+                android:padding="16dp"
+                android:layout_weight="1"
+                android:textColor="?attr/customTextBackground"
+                android:textColorHint="?attr/customTextBackground" />
+
+            <EditText
+                android:id="@+id/edit_text_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/customTextBackground"
+                android:hint="Idade"
+                android:background="@drawable/background_score_option_riscar"
+                android:padding="16dp"
+                android:inputType="number"
+                android:maxLength="2"
+                android:layout_marginStart="16dp"
+                android:textColor="?attr/customTextBackground"
+                android:textColorHint="?attr/customTextBackground" />
 
         </LinearLayout>
 
 
-        <ImageView
-            android:id="@+id/delete_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:padding="5dp"
-            android:layout_marginLeft="-25dp"
-            android:elevation="5dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:backgroundTint="?attr/customTextBackground"
-            android:background="@drawable/background_circle_dark"
-            android:src="@drawable/ic_close"
-            android:visibility="gone"
-            app:tint="?attr/colorPrimary"
-            tools:visibility="visible" />
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="24dp">
-
-        <EditText
-            android:id="@+id/edit_text_name"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/button_save"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="48dp"
+            android:paddingVertical="12dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginHorizontal="24dp"
+            android:text="SALVAR"
+            android:background="@drawable/background_card_2_dark"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="?attr/customTextBackground"
-            android:hint="Nome Jogador"
-            android:background="@drawable/background_score_option_riscar"
-            android:inputType="textPersonName"
-            android:drawableStart="@drawable/ic_person_king"
-            android:drawablePadding="10dp"
-            android:drawableTint="?attr/customTextBackground"
-            android:padding="16dp"
-            android:layout_weight="1"
-            android:textColor="?attr/customTextBackground"
-            android:textColorHint="?attr/customTextBackground" />
-
-        <EditText
-            android:id="@+id/edit_text_age"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?attr/customTextBackground"
-            android:hint="Idade"
-            android:background="@drawable/background_score_option_riscar"
-            android:padding="16dp"
-            android:inputType="number"
-            android:maxLength="2"
-            android:layout_marginStart="16dp"
-            android:textColor="?attr/customTextBackground"
-            android:textColorHint="?attr/customTextBackground" />
+            android:textColor="?attr/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
     </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/button_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:paddingHorizontal="48dp"
-        android:paddingVertical="12dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="24dp"
-        android:text="SALVAR"
-        android:background="@drawable/background_card_2_dark"
-        android:layout_marginBottom="24dp"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

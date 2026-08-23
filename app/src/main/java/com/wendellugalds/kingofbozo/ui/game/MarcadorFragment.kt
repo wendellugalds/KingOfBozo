@@ -36,6 +36,7 @@ import com.wendellugalds.kingofbozo.model.CategoryType
 import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.adapter.CategoryAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 @Suppress("DEPRECATION")
 class MarcadorFragment : Fragment() {
@@ -83,15 +84,7 @@ class MarcadorFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        val corDoNavegation = MaterialColors.getColor(binding.root, R.attr.cardBackgroundColor)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoNavegation
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
+        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.cardBackgroundColor)
     }
 
     private fun setupRecyclerView() {

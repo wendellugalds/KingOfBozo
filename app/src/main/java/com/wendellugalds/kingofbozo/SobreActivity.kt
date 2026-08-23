@@ -1,11 +1,14 @@
 package com.wendellugalds.kingofbozo
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivitySobreBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 class SobreActivity : AppCompatActivity() {
 
@@ -15,6 +18,9 @@ class SobreActivity : AppCompatActivity() {
         ThemeStorage.applySettings(this)
         setTheme(ThemeStorage.getTheme(this))
         super.onCreate(savedInstanceState)
+        
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        
         binding = ActivitySobreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -24,15 +30,6 @@ class SobreActivity : AppCompatActivity() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = this.window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundo
-
-        val controller = WindowInsetsControllerCompat(window, binding.root)
-
-        val isNightMode = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
-        controller.isAppearanceLightStatusBars = !isNightMode
-        controller.isAppearanceLightNavigationBars = !isNightMode
+        SystemBarUtil.applySystemBarColors(window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.customBackground)
     }
 }

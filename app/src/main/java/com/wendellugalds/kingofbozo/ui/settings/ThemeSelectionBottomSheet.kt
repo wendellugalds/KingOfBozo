@@ -1,5 +1,6 @@
 package com.wendellugalds.kingofbozo.ui.settings
 
+import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
@@ -22,7 +23,7 @@ class ThemeSelectionBottomSheet(private val onThemeSelected: (String) -> Unit) :
 
     private var _binding: BottomSheetThemeSelectionBinding? = null
     private val binding get() = _binding!!
-    private var originalNavBarColor: Int = 0
+
     data class ThemeOption(val name: String, val themeKey: String, val colorRes: Int, val colorResNight: Int)
 
     private val themes = listOf(
@@ -57,32 +58,43 @@ class ThemeSelectionBottomSheet(private val onThemeSelected: (String) -> Unit) :
     override fun onCreateDialog(savedInstanceState: Bundle?): android.app.Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
+            // Pega a cor EXATA da Activity (colorPrimary do tema)
+            val typedValue = android.util.TypedValue()
+            requireActivity().theme.resolveAttribute(R.attr.cardBackgroundColor, typedValue, true)
+            val corDoPainel = typedValue.data
+
             bottomSheet?.let {
-                it.setBackgroundResource(android.R.color.transparent)
                 val behavior = BottomSheetBehavior.from(it)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.skipCollapsed = true
+
+                // Pinta o fundo inteiro do painel com a cor do tema para sumir com qualquer transparência
+                val shapeDrawable = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(corDoPainel)
+                    val radius55 = 55f * resources.displayMetrics.density
+                    cornerRadii = floatArrayOf(radius55, radius55, radius55, radius55, 0f, 0f, 0f, 0f)
+                }
+                it.background = shapeDrawable
+            }
+
+            bottomSheetDialog.window?.let { window ->
+                // Remove a proteção padrão do Android e pinta a barra de navegação inferior com a cor correta
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+                window.navigationBarColor = corDoPainel
+
+                // Desliga a sombra escura forçada da One UI (Samsung)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    window.isNavigationBarContrastEnforced = false
+                }
             }
         }
 
         return dialog
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.let { window ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                originalNavBarColor = requireActivity().window.navigationBarColor
-                val corDoTema = MaterialColors.getColor(requireView(), R.attr.cardBackgroundColor)
-                window.navigationBarColor = corDoTema
-            }
-        }
     }
 
     class ThemeAdapter(private val options: List<ThemeOption>, private val onClick: (ThemeOption) -> Unit) :

@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wendellugalds.kingofbozo.PlayersApplication
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentRankingDuranteJogoBinding
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingAtualAdapter
@@ -35,6 +36,11 @@ class RankingDuranteJogoFragment : Fragment() {
         setupRecyclerView()
         observeGameState()
         setupButtons()
+        configurarCoresDaBarra()
+    }
+
+    private fun configurarCoresDaBarra() {
+        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.customBackground)
     }
 
     private fun setupRecyclerView() {

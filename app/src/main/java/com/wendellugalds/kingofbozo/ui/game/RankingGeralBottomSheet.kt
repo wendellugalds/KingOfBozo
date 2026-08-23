@@ -1,6 +1,7 @@
 package com.wendellugalds.kingofbozo.ui.game
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.R
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.BottomSheetRankingGeralBinding
 import com.wendellugalds.kingofbozo.model.PlayerState
@@ -22,12 +24,37 @@ class RankingGeralBottomSheet : BottomSheetDialogFragment() {
 
     private var _binding: BottomSheetRankingGeralBinding? = null
     private val binding get() = _binding!!
+
+    private var originalStatusBarColor: Int = 0
     private var originalNavBarColor: Int = 0
+
     private val gameViewModel: GameViewModel by activityViewModels {
         GameViewModelFactory((requireActivity().application as PlayersApplication).repository)
     }
 
     private lateinit var rankingGeralAdapter: RankingGeralAdapter
+
+    override fun onStart() {
+        super.onStart()
+        originalStatusBarColor = requireActivity().window.statusBarColor
+        originalNavBarColor = requireActivity().window.navigationBarColor
+        SystemBarUtil.applySystemBarColors(
+            requireActivity().window,
+            binding.root,
+            statusBarAttr = R.attr.customBackground,
+            navBarAttr = R.attr.colorPrimary
+        )
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        SystemBarUtil.setSystemBarColors(
+            requireActivity().window,
+            requireActivity().findViewById(android.R.id.content),
+            originalStatusBarColor,
+            originalNavBarColor
+        )
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = BottomSheetRankingGeralBinding.inflate(inflater, container, false)
@@ -46,19 +73,7 @@ class RankingGeralBottomSheet : BottomSheetDialogFragment() {
                 behavior.skipCollapsed = true
             }
         }
-        onStart()
         return dialog
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.let { window ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                originalNavBarColor = requireActivity().window.navigationBarColor
-                val corDoTema = MaterialColors.getColor(requireView(), R.attr.colorPrimary)
-                window.navigationBarColor = corDoTema
-            }
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

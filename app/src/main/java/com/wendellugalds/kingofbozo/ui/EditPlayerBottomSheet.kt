@@ -1,7 +1,6 @@
 package com.wendellugalds.kingofbozo.ui
 
 import android.Manifest
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -23,10 +22,9 @@ import coil.load
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.color.MaterialColors
-import com.wendellugalds.kingofbozo.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.wendellugalds.kingofbozo.PlayersApplication
+import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.BottomSheetEditPlayerBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
@@ -45,7 +43,6 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
         PlayerViewModelFactory((requireActivity().application as PlayersApplication).repository)
     }
     private var playerToEdit: Player? = null
-    private var originalNavBarColor: Int = 0
     private var currentImageUri: Uri? = null
     private var tempImageUri: Uri? = null
 
@@ -83,17 +80,61 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): android.app.Dialog {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
 
-        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-
         dialog.setOnShowListener { dialogInterface ->
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
+            // 1. Pega a cor EXATA da Activity (Garante que vai pegar o azul, e não o branco do Dialog)
+            val typedValue = android.util.TypedValue()
+            requireActivity().theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
+            val corDoPainel = typedValue.data
+
             bottomSheet?.let {
-                it.setBackgroundResource(android.R.color.transparent)
                 val behavior = BottomSheetBehavior.from(it)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.skipCollapsed = true
+
+                // Converte os 55dp para pixels reais da tela
+                val radius55 = 55f * resources.displayMetrics.density
+
+                // Cria o fundo dinâmico que alterna bordas redondas/retas com o teclado
+                val shapeDrawable = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(corDoPainel)
+                    cornerRadii = floatArrayOf(radius55, radius55, radius55, radius55, 0f, 0f, 0f, 0f)
+                }
+                it.background = shapeDrawable
+
+                // Monitora a altura da tela para saber exatamente quando o teclado sobe ou desce
+                it.viewTreeObserver.addOnGlobalLayoutListener {
+                    val r = android.graphics.Rect()
+                    it.getWindowVisibleDisplayFrame(r)
+                    val screenHeight = it.rootView.height
+                    val keypadHeight = screenHeight - r.bottom
+                    val isKeyboardVisible = keypadHeight > screenHeight * 0.15
+
+                    if (isKeyboardVisible) {
+                        // Teclado aberto: zera os cantos superiores para ficarem retos
+                        shapeDrawable.cornerRadii = floatArrayOf(0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f)
+                    } else {
+                        // Teclado fechado: volta a arredondar as bordas superiores
+                        shapeDrawable.cornerRadii = floatArrayOf(radius55, radius55, radius55, radius55, 0f, 0f, 0f, 0f)
+                    }
+                }
+            }
+
+            bottomSheetDialog.window?.let { window ->
+                // 3. Remove a proteção do Android e pinta a barra com o seu azul
+                window.addFlags(android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.clearFlags(android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+                window.navigationBarColor = corDoPainel
+
+                // 4. Força o painel a redimensionar quando o teclado subir
+                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
+                // 5. Desliga a sombra escura forçada da One UI (Samsung)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    window.isNavigationBarContrastEnforced = false
+                }
             }
         }
 
@@ -228,24 +269,6 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
             playerViewModel.updatePlayer(updatedPlayer)
             Toast.makeText(requireContext(), "Jogador atualizado!", Toast.LENGTH_SHORT).show()
             dismiss()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        dialog?.window?.let { window ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                originalNavBarColor = requireActivity().window.navigationBarColor
-                val corDoTema = MaterialColors.getColor(requireView(), R.attr.colorPrimary)
-                window.navigationBarColor = corDoTema
-            }
-        }
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            requireActivity().window.navigationBarColor = originalNavBarColor
         }
     }
 

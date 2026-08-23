@@ -19,6 +19,7 @@ import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.FragmentManagePlayersBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 class ManagePlayersFragment : Fragment() {
 
@@ -122,15 +123,12 @@ class ManagePlayersFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        val corDoNavegation = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoNavegation
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
+        SystemBarUtil.applySystemBarColors(
+            requireActivity().window, // <-- A mudança é aqui: adicione o '.window'
+            binding.root,
+            statusBarAttr = R.attr.customBackground,
+            navBarAttr = R.attr.customBackground
+        )
     }
 
     private fun updateAvailableList(inGamePlayers: List<Player>) {

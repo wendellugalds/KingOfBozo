@@ -32,6 +32,7 @@ import com.wendellugalds.kingofbozo.databinding.FragmentPlayersBinding
 import com.wendellugalds.kingofbozo.databinding.DialogDeletePlayerBinding
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 
 private fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
@@ -79,14 +80,7 @@ class PlayersFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
-        window.statusBarColor = corDoFundo
-        window.navigationBarColor = corDoFundo
-        val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
-        val isLightBackground = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_NO
-        controller.isAppearanceLightStatusBars = isLightBackground
-        controller.isAppearanceLightNavigationBars = isLightBackground
+        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.cardBackgroundColor)
     }
 
     private fun setupClickListeners() {
