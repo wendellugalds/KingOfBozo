@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:text="COR DESTAQUE"
+            android:text="COR DE DESTAQUE"
             android:paddingTop="15dp"
             android:textColor="?attr/textFillColor"
             android:textSize="22sp"

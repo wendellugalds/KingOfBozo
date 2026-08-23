@@ -73,7 +73,7 @@ class RankingFragment : Fragment() {
         
         binding.cardRankingGeral.setOnClickListener {
             if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }

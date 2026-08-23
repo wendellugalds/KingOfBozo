@@ -172,7 +172,7 @@ class SettingsFragment : Fragment() {
 
     private fun updateThemeName() {
         val themeKey = ThemeStorage.getThemeKey(requireContext())
-        binding.textCorDesc.text = themeKey.uppercase()
+        binding.cardCor.text = "COR DE DESTAQUE"
     }
 
     private fun saveKeepScreenOn(enabled: Boolean) {

@@ -150,6 +150,14 @@ class MainActivity : AppCompatActivity() {
         icon.setImageResource(iconRes)
         icon.imageTintList = ColorStateList.valueOf(color)
         text.setTextColor(color)
+
+        // Define o tamanho da fonte em sp sem dar erro
+        text.textSize = 12f
+
+        // Converte 8dp em pixels reais para o padding lateral não estourar o limite
+        val paddingPx = (12 * resources.displayMetrics.density).toInt()
+        layout.setPadding(paddingPx, 0, paddingPx, 0)
+
         text.visibility = View.VISIBLE
     }
 }
