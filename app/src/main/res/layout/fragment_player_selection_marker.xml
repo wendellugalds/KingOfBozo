@@ -24,7 +24,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/background_circle"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:alpha="0.5"
                     android:text="@string/king_of_boz"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="16sp" />
 
                 <TextView
@@ -55,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/jogadores"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:background="@drawable/background_circle_yellow"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:padding="12dp"
                 android:src="@drawable/ic_person_add"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -81,7 +81,7 @@
                 android:layout_height="48dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/background_circle_yellow"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:padding="12dp"
                 android:src="@drawable/ic_deselect"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:background="@drawable/background_card_2_dark"
-        android:backgroundTint="?attr/textBackground"
+        android:backgroundTint="?attr/customTextBackground"
         android:gravity="center"
         android:padding="5dp"
         android:text="Adicione 2 jogadores até 9 jogadores"
@@ -148,7 +148,7 @@
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:layout_margin="16dp"
-        android:backgroundTint="?attr/textBackground"
+        android:backgroundTint="?attr/customTextBackground"
         android:background="@drawable/background_card_2_destaque"
         android:gravity="center"
         android:text="INICIAR PARTIDA"

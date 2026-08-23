@@ -20,7 +20,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@drawable/background_circle"
-            android:backgroundTint="?attr/background"
+            android:backgroundTint="?attr/customBackground"
             android:padding="12dp"
             android:src="@drawable/ic_game"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -61,7 +61,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/background_circle_yellow"
-            android:backgroundTint="?attr/background"
+            android:backgroundTint="?attr/customBackground"
             android:padding="12dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +84,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginVertical="15dp"
-            android:backgroundTint="?attr/background"
+            android:backgroundTint="?attr/customBackground"
             android:gravity="center"
             android:background="@drawable/background_card_game"
             app:layout_constraintStart_toEndOf="@+id/button_back">
@@ -117,7 +117,7 @@
             android:layout_marginHorizontal="15dp"
             android:orientation="vertical"
             android:layout_marginVertical="15dp"
-            android:backgroundTint="?attr/background"
+            android:backgroundTint="?attr/customBackground"
             android:gravity="center"
             android:background="@drawable/background_card_game"
             app:layout_constraintStart_toEndOf="@+id/button_back">
@@ -148,7 +148,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_marginVertical="15dp"
-            android:backgroundTint="?attr/background"
+            android:backgroundTint="?attr/customBackground"
             android:gravity="center"
             android:background="@drawable/background_card_game"
             app:layout_constraintStart_toEndOf="@+id/button_back">
@@ -183,7 +183,7 @@
         android:paddingHorizontal="10dp"
         android:paddingVertical="10dp"
         android:background="@drawable/background_card_game_bottom"
-        android:backgroundTint="?attr/background">
+        android:backgroundTint="?attr/customBackground">
 
         <ImageView
             android:layout_width="48dp"
@@ -235,7 +235,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="?attr/textBackground"
+            app:tint="?attr/customTextBackground"
             tools:ignore="ContentDescription" />
 
     </LinearLayout>

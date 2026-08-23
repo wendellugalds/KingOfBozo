@@ -15,7 +15,7 @@
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        app:tint="?attr/textBackground"
+        app:tint="?attr/customTextBackground"
         android:src="@drawable/background_card_dark" />
 
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="RANKING GERAL"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textSize="22sp"
             android:layout_weight="1"
             android:textStyle="bold" />

@@ -39,7 +39,7 @@
             android:src="@drawable/ic_1"
             app:tint="?attr/colorPrimary"
             android:layout_marginBottom="-6dp"
-            android:backgroundTint="?attr/textBackground"
+            android:backgroundTint="?attr/customTextBackground"
             android:background="@drawable/circle_background"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"/>
@@ -56,7 +56,7 @@
             android:id="@+id/sigla_nome"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:backgroundTint="?attr/background"
+            android:backgroundTint="?attr/customBackground"
             android:background="@drawable/background_circle"
             android:text="WU"
             android:textColor="?attr/colorPrimary"

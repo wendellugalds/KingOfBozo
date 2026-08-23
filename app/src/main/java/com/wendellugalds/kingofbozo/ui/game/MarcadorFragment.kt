@@ -84,8 +84,8 @@ class MarcadorFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
-        val corDoNavegation = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.cardBackgroundColor)
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
+        val corDoNavegation = MaterialColors.getColor(binding.root, R.attr.cardBackgroundColor)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoNavegation
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)

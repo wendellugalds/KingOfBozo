@@ -105,7 +105,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun configurarCoresDaBarra() {
         val window = this.window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
         

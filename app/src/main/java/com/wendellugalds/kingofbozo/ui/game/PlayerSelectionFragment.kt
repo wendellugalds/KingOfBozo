@@ -51,7 +51,7 @@ class PlayerSelectionFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)

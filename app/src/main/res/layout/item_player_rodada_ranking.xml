@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_circle"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:gravity="center"
                 android:text="WU"
                 android:textColor="?attr/colorPrimary"
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/text_player_wins_king"
@@ -70,10 +70,10 @@
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textSize="15sp"
             app:drawableStartCompat="@drawable/ic_score"
-            app:drawableTint="?attr/textBackground"
+            app:drawableTint="?attr/customTextBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/container_action_king"
             app:layout_constraintStart_toStartOf="@+id/text_player_name_king"
@@ -98,7 +98,7 @@
                 android:rotation="-45"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_crown"
-                app:tint="?attr/textBackground" />
+                app:tint="?attr/customTextBackground" />
 
 
         </FrameLayout>
@@ -130,7 +130,7 @@
                 android:backgroundTint="?attr/colorPrimary"
                 android:background="@drawable/background_circle"
                 android:text="WU"
-                android:textColor="?attr/textBackground"
+                android:textColor="?attr/customTextBackground"
                 android:textStyle="bold"
                 android:textSize="25sp"
                 android:gravity="center"/>

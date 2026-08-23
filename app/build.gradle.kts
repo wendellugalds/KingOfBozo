@@ -1,13 +1,3 @@
-// Este bloco força todas as dependências a usarem a versão correta do Kotlin,
-// resolvendo conflitos de versões.
-configurations.all {
-    resolutionStrategy {
-        force("org.jetbrains.kotlin:kotlin-stdlib:2.0.0")
-        force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:2.0.0")
-        force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0")
-    }
-}
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -17,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.wendellugalds.kingofbozo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.wendellugalds.kingofbozo"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -49,8 +39,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        jvmToolchain(17)
     }
 }
 

@@ -38,7 +38,7 @@ class CategoryAdapter(
             isBoca: Boolean,
             context: Context
         ) {
-            val colorPrimary = MaterialColors.getColor(context, com.google.android.material.R.attr.colorPrimary, Color.BLUE)
+            val colorPrimary = MaterialColors.getColor(context, R.attr.colorPrimary, Color.BLUE)
             val colorWhite = Color.WHITE
 
             // RESET PADRÃO

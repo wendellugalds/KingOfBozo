@@ -27,7 +27,7 @@
             android:backgroundTint="?attr/colorPrimary"
             android:background="@drawable/background_circle"
             android:text="WU"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textStyle="bold"
             android:textSize="25sp"
             android:gravity="center"/>

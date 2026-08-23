@@ -28,13 +28,13 @@
         <item name="colorPrimary">@color/padrao</item>
 
         <item name="textFillColor">@color/text_dark</item>
-        <item name="textBackground">@color/text_light</item>
+        <item name="customTextBackground">@color/text_light</item>
 
-        <item name="icon">@color/icon_dark</item>
+        <item name="customIcon">@color/icon_dark</item>
         <item name="iconTint">@color/icon_light</item>
         <item name="phoneImage">@drawable/phone_light</item>
 
-        <item name="background">@color/fundo_light</item>
+        <item name="customBackground">@color/fundo_light</item>
         <item name="cardBackgroundColor">@color/card_light</item>
         <item name="cardForegroundColor">@color/card_dark</item>
 
@@ -48,13 +48,13 @@
         <item name="colorPrimary">@color/verde</item>
 
         <item name="textFillColor">@color/text_dark</item>
-        <item name="textBackground">@color/text_light</item>
+        <item name="customTextBackground">@color/text_light</item>
 
-        <item name="icon">@color/icon_dark</item>
+        <item name="customIcon">@color/icon_dark</item>
         <item name="iconTint">@color/icon_light</item>
         <item name="phoneImage">@drawable/phone_light</item>
 
-        <item name="background">@color/fundo_light</item>
+        <item name="customBackground">@color/fundo_light</item>
         <item name="cardBackgroundColor">@color/card_light</item>
         <item name="cardForegroundColor">@color/card_dark</item>
 
@@ -68,13 +68,13 @@
         <item name="colorPrimary">@color/roxo</item>
 
         <item name="textFillColor">@color/text_dark</item>
-        <item name="textBackground">@color/text_light</item>
+        <item name="customTextBackground">@color/text_light</item>
 
-        <item name="icon">@color/icon_dark</item>
+        <item name="customIcon">@color/icon_dark</item>
         <item name="iconTint">@color/icon_light</item>
         <item name="phoneImage">@drawable/phone_light</item>
 
-        <item name="background">@color/fundo_light</item>
+        <item name="customBackground">@color/fundo_light</item>
         <item name="cardBackgroundColor">@color/card_light</item>
         <item name="cardForegroundColor">@color/card_dark</item>
 
@@ -88,13 +88,13 @@
         <item name="colorPrimary">@color/rosa</item>
 
         <item name="textFillColor">@color/text_dark</item>
-        <item name="textBackground">@color/text_light</item>
+        <item name="customTextBackground">@color/text_light</item>
 
-        <item name="icon">@color/icon_dark</item>
+        <item name="customIcon">@color/icon_dark</item>
         <item name="iconTint">@color/icon_light</item>
         <item name="phoneImage">@drawable/phone_light</item>
 
-        <item name="background">@color/fundo_light</item>
+        <item name="customBackground">@color/fundo_light</item>
         <item name="cardBackgroundColor">@color/card_light</item>
         <item name="cardForegroundColor">@color/card_dark</item>
 
@@ -108,13 +108,13 @@
         <item name="colorPrimary">@color/laranja</item>
 
         <item name="textFillColor">@color/text_dark</item>
-        <item name="textBackground">@color/text_light</item>
+        <item name="customTextBackground">@color/text_light</item>
 
-        <item name="icon">@color/icon_dark</item>
+        <item name="customIcon">@color/icon_dark</item>
         <item name="iconTint">@color/icon_light</item>
         <item name="phoneImage">@drawable/phone_light</item>
 
-        <item name="background">@color/fundo_light</item>
+        <item name="customBackground">@color/fundo_light</item>
         <item name="cardBackgroundColor">@color/card_light</item>
         <item name="cardForegroundColor">@color/card_dark</item>
 
@@ -128,13 +128,13 @@
         <item name="colorPrimary">@color/vermelho</item>
 
         <item name="textFillColor">@color/text_dark</item>
-        <item name="textBackground">@color/text_light</item>
+        <item name="customTextBackground">@color/text_light</item>
 
-        <item name="icon">@color/icon_dark</item>
+        <item name="customIcon">@color/icon_dark</item>
         <item name="iconTint">@color/icon_light</item>
         <item name="phoneImage">@drawable/phone_light</item>
 
-        <item name="background">@color/fundo_light</item>
+        <item name="customBackground">@color/fundo_light</item>
         <item name="cardBackgroundColor">@color/card_light</item>
         <item name="cardForegroundColor">@color/card_dark</item>
 

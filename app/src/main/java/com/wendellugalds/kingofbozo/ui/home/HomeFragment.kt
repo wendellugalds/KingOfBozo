@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
 
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo

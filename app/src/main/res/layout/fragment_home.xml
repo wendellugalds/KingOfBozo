@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background"
+    android:background="?attr/customBackground"
     tools:context=".ui.home.HomeFragment">
 
     <FrameLayout
@@ -171,7 +171,7 @@
         android:gravity="top|center"
         android:paddingTop="25dp"
         android:text="MARCAR BOZÓ"
-        android:textColor="?attr/textBackground"
+        android:textColor="?attr/customTextBackground"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

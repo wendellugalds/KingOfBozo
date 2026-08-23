@@ -294,8 +294,8 @@ class SettingsFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        // Corrected reference to R.attr.background
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        // Corrected reference to R.attr.customBackground
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
@@ -305,7 +305,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun updateThemePreview() {
-        val colorPrimary = MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorPrimary, 0)
+        val colorPrimary = MaterialColors.getColor(requireContext(), R.attr.colorPrimary, 0)
         binding.cardCor.backgroundTintList = android.content.res.ColorStateList.valueOf(colorPrimary)
     }
 

@@ -14,7 +14,7 @@
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"
-        app:tint="?attr/textBackground"
+        app:tint="?attr/customTextBackground"
         android:layout_marginTop="24dp"
         android:src="@drawable/background_card_dark" />
 
@@ -30,7 +30,7 @@
             android:gravity="center"
             android:text="ALTERAR JOGADOR"
             android:paddingTop="15dp"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:id="@+id/image_avatar_placeholder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_circle_dark"
                 android:padding="25dp"
                 android:elevation="0dp"
@@ -80,7 +80,7 @@
             android:elevation="5dp"
             android:clickable="true"
             android:focusable="true"
-            android:backgroundTint="?attr/textBackground"
+            android:backgroundTint="?attr/customTextBackground"
             android:background="@drawable/background_circle_dark"
             android:src="@drawable/ic_close"
             android:visibility="gone"
@@ -102,31 +102,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="?attr/textBackground"
+            android:backgroundTint="?attr/customTextBackground"
             android:hint="Nome Jogador"
             android:background="@drawable/background_score_option_riscar"
             android:inputType="textPersonName"
             android:drawableStart="@drawable/ic_person_king"
             android:drawablePadding="10dp"
-            android:drawableTint="?attr/textBackground"
+            android:drawableTint="?attr/customTextBackground"
             android:padding="16dp"
             android:layout_weight="1"
-            android:textColor="?attr/textBackground"
-            android:textColorHint="?attr/textBackground" />
+            android:textColor="?attr/customTextBackground"
+            android:textColorHint="?attr/customTextBackground" />
 
         <EditText
             android:id="@+id/edit_text_age"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/textBackground"
+            android:backgroundTint="?attr/customTextBackground"
             android:hint="Idade"
             android:background="@drawable/background_score_option_riscar"
             android:padding="16dp"
             android:inputType="number"
             android:maxLength="2"
             android:layout_marginStart="16dp"
-            android:textColor="?attr/textBackground"
-            android:textColorHint="?attr/textBackground" />
+            android:textColor="?attr/customTextBackground"
+            android:textColorHint="?attr/customTextBackground" />
 
     </LinearLayout>
 

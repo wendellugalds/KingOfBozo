@@ -15,7 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/background"
+            android:background="?attr/customBackground"
             android:padding="16dp">
 
             <LinearLayout
@@ -34,7 +34,7 @@
                     android:background="@drawable/background_circle"
                     android:padding="12dp"
                     android:src="@drawable/ic_arrow_back"
-                    app:tint="?attr/textBackground"
+                    app:tint="?attr/customTextBackground"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
@@ -69,7 +69,7 @@
                     android:backgroundTint="?attr/colorPrimary"
                     android:background="@drawable/background_circle_yellow"
                     android:padding="12dp"
-                    app:tint="?attr/textBackground"
+                    app:tint="?attr/customTextBackground"
                     android:src="@drawable/ic_person_edit"
                     tools:ignore="ContentDescription" />
 
@@ -80,7 +80,7 @@
                     android:backgroundTint="?attr/colorPrimary"
                     android:background="@drawable/background_circle_yellow"
                     android:padding="12dp"
-                    app:tint="?attr/textBackground"
+                    app:tint="?attr/customTextBackground"
                     android:src="@drawable/ic_delete"
                     android:layout_marginLeft="10dp"
                     tools:ignore="ContentDescription" />
@@ -138,7 +138,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/background_circle"
-                            android:backgroundTint="?attr/background"
+                            android:backgroundTint="?attr/customBackground"
                             android:text="WU"
                             android:textColor="?attr/colorPrimary"
                             android:textStyle="bold"
@@ -221,8 +221,8 @@
                                 android:text="58"
                                 android:drawablePadding="10dp"
                                 app:drawableStartCompat="@drawable/ic_crown"
-                                app:drawableTint="?attr/textBackground"
-                                android:textColor="?attr/textBackground"
+                                app:drawableTint="?attr/customTextBackground"
+                                android:textColor="?attr/customTextBackground"
                                 android:textSize="25sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -368,7 +368,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Pontos"
-                                android:textColor="?attr/textBackground"
+                                android:textColor="?attr/customTextBackground"
                                 android:textStyle="bold"
                                 android:textSize="16sp" />
 
@@ -385,9 +385,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="Pontos acumulados"
-                                    android:textColor="?attr/textBackground"
+                                    android:textColor="?attr/customTextBackground"
                                     app:drawableStartCompat="@drawable/ic_score"
-                                    app:drawableTint="?attr/textBackground"
+                                    app:drawableTint="?attr/customTextBackground"
                                     android:drawablePadding="10dp" />
 
                             </LinearLayout>
@@ -405,9 +405,9 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="Generais"
-                                    android:textColor="?attr/textBackground"
+                                    android:textColor="?attr/customTextBackground"
                                     app:drawableStartCompat="@drawable/ic_general"
-                                    app:drawableTint="?attr/textBackground"
+                                    app:drawableTint="?attr/customTextBackground"
                                     android:drawablePadding="10dp" />
                             </LinearLayout>
 

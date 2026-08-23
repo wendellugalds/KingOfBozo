@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.color.MaterialColors
+import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.BottomSheetRankingGeralBinding
 import com.wendellugalds.kingofbozo.model.PlayerState
@@ -54,7 +55,7 @@ class RankingGeralBottomSheet : BottomSheetDialogFragment() {
         dialog?.window?.let { window ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 originalNavBarColor = requireActivity().window.navigationBarColor
-                val corDoTema = MaterialColors.getColor(requireView(), com.google.android.material.R.attr.colorPrimary)
+                val corDoTema = MaterialColors.getColor(requireView(), R.attr.colorPrimary)
                 window.navigationBarColor = corDoTema
             }
         }

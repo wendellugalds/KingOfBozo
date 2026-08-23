@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="?attr/background"
-    android:background="?attr/background"
+    android:backgroundTint="?attr/customBackground"
+    android:background="?attr/customBackground"
     android:padding="16dp">
 
     <FrameLayout
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="COR"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textSize="15dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/text_cor_title"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:alpha="0.4"
             android:text="COR"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             android:textSize="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

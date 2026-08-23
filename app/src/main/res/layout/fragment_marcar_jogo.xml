@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/background">
+    android:background="?attr/customBackground">
 
     <LinearLayout
         android:id="@+id/action_bar"
@@ -23,7 +23,7 @@
             android:background="@drawable/background_circle"
             android:padding="12dp"
             android:src="@drawable/ic_arrow_back"
-            app:tint="?attr/textBackground"
+            app:tint="?attr/customTextBackground"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
@@ -57,10 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="56dp"
             android:text="Ranking"
-            android:textColor="?attr/textBackground"
+            android:textColor="?attr/customTextBackground"
             app:icon="@drawable/ic_ranking"
             app:iconGravity="textStart"
-            app:iconTint="?attr/textBackground" />
+            app:iconTint="?attr/customTextBackground" />
 
         <ImageView
             android:id="@+id/button_gerenciar_jogadores"
@@ -69,7 +69,7 @@
             android:backgroundTint="?attr/colorPrimary"
             android:background="@drawable/background_circle_yellow"
             android:padding="12dp"
-            app:tint="?attr/textBackground"
+            app:tint="?attr/customTextBackground"
             android:src="@drawable/ic_gerenciar_jogador"
             android:layout_marginStart="10dp"
             tools:ignore="ContentDescription" />
@@ -123,7 +123,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nome jogador"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -133,11 +133,11 @@
                     android:layout_height="wrap_content"
                     android:text="Ganhando"
                     android:alpha="0.6"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="15sp"
                     android:gravity="center"
                     app:drawableStartCompat="@drawable/ic_crown"
-                    app:drawableTint="?attr/textBackground"
+                    app:drawableTint="?attr/customTextBackground"
                     android:drawablePadding="10dp" />
 
             </LinearLayout>
@@ -172,7 +172,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/background_circle"
-                    android:backgroundTint="?attr/textBackground"
+                    android:backgroundTint="?attr/customTextBackground"
                     android:text="WU"
                     android:textColor="?attr/colorPrimary"
                     android:textStyle="bold"
@@ -203,7 +203,7 @@
                 android:id="@+id/valor_az"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Áz"
@@ -221,7 +221,7 @@
                 android:id="@+id/valor_full"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Full"
@@ -239,7 +239,7 @@
                 android:id="@+id/valor_quadra"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Quadra"
@@ -257,7 +257,7 @@
                 android:id="@+id/valor_duque"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Duque"
@@ -275,7 +275,7 @@
                 android:id="@+id/valor_seguida"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Seguida"
@@ -293,7 +293,7 @@
                 android:id="@+id/valor_quina"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Quina"
@@ -311,7 +311,7 @@
                 android:id="@+id/valor_terno"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Terno"
@@ -329,7 +329,7 @@
                 android:id="@+id/valor_quadrada"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Quadrada"
@@ -347,7 +347,7 @@
                 android:id="@+id/valor_sena"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="Sena"
@@ -365,7 +365,7 @@
                 android:id="@+id/valor_general"
                 android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/textBackground"
+                android:backgroundTint="?attr/customTextBackground"
                 android:background="@drawable/background_card_black"
                 android:textColor="?attr/colorPrimary"
                 android:text="General"

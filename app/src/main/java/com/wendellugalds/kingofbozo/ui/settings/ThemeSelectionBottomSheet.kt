@@ -79,7 +79,7 @@ class ThemeSelectionBottomSheet(private val onThemeSelected: (String) -> Unit) :
         dialog?.window?.let { window ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 originalNavBarColor = requireActivity().window.navigationBarColor
-                val corDoTema = MaterialColors.getColor(requireView(), com.google.android.material.R.attr.cardBackgroundColor)
+                val corDoTema = MaterialColors.getColor(requireView(), R.attr.cardBackgroundColor)
                 window.navigationBarColor = corDoTema
             }
         }

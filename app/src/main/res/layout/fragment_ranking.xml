@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background">
+    android:background="?attr/customBackground">
 
     <RelativeLayout
         android:id="@+id/main_content"
@@ -60,10 +60,10 @@
                     android:layout_height="56dp"
                     android:layout_marginEnd="8dp"
                     android:text="JOGAR"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     app:icon="@drawable/ic_mais_um"
                     app:iconGravity="textEnd"
-                    app:iconTint="?attr/textBackground" />
+                    app:iconTint="?attr/customTextBackground" />
 
                 <ImageView
                     android:id="@+id/btn_sair"
@@ -74,7 +74,7 @@
                     android:backgroundTint="?attr/colorPrimary"
                     android:padding="12dp"
                     android:src="@drawable/ic_door_back"
-                    app:tint="?attr/textBackground" />
+                    app:tint="?attr/customTextBackground" />
             </LinearLayout>
         </FrameLayout>
 
@@ -114,7 +114,7 @@
                 android:layout_height="4dp"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/background_card_dark"
-                app:tint="?attr/textBackground" />
+                app:tint="?attr/customTextBackground" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -128,7 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="RANKING GERAL"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 

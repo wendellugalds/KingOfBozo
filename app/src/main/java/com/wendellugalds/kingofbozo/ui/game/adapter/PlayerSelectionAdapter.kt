@@ -55,7 +55,7 @@ class PlayerSelectionAdapter(
             binding.textPlayerName.text = player.name
 
             // Cores baseadas no tema
-            val colorPrimary = context.getColorFromAttr(com.google.android.material.R.attr.colorPrimary)
+            val colorPrimary = context.getColorFromAttr(R.attr.colorPrimary)
             val corfixa = Color.parseColor("#FFFFFF")
 
             if (item.isSelected) {

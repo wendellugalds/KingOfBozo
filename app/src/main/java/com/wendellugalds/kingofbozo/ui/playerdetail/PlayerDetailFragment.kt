@@ -86,8 +86,8 @@ class PlayerDetailFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        // Corrected reference to R.attr.background
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        // Corrected reference to R.attr.customBackground
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundo
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)
@@ -223,7 +223,7 @@ class PlayerDetailFragment : Fragment() {
         val winsProgress = player.wins.toFloat() / 100f
         val finalProgress = min(winsProgress, 1.0f)
 
-        val colorPrimary = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
+        val colorPrimary = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
         val colorSurfaceVariant = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorSurfaceVariant)
 
         val arcDrawable = object : Drawable() {

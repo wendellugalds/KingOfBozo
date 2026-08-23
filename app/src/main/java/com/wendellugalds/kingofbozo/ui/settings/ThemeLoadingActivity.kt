@@ -33,7 +33,7 @@ class ThemeLoadingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Obtém a cor primária diretamente do tema atual para evitar inversão
-        val themeColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary, Color.BLUE)
+        val themeColor = MaterialColors.getColor(this, R.attr.colorPrimary, Color.BLUE)
         binding.waveView.setWaveColor(themeColor)
 
         startLoadingAnimation()

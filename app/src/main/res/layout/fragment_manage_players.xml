@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background">
+    android:background="?attr/customBackground">
 
 
     <LinearLayout
@@ -29,7 +29,7 @@
                 android:background="@drawable/background_circle"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="?attr/textBackground"
+                app:tint="?attr/customTextBackground"
                 tools:ignore="ContentDescription" />
 
             <LinearLayout
@@ -63,10 +63,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:text="NOVO JOGADOR"
-                android:textColor="?attr/textBackground"
+                android:textColor="?attr/customTextBackground"
                 app:icon="@drawable/ic_person_add"
                 app:iconGravity="textEnd"
-                app:iconTint="?attr/textBackground" />
+                app:iconTint="?attr/customTextBackground" />
 
 
         </LinearLayout>
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:textSize="20dp"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:background="@drawable/background_circle"
                     android:backgroundTint="?attr/colorPrimary"
                     android:paddingHorizontal="15dp"
@@ -171,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Fora do jogo"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:alpha="0.5"
                     android:text="Clique no jogador para adicionar"
-                    android:textColor="?attr/textBackground"
+                    android:textColor="?attr/customTextBackground"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 

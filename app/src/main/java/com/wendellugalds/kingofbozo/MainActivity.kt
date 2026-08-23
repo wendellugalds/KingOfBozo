@@ -22,6 +22,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.R as MaterialR
 import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
 
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun configurarCoresDaBarra() {
         val window = this.window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
         
         window.statusBarColor = Color.TRANSPARENT
         window.navigationBarColor = Color.TRANSPARENT
@@ -108,8 +109,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {
-        val inactiveColor = MaterialColors.getColor(this, com.google.android.material.R.attr.icon, Color.GRAY)
-        val activeColor = MaterialColors.getColor(this, com.google.android.material.R.attr.colorPrimary, Color.BLACK)
+        val inactiveColor = MaterialColors.getColor(this, R.attr.customIcon, Color.GRAY)
+        val activeColor = MaterialColors.getColor(this, R.attr.colorPrimary, Color.BLACK)
         val alpha = 0.10f
         val activeBgColor = Color.argb((alpha * 255).toInt(), Color.red(inactiveColor), Color.green(inactiveColor), Color.blue(inactiveColor))
 

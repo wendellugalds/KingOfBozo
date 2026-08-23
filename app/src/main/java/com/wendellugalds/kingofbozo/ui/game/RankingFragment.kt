@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
-import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
+import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.DialogExitGameBinding
 import com.wendellugalds.kingofbozo.databinding.FragmentRankingBinding
 import com.wendellugalds.kingofbozo.model.PlayerState
@@ -51,8 +51,8 @@ class RankingFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         val window = requireActivity().window
-        val corDoFundo = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.background)
-        val corDoFundoBottomSheet = MaterialColors.getColor(binding.root, com.google.android.material.R.attr.colorPrimary)
+        val corDoFundo = MaterialColors.getColor(binding.root, R.attr.customBackground)
+        val corDoFundoBottomSheet = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
         window.statusBarColor = corDoFundo
         window.navigationBarColor = corDoFundoBottomSheet
         val controller = androidx.core.view.WindowInsetsControllerCompat(window, binding.root)

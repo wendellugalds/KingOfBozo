@@ -71,9 +71,9 @@ class PlayerAdapter(
             binding.textPlayerName.text = player.name
 
             // Cores baseadas no tema
-            val colorPrimary = context.getColorFromAttr(com.google.android.material.R.attr.colorPrimary)
+            val colorPrimary = context.getColorFromAttr(R.attr.colorPrimary)
             val textAppearanceButton = context.getColorFromAttr(com.google.android.material.R.attr.textAppearanceButton)
-            val cardForegroundColor = context.getColorFromAttr(com.google.android.material.R.attr.cardBackgroundColor)
+            val cardForegroundColor = context.getColorFromAttr(R.attr.cardBackgroundColor)
             val corBrancafixa = Color.parseColor("#FFFFFF")
 
             val corPretafixa = Color.parseColor("#000000")

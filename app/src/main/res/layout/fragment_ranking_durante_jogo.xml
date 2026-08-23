@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background"
+    android:background="?attr/customBackground"
     android:paddingTop="5dp"
     android:id="@+id/contrai">
 
@@ -31,7 +31,7 @@
                 android:background="@drawable/background_circle"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
-                app:tint="?attr/textBackground" />
+                app:tint="?attr/customTextBackground" />
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -66,10 +66,10 @@
                 android:layout_height="56dp"
                 android:layout_marginEnd="8dp"
                 android:text="Ranking geral"
-                android:textColor="?attr/textBackground"
+                android:textColor="?attr/customTextBackground"
                 app:icon="@drawable/ic_ranking"
                 app:iconGravity="textStart"
-                app:iconTint="?attr/textBackground" />
+                app:iconTint="?attr/customTextBackground" />
         </LinearLayout>
     </FrameLayout>
 
