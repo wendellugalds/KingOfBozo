@@ -13,11 +13,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
+import com.wendellugalds.kingofbozo.util.AnimationUtil
 
 class MainActivity : AppCompatActivity() {
 
@@ -70,10 +73,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupCustomNavigation() {
-        binding.navHome.setOnClickListener { navController.navigate(R.id.navigation_home) }
-        binding.navPlayers.setOnClickListener { navController.navigate(R.id.navigation_players) }
-        binding.navSavedGames.setOnClickListener { navController.navigate(R.id.navigation_saved_games) }
-        binding.navSettings.setOnClickListener { navController.navigate(R.id.navigation_settings) }
+        val navOptions = androidx.navigation.NavOptions.Builder()
+            .setEnterAnim(android.R.anim.fade_in)
+            .setExitAnim(android.R.anim.fade_out)
+            .setPopEnterAnim(android.R.anim.fade_in)
+            .setPopExitAnim(android.R.anim.fade_out)
+            .setLaunchSingleTop(true)
+            .setRestoreState(true)
+            .build()
+
+        binding.navHome.setOnClickListener {
+            if (navController.currentDestination?.id != R.id.navigation_home) {
+                AnimationUtil.collapseAnyExpandedButton(window.decorView) {
+                    navController.navigate(R.id.navigation_home, null, navOptions)
+                }
+            }
+        }
+        binding.navPlayers.setOnClickListener {
+            if (navController.currentDestination?.id != R.id.navigation_players) {
+                AnimationUtil.collapseAnyExpandedButton(window.decorView) {
+                    navController.navigate(R.id.navigation_players, null, navOptions)
+                }
+            }
+        }
+        binding.navSavedGames.setOnClickListener {
+            if (navController.currentDestination?.id != R.id.navigation_saved_games) {
+                AnimationUtil.collapseAnyExpandedButton(window.decorView) {
+                    navController.navigate(R.id.navigation_saved_games, null, navOptions)
+                }
+            }
+        }
+        binding.navSettings.setOnClickListener {
+            if (navController.currentDestination?.id != R.id.navigation_settings) {
+                AnimationUtil.collapseAnyExpandedButton(window.decorView) {
+                    navController.navigate(R.id.navigation_settings, null, navOptions)
+                }
+            }
+        }
     }
 
     private fun setupNavigationVisibility() {
@@ -86,6 +122,14 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
             binding.cardNavigation.visibility = if (isVisible) View.VISIBLE else View.GONE
+            
+            // Animação suave para as mudanças no menu (ex: expansão do texto)
+            val transition = AutoTransition().apply {
+                duration = 250
+                ordering = androidx.transition.TransitionSet.ORDERING_TOGETHER
+            }
+            TransitionManager.beginDelayedTransition(binding.bottomNavigationContainer, transition)
+            
             updateNavIcons(destination.id)
 
             val typedValuePrimary = android.util.TypedValue()
@@ -151,10 +195,22 @@ class MainActivity : AppCompatActivity() {
         icon.imageTintList = ColorStateList.valueOf(color)
         text.setTextColor(color)
 
+        // Animação de escala no ícone ao ativar
+        icon.scaleX = 0.8f
+        icon.scaleY = 0.8f
+        icon.animate()
+            .scaleX(1.1f)
+            .scaleY(1.1f)
+            .setDuration(200)
+            .withEndAction {
+                icon.animate().scaleX(1.0f).scaleY(1.0f).setDuration(100).start()
+            }
+            .start()
+
         // Define o tamanho da fonte em sp sem dar erro
         text.textSize = 12f
 
-        // Converte 8dp em pixels reais para o padding lateral não estourar o limite
+        // Converte 12dp em pixels reais para o padding lateral não estourar o limite
         val paddingPx = (12 * resources.displayMetrics.density).toInt()
         layout.setPadding(paddingPx, 0, paddingPx, 0)
 

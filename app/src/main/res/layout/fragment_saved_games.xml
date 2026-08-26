@@ -89,8 +89,8 @@
     <TextView
         android:id="@+id/button_marcador_jogo"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/background_card_2_destaque"
+        android:layout_height="80dp"
+        android:background="@drawable/background_card_btn_repouso_destaque_menu"
         android:backgroundTint="?attr/colorPrimary"
         android:elevation="1dp"
         android:gravity="top|center"

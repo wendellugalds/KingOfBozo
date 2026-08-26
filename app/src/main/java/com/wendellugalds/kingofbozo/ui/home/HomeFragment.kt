@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AnimationUtil
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentHomeBinding
 import java.util.Calendar
@@ -37,12 +38,18 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonMarcador.setOnClickListener {
-            findNavController().navigate(R.id.action_global_playerSelectionFragment)
+            AnimationUtil.applyCollapseAnimation(binding.buttonMarcador) {
+                findNavController().navigate(R.id.action_global_playerSelectionFragment)
+            }
         }
 
         updateGreeting()
         configurarCoresDaBarra()
         iniciarAnimacoesLoop()
+        
+        binding.buttonMarcador.post {
+            AnimationUtil.applyExpansionAnimation(binding.buttonMarcador)
+        }
     }
 
     private fun iniciarAnimacoesLoop() {

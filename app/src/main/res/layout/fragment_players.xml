@@ -100,9 +100,9 @@
     <TextView
         android:id="@+id/button_adicionar_jogador"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="80dp"
         android:backgroundTint="?attr/colorPrimary"
-        android:background="@drawable/background_card_2_destaque"
+        android:background="@drawable/background_card_btn_repouso_destaque_menu"
         android:gravity="top|center"
         android:paddingTop="25dp"
         android:text="@string/adicionar_jogador"

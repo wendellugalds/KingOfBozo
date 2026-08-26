@@ -33,6 +33,7 @@ import com.wendellugalds.kingofbozo.databinding.DialogDeletePlayerBinding
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AnimationUtil
 
 
 private fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
@@ -77,6 +78,10 @@ class PlayersFragment : Fragment() {
         }
 
         configurarCoresDaBarra()
+        
+        binding.buttonAdicionarJogador.post {
+            AnimationUtil.applyExpansionAnimation(binding.buttonAdicionarJogador)
+        }
     }
 
     private fun configurarCoresDaBarra() {
@@ -102,8 +107,10 @@ class PlayersFragment : Fragment() {
     private fun setupRecyclerView() {
         playerAdapter = PlayerAdapter(
             clickListener = { player ->
-                val action = PlayersFragmentDirections.actionPlayersFragmentToPlayerDetailFragment(player.id.toInt())
-                findNavController().navigate(action)
+                AnimationUtil.collapseAnyExpandedButton(binding.root) {
+                    val action = PlayersFragmentDirections.actionPlayersFragmentToPlayerDetailFragment(player.id.toInt())
+                    findNavController().navigate(action)
+                }
             },
             selectionListener = {
                 updateContextualActionBar()

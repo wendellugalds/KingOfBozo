@@ -33,6 +33,7 @@ import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
 import com.wendellugalds.kingofbozo.util.ThemeStorage
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AnimationUtil
 import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
@@ -84,14 +85,20 @@ class SettingsFragment : Fragment() {
         updateNightModeDisplay()
         updateThemeName()
 
+        binding.cardCor.post {
+            AnimationUtil.applyExpansionAnimation(binding.cardCor)
+        }
+
         binding.cardCor.setOnClickListener {
             resetCountdown()
             val bottomSheet = ThemeSelectionBottomSheet { themeKey ->
-                ThemeStorage.saveTheme(requireContext(), themeKey)
-                val intent = Intent(requireContext(), ThemeLoadingActivity::class.java)
-                intent.putExtra("theme_key", themeKey)
-                startActivity(intent)
-                requireActivity().finish() // Opcional: fechar a Activity atual para limpar a pilha
+                AnimationUtil.applyCollapseAnimation(binding.cardCor) {
+                    ThemeStorage.saveTheme(requireContext(), themeKey)
+                    val intent = Intent(requireContext(), ThemeLoadingActivity::class.java)
+                    intent.putExtra("theme_key", themeKey)
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
             }
             bottomSheet.show(parentFragmentManager, "ThemeSelection")
         }

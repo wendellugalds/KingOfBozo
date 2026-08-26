@@ -21,6 +21,7 @@ import com.wendellugalds.kingofbozo.model.SavedGame
 import com.wendellugalds.kingofbozo.ui.game.GameViewModel
 import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AnimationUtil
 
 class SavedGamesFragment : Fragment() {
 
@@ -44,6 +45,10 @@ class SavedGamesFragment : Fragment() {
         observeSavedGames()
         setupClickListeners()
         configurarCoresDaBarra()
+        
+        binding.buttonMarcadorJogo.post {
+            AnimationUtil.applyExpansionAnimation(binding.buttonMarcadorJogo)
+        }
     }
 
     private fun configurarCoresDaBarra() {
@@ -52,15 +57,19 @@ class SavedGamesFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.buttonMarcadorJogo.setOnClickListener {
-            findNavController().navigate(R.id.action_global_playerSelectionFragment)
+            AnimationUtil.applyCollapseAnimation(binding.buttonMarcadorJogo) {
+                findNavController().navigate(R.id.action_global_playerSelectionFragment)
+            }
         }
     }
 
     private fun setupRecyclerView() {
         savedGamesAdapter = SavedGamesAdapter(
             onClick = { savedGame ->
-                gameViewModel.loadGame(savedGame)
-                findNavController().navigate(R.id.action_navigation_saved_games_to_marcadorFragment)
+                AnimationUtil.collapseAnyExpandedButton(binding.root) {
+                    gameViewModel.loadGame(savedGame)
+                    findNavController().navigate(R.id.action_navigation_saved_games_to_marcadorFragment)
+                }
             },
             onDelete = { savedGame ->
                 showDeleteConfirmationDialog(savedGame)
