@@ -18,10 +18,14 @@ import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentSavedGamesBinding
 import com.wendellugalds.kingofbozo.model.SavedGame
+import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.GameViewModel
 import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import androidx.recyclerview.widget.RecyclerView
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class SavedGamesFragment : Fragment() {
 
@@ -73,12 +77,48 @@ class SavedGamesFragment : Fragment() {
             },
             onDelete = { savedGame ->
                 showDeleteConfirmationDialog(savedGame)
+            },
+            onGamersClick = { savedGame ->
+                showSavedGamePlayersDialog(savedGame)
             }
         )
         binding.recyclerViewJogosSalvos.apply {
             adapter = savedGamesAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun showSavedGamePlayersDialog(savedGame: SavedGame) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_saved_game_players, null)
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogView)
+            .create()
+
+        val textTitle = dialogView.findViewById<TextView>(R.id.text_title)
+        val textInstructions = dialogView.findViewById<TextView>(R.id.text_instructions)
+        val btnClose = dialogView.findViewById<View>(R.id.btn_close)
+        val recyclerView = dialogView.findViewById<RecyclerView>(R.id.recycler_saved_game_players)
+
+        val gson = Gson()
+        val listType = object : TypeToken<List<PlayerState>>() {}.type
+        val playerStates: List<PlayerState> = gson.fromJson(savedGame.playerStatesJson, listType)
+
+        // Ordena por pontuação da rodada (totalScore) para mostrar a classificação
+        val sortedPlayers = playerStates.sortedByDescending { it.totalScore }
+
+        val adapter = SavedGamePlayersAdapter(savedGame.currentRound)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+        adapter.submitList(sortedPlayers)
+
+        textTitle.text = "LISTA DE JOGADORES"
+        textInstructions.text = "${playerStates.size} jogadores nesse jogo"
+
+        btnClose.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun observeSavedGames() {

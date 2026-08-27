@@ -17,7 +17,8 @@ import java.util.concurrent.TimeUnit
 
 class SavedGamesAdapter(
     private val onClick: (SavedGame) -> Unit,
-    private val onDelete: (SavedGame) -> Unit
+    private val onDelete: (SavedGame) -> Unit,
+    private val onGamersClick: (SavedGame) -> Unit
 ) : ListAdapter<SavedGame, SavedGamesAdapter.ViewHolder>(DiffCallback) {
 
     class ViewHolder(val binding: ItemJogoSalvoBinding) : RecyclerView.ViewHolder(binding.root)
@@ -51,6 +52,7 @@ class SavedGamesAdapter(
 
         holder.itemView.setOnClickListener { onClick(game) }
         holder.binding.btnDelete.setOnClickListener { onDelete(game) }
+        holder.binding.gamersInGame.setOnClickListener { onGamersClick(game) }
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<SavedGame>() {
