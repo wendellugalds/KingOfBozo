@@ -14,6 +14,8 @@ import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.model.SavedGame
 import com.wendellugalds.kingofbozo.model.ScoreEntry
+import com.wendellugalds.kingofbozo.model.GameStatus
+import com.wendellugalds.kingofbozo.model.TieBreakerState
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
@@ -40,11 +42,45 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
     private val _gameSavedSuccessfully = MutableLiveData<Boolean>()
     val gameSavedSuccessfully: LiveData<Boolean> = _gameSavedSuccessfully
     
+    private val _tieBreakerUiState = MutableLiveData<TieBreakerState>(TieBreakerState.Idle)
+    val tieBreakerUiState: LiveData<TieBreakerState> = _tieBreakerUiState
+
+    // Armazena os valores extras do dado para desempate temporariamente
+    private val _tempTieBreakerValues = MutableLiveData<Map<Long, Int>>(emptyMap())
+    val tempTieBreakerValues: LiveData<Map<Long, Int>> = _tempTieBreakerValues
+
     val allSavedGames: LiveData<List<SavedGame>> = repository.allSavedGames.asLiveData()
 
     private var isFinishingRound = false
 
     init {
+        // Coletor para manter o GameState sincronizado com o banco de dados em tempo real
+        viewModelScope.launch {
+            repository.allPlayers.collect { allDbPlayers ->
+                _gameState.value?.let { currentState ->
+                    val updatedPlayersState = currentState.playersState.map { pState ->
+                        val dbPlayer = allDbPlayers.find { it.id == pState.playerId }
+                        if (dbPlayer != null && (dbPlayer.name != pState.playerName || dbPlayer.imageUri != pState.playerImage)) {
+                            pState.copy(playerName = dbPlayer.name, playerImage = dbPlayer.imageUri)
+                        } else {
+                            pState
+                        }
+                    }
+
+                    if (updatedPlayersState != currentState.playersState) {
+                        val newState = currentState.copy(playersState = updatedPlayersState)
+                        _gameState.value = newState
+                        
+                        // Sincroniza também o estado de desempate se estiver ativo
+                        if (newState.status == GameStatus.WAITING_TIE_BREAKER) {
+                            val tiedPlayers = updatedPlayersState.filter { it.playerId in (newState.tiedPlayerIds ?: emptyList()) }
+                            _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(tiedPlayers)
+                        }
+                    }
+                }
+            }
+        }
+
         val merger = {
             val allPlayers = availablePlayers.value.orEmpty()
             val currentlySelected = selectedPlayers.value.orEmpty()
@@ -77,11 +113,15 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
 
     fun startGame() {
         isFinishingRound = false
+        _tieBreakerUiState.value = TieBreakerState.Idle
+        _tempTieBreakerValues.value = emptyMap()
+        
         val playersToStart = _selectedPlayers.value.orEmpty()
         if (playersToStart.isEmpty()) return
         val initialPlayersState = playersToStart.map { player ->
             val initialScores = CategoryType.values().associateWith { null as ScoreEntry? }.toMutableMap()
             PlayerState(
+                playerId = player.id,
                 playerName = player.name,
                 playerImage = player.imageUri,
                 scores = initialScores,
@@ -102,6 +142,7 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
 
         val initialScores = CategoryType.values().associateWith { null as ScoreEntry? }.toMutableMap()
         val newPlayerState = PlayerState(
+            playerId = player.id,
             playerName = player.name,
             playerImage = player.imageUri,
             scores = initialScores,
@@ -216,6 +257,25 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
 
     private fun finishRound(state: GameState) {
         if (isFinishingRound) return
+        
+        // 1. Calcula pontuação máxima da rodada atual
+        val maxScore = state.playersState.maxOf { it.totalScore }
+        
+        // 2. Filtra quem atingiu essa pontuação (Potenciais vencedores)
+        val winners = state.playersState.filter { it.totalScore == maxScore }
+
+        if (winners.size > 1 && maxScore > 0) {
+            // EMPATE DETECTADO NO 1º LUGAR
+            val updatedState = state.copy(
+                status = GameStatus.WAITING_TIE_BREAKER,
+                tiedPlayerIds = winners.map { it.playerId }
+            )
+            _gameState.value = updatedState
+            _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(winners)
+            saveCurrentGame() // Salva o estado AGUARDANDO_DESEMPATE
+            return
+        }
+
         isFinishingRound = true
         
         viewModelScope.launch {
@@ -291,6 +351,7 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
         
         val newPlayersState = sortedPlayers.map { player ->
             PlayerState(
+                playerId = player.playerId,
                 playerName = player.playerName,
                 playerImage = player.playerImage,
                 scores = CategoryType.values().associateWith { null as ScoreEntry? }.toMutableMap(),
@@ -321,7 +382,9 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
                 currentRound = state.currentRound,
                 playerStatesJson = playerStatesJson,
                 accumulatedTimeMillis = getCurrentAccumulatedTime(),
-                currentPlayerIndex = state.currentPlayerIndex
+                currentPlayerIndex = state.currentPlayerIndex,
+                status = state.status,
+                tiedPlayerIdsJson = gson.toJson(state.tiedPlayerIds)
             )
             val newId = repository.saveGame(savedGame)
             if (state.gameId == 0L) {
@@ -339,31 +402,126 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
 
     fun loadGame(savedGame: SavedGame) {
         isFinishingRound = false
-        val gson = Gson()
-        val listType = object : TypeToken<List<PlayerState>>() {}.type
-        val playerStates: List<PlayerState> = gson.fromJson(savedGame.playerStatesJson, listType)
+        _tieBreakerUiState.value = TieBreakerState.Idle
+        _tempTieBreakerValues.value = emptyMap()
         
-        val state = GameState(
-            gameId = savedGame.id,
-            playersState = playerStates,
-            currentPlayerIndex = savedGame.currentPlayerIndex,
-            currentRound = savedGame.currentRound,
-            startTimeMillis = System.currentTimeMillis(),
-            accumulatedTimeMillis = savedGame.accumulatedTimeMillis
-        )
-        _gameState.value = state
+        viewModelScope.launch {
+            val gson = Gson()
+            val listType = object : TypeToken<List<PlayerState>>() {}.type
+            val playerStates: List<PlayerState> = gson.fromJson(savedGame.playerStatesJson, listType)
+            
+            // Busca a versão mais recente dos jogadores do banco de dados de forma garantida
+            val allPlayers = repository.allPlayers.first()
+            val syncedPlayerStates = playerStates.map { pState ->
+                val dbPlayer = allPlayers.find { it.id == pState.playerId }
+                if (dbPlayer != null) {
+                    pState.copy(playerName = dbPlayer.name, playerImage = dbPlayer.imageUri)
+                } else {
+                    pState
+                }
+            }
+            
+            val tiedPlayerIds: List<Long>? = gson.fromJson(savedGame.tiedPlayerIdsJson, object : TypeToken<List<Long>>() {}.type)
+            
+            val state = GameState(
+                gameId = savedGame.id,
+                playersState = syncedPlayerStates,
+                currentPlayerIndex = savedGame.currentPlayerIndex,
+                currentRound = savedGame.currentRound,
+                startTimeMillis = System.currentTimeMillis(),
+                accumulatedTimeMillis = savedGame.accumulatedTimeMillis,
+                status = savedGame.status,
+                tiedPlayerIds = tiedPlayerIds
+            )
+            _gameState.value = state
 
-        val hasGeneralBoca = playerStates.any { it.scores[CategoryType.GENERAL]?.value == 1000 }
-        
-        if (hasGeneralBoca) {
-            startNextRound()
-        } else {
-            _navigateToRanking.value = false
+            if (savedGame.status == GameStatus.WAITING_TIE_BREAKER) {
+                val tiedPlayers = syncedPlayerStates.filter { it.playerId in (tiedPlayerIds ?: emptyList()) }
+                _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(tiedPlayers)
+                _navigateToRanking.value = false
+            } else {
+                val hasGeneralBoca = playerStates.any { it.scores[CategoryType.GENERAL]?.value == 1000 }
+                if (hasGeneralBoca) {
+                    startNextRound()
+                } else {
+                    _navigateToRanking.value = false
+                }
+            }
         }
     }
 
     fun onRankingNavigated() {
         _navigateToRanking.value = false
+    }
+
+    // --- LOGICA DE DESEMPATE ---
+
+    fun onPlayerSelectedForTieBreak(player: PlayerState) {
+        _tieBreakerUiState.value = TieBreakerState.ShowScoreInput(player)
+    }
+
+    fun setTieBreakerValue(player: PlayerState, dieValue: Int) {
+        val currentValues = _tempTieBreakerValues.value.orEmpty().toMutableMap()
+        currentValues[player.playerId] = dieValue
+        _tempTieBreakerValues.value = currentValues
+        
+        // Volta para a lista de empatados
+        val currentState = _gameState.value ?: return
+        val tiedPlayers = currentState.playersState.filter { it.playerId in (currentState.tiedPlayerIds ?: emptyList()) }
+        _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(tiedPlayers)
+    }
+
+    fun clearTieBreakerValue(player: PlayerState) {
+        val currentValues = _tempTieBreakerValues.value.orEmpty().toMutableMap()
+        currentValues.remove(player.playerId)
+        _tempTieBreakerValues.value = currentValues
+        
+        // Volta para a lista de empatados
+        val currentState = _gameState.value ?: return
+        val tiedPlayers = currentState.playersState.filter { it.playerId in (currentState.tiedPlayerIds ?: emptyList()) }
+        _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(tiedPlayers)
+    }
+
+    fun resolveTie() {
+        val currentState = _gameState.value ?: return
+        val extraValues = _tempTieBreakerValues.value.orEmpty()
+        
+        val updatedPlayers = currentState.playersState.map { p ->
+            val extra = extraValues[p.playerId] ?: 0
+            if (extra > 0) {
+                p.copy(totalScore = p.totalScore + extra)
+            } else p
+        }
+        
+        val newState = currentState.copy(
+            playersState = updatedPlayers,
+            status = GameStatus.ONGOING,
+            tiedPlayerIds = null
+        )
+        
+        _gameState.value = newState
+        _tieBreakerUiState.value = TieBreakerState.Idle
+        _tempTieBreakerValues.value = emptyMap()
+        
+        finishRound(newState)
+    }
+
+    fun dismissTieBreaker() {
+        if (_gameState.value?.status == GameStatus.WAITING_TIE_BREAKER) {
+            _tieBreakerUiState.value = TieBreakerState.ConfirmExit
+        } else {
+            _tieBreakerUiState.value = TieBreakerState.Idle
+        }
+    }
+
+    fun cancelExitConfirm() {
+        val currentState = _gameState.value ?: return
+        if (currentState.status == GameStatus.WAITING_TIE_BREAKER) {
+            val tiedPlayers = currentState.playersState.filter { it.playerId in (currentState.tiedPlayerIds ?: emptyList()) }
+            _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(tiedPlayers)
+        } else {
+            _tieBreakerUiState.value = TieBreakerState.Idle
+        }
     }
 
     fun resetSaveStatus() {

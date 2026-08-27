@@ -109,6 +109,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/gamers_in_game"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"

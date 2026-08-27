@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="24dp"
+    android:background="@drawable/background_card_btn_repouso_destaque_menu"
+    android:backgroundTint="?attr/customBackground">
+
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PONTOS DO VENCEDOR"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btn_close_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_close_input"
+        app:layout_constraintTop_toTopOf="@id/btn_close_input" />
+
+
+    <ImageView
+        android:id="@+id/btn_close_input"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="10dp"
+        android:src="@drawable/ic_close"
+        android:background="@drawable/background_circle"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        app:tint="?attr/textFillColor"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/theme_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background_selector"
+        android:backgroundTint="?attr/cardBackgroundColor"
+        android:padding="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="24dp">
+
+        <FrameLayout
+            android:id="@+id/container_avatar"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+            <TextView
+                android:id="@+id/sigla_nome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="WU"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_player_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                tools:visibility="visible" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_player_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="?attr/textFillColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/text_current_score"
+            app:layout_constraintStart_toEndOf="@+id/container_avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Wendell Ugalds" />
+
+        <TextView
+            android:id="@+id/text_current_score"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:textColor="?attr/textFillColor"
+            android:textSize="15sp"
+            app:drawableStartCompat="@drawable/ic_score"
+            app:drawableTint="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/text_player_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_player_name"
+            tools:text="25435 Pontos" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <TextView
+        android:id="@+id/dialog_instructions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Selecione o ponto para adicionar \n e fazer esse jogador ganhar!"
+        android:textColor="?attr/textFillColor"
+        android:textSize="16sp"
+        android:alpha="0.8"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/theme_normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_instructions"
+        tools:layout_editor_absoluteX="24dp">
+
+        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="3">
+
+            <TextView
+                android:id="@+id/btn_die_1"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_die_2"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_die_3"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="3"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_die_4"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="4"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btn_die_5"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="5"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/btn_die_6"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_row="2"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/colorPrimary"
+                android:gravity="center"
+                android:text="6"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="35dp"
+                android:textStyle="bold" />
+
+
+            <Button
+                android:id="@+id/btn_clear_tie"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_margin="4dp"
+                android:background="@drawable/background_card_black"
+                android:gravity="center"
+                android:text="LIMPAR"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="25dp"
+                app:backgroundTint="?attr/cardBackgroundColor"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_clear"
+                app:iconSize="25dp"
+                app:iconTint="?attr/colorPrimary" />
+
+
+        </GridLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

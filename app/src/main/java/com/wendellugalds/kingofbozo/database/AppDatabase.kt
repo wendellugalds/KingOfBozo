@@ -9,7 +9,7 @@ import com.wendellugalds.kingofbozo.model.Converters
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.model.SavedGame
 
-@Database(entities = [Player::class, SavedGame::class], version = 5, exportSchema = false)
+@Database(entities = [Player::class, SavedGame::class], version = 6, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

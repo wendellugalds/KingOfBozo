@@ -4,6 +4,7 @@ package com.wendellugalds.kingofbozo.model
  * Representa o estado de um único jogador em um determinado momento.
  */
 data class PlayerState(
+    val playerId: Long = 0,
     val playerName: String,
     val playerImage: String? = null,
     val scores: MutableMap<CategoryType, ScoreEntry?>,
@@ -23,5 +24,7 @@ data class GameState(
     val currentPlayerIndex: Int,
     val currentRound: Int,
     val startTimeMillis: Long = System.currentTimeMillis(),
-    val accumulatedTimeMillis: Long = 0
+    val accumulatedTimeMillis: Long = 0,
+    val status: GameStatus = GameStatus.ONGOING,
+    val tiedPlayerIds: List<Long>? = null
 )

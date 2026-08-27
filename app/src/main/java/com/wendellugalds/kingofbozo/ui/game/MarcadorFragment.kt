@@ -1,5 +1,7 @@
 package com.wendellugalds.kingofbozo.ui.game
 
+import android.net.Uri
+import coil.transform.CircleCropTransformation
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.transition.ChangeBounds
@@ -7,6 +9,7 @@ import android.transition.Fade
 import android.transition.TransitionManager
 import android.transition.TransitionSet
 import android.util.TypedValue
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,9 +37,13 @@ import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.*
 import com.wendellugalds.kingofbozo.model.CategoryType
 import com.wendellugalds.kingofbozo.model.PlayerState
+import com.wendellugalds.kingofbozo.model.TieBreakerState
+import com.wendellugalds.kingofbozo.model.GameStatus
 import com.wendellugalds.kingofbozo.ui.game.adapter.CategoryAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
+import com.wendellugalds.kingofbozo.ui.game.adapter.TieBreakerAdapter
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AnimationUtil
 
 @Suppress("DEPRECATION")
 class MarcadorFragment : Fragment() {
@@ -53,6 +60,7 @@ class MarcadorFragment : Fragment() {
     private var lastTotalScore: Int = 0
     private var scoreAnimator: ValueAnimator? = null
     private var isFirstLoad = true
+    private var tieBreakerDialog: AlertDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMarcarJogoBinding.inflate(inflater, container, false)
@@ -65,6 +73,7 @@ class MarcadorFragment : Fragment() {
         setupRecyclerView()
         setupCategoryButtons()
         observeGameState()
+        observeTieBreakerState()
         configurarCoresDaBarra()
         setupOnBackPressed()
 
@@ -81,6 +90,161 @@ class MarcadorFragment : Fragment() {
                 findNavController().navigate(R.id.action_marcadorFragment_to_managePlayersFragment)
             }
         }
+    }
+
+    private fun observeTieBreakerState() {
+        gameViewModel.tieBreakerUiState.observe(viewLifecycleOwner) { state ->
+            handleTieBreakerState(state)
+        }
+    }
+
+    private fun handleTieBreakerState(state: TieBreakerState) {
+        tieBreakerDialog?.dismiss()
+        tieBreakerDialog = null
+
+        when (state) {
+            is TieBreakerState.ShowTiedPlayers -> showTiedPlayersDialog(state.tiedPlayers)
+            is TieBreakerState.ShowScoreInput -> showScoreInputDialog(state.player)
+            is TieBreakerState.ConfirmExit -> showExitConfirmDialog()
+            TieBreakerState.Idle -> { }
+        }
+    }
+
+    private fun showTiedPlayersDialog(tiedPlayers: List<PlayerState>) {
+        val dialogBinding = DialogTieBreakerListBinding.inflate(layoutInflater)
+        
+        fun updateDialogState() {
+            val tempValues = gameViewModel.tempTieBreakerValues.value.orEmpty()
+            val adapter = TieBreakerAdapter(tempValues) { player ->
+                gameViewModel.onPlayerSelectedForTieBreak(player)
+            }
+            
+            dialogBinding.recyclerTiedPlayers.layoutManager = LinearLayoutManager(requireContext())
+            dialogBinding.recyclerTiedPlayers.adapter = adapter
+            adapter.submitList(tiedPlayers)
+
+            // Lógica do botão confirmar: só aparece se houver vencedor isolado
+            val finalScores = tiedPlayers.map { it.totalScore + (tempValues[it.playerId] ?: 0) }
+            val maxScore = finalScores.maxOrNull() ?: 0
+            val isTieResolved = finalScores.count { it == maxScore } == 1
+            
+            dialogBinding.btnConfirmTie.isVisible = isTieResolved
+        }
+
+        updateDialogState()
+
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogBinding.root)
+            .setCancelable(false)
+            .create()
+
+        // Sincroniza o botão "Voltar" do sistema com o botão de fechar "X"
+        dialog.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                gameViewModel.dismissTieBreaker()
+                true
+            } else false
+        }
+
+        dialogBinding.btnClose.setOnClickListener {
+            gameViewModel.dismissTieBreaker()
+        }
+
+        dialogBinding.btnConfirmTie.setOnClickListener {
+            gameViewModel.resolveTie()
+        }
+
+        tieBreakerDialog = dialog
+        dialog.show()
+    }
+
+    private fun showScoreInputDialog(player: PlayerState) {
+        val dialogBinding = DialogTieBreakerInputBinding.inflate(layoutInflater)
+        dialogBinding.textPlayerName.text = player.playerName
+        dialogBinding.textCurrentScore.text = "${player.totalScore} pontos"
+
+        // Configura foto ou iniciais do jogador
+        if (!player.playerImage.isNullOrEmpty()) {
+            dialogBinding.imagePlayerAvatar.load(Uri.parse(player.playerImage)) {
+                crossfade(true)
+                placeholder(R.drawable.ic_person)
+                transformations(CircleCropTransformation())
+            }
+            dialogBinding.imagePlayerAvatar.visibility = View.VISIBLE
+            dialogBinding.siglaNome.visibility = View.GONE
+        } else {
+            dialogBinding.imagePlayerAvatar.visibility = View.GONE
+            dialogBinding.siglaNome.visibility = View.VISIBLE
+            val name = player.playerName.trim()
+            val words = name.split(" ").filter { it.isNotBlank() }
+            dialogBinding.siglaNome.text = if (words.size > 1) {
+                "${words.first().first()}${words.last().first()}"
+            } else if (words.isNotEmpty()) {
+                words.first().take(2).uppercase()
+            } else {
+                "--"
+            }
+        }
+
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogBinding.root)
+            .setCancelable(false)
+            .create()
+
+        // Sincroniza o botão "Voltar" do sistema com o botão de fechar "X"
+        dialog.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                gameViewModel.cancelExitConfirm()
+                true
+            } else false
+        }
+
+        dialogBinding.btnDie1.setOnClickListener { gameViewModel.setTieBreakerValue(player, 1) }
+        dialogBinding.btnDie2.setOnClickListener { gameViewModel.setTieBreakerValue(player, 2) }
+        dialogBinding.btnDie3.setOnClickListener { gameViewModel.setTieBreakerValue(player, 3) }
+        dialogBinding.btnDie4.setOnClickListener { gameViewModel.setTieBreakerValue(player, 4) }
+        dialogBinding.btnDie5.setOnClickListener { gameViewModel.setTieBreakerValue(player, 5) }
+        dialogBinding.btnDie6.setOnClickListener { gameViewModel.setTieBreakerValue(player, 6) }
+
+        dialogBinding.btnClearTie.setOnClickListener {
+            gameViewModel.clearTieBreakerValue(player)
+        }
+
+        dialogBinding.btnCloseInput.setOnClickListener {
+            gameViewModel.cancelExitConfirm() // Volta para a lista
+        }
+
+        tieBreakerDialog = dialog
+        dialog.show()
+    }
+
+    private fun showExitConfirmDialog() {
+        val dialogBinding = DialogConfirmExitTieBreakBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setView(dialogBinding.root)
+            .setCancelable(false)
+            .create()
+
+        // Sincroniza o botão "Voltar" do sistema com o botão "Cancelar/Voltar"
+        dialog.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP) {
+                gameViewModel.cancelExitConfirm()
+                true
+            } else false
+        }
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            dialog.dismiss()
+            gameViewModel.saveCurrentGame()
+            findNavController().navigate(R.id.navigation_saved_games)
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            gameViewModel.cancelExitConfirm() // Volta para a lista de empatados
+        }
+
+        tieBreakerDialog = dialog
+        dialog.show()
     }
 
     private fun configurarCoresDaBarra() {

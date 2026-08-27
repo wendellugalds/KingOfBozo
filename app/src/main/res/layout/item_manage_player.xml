@@ -64,7 +64,6 @@
             app:layout_constraintVertical_chainStyle="packed"
             tools:text="Wendell Ugalds" />
 
-
         <FrameLayout
             android:id="@+id/container_action"
             android:layout_width="65dp"
