@@ -23,6 +23,8 @@ import com.wendellugalds.kingofbozo.ui.game.GameViewModel
 import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import com.wendellugalds.kingofbozo.ui.game.GameLoadingActivity
+import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -71,8 +73,10 @@ class SavedGamesFragment : Fragment() {
         savedGamesAdapter = SavedGamesAdapter(
             onClick = { savedGame ->
                 AnimationUtil.collapseAnyExpandedButton(binding.root) {
-                    gameViewModel.loadGame(savedGame)
-                    findNavController().navigate(R.id.action_navigation_saved_games_to_marcadorFragment)
+                    val intent = Intent(requireContext(), GameLoadingActivity::class.java)
+                    intent.putExtra("GAME_ID", savedGame.id)
+                    startActivity(intent)
+                    requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 }
             },
             onDelete = { savedGame ->

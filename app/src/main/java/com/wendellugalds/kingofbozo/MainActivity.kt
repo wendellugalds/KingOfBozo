@@ -1,6 +1,7 @@
 package com.wendellugalds.kingofbozo
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
@@ -16,6 +17,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.navigation.NavController
+import androidx.activity.viewModels
+import com.wendellugalds.kingofbozo.ui.game.GameViewModel
+import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
@@ -26,6 +30,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
+    private val gameViewModel: GameViewModel by viewModels {
+        GameViewModelFactory((application as PlayersApplication).repository)
+    }
 
     override fun attachBaseContext(newBase: Context) {
         val newConfig = Configuration(newBase.resources.configuration)
@@ -53,6 +61,30 @@ class MainActivity : AppCompatActivity() {
 
         setupCustomNavigation()
         setupNavigationVisibility()
+        
+        handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        val gameId = intent?.getLongExtra("LOAD_GAME_ID", -1) ?: -1
+        if (gameId != -1L) {
+            val observer = object : androidx.lifecycle.Observer<List<com.wendellugalds.kingofbozo.model.SavedGame>> {
+                override fun onChanged(value: List<com.wendellugalds.kingofbozo.model.SavedGame>) {
+                    val game = value.find { it.id == gameId }
+                    if (game != null) {
+                        gameViewModel.loadGame(game)
+                        navController.navigate(R.id.marcadorFragment)
+                        gameViewModel.allSavedGames.removeObserver(this)
+                    }
+                }
+            }
+            gameViewModel.allSavedGames.observe(this, observer)
+        }
     }
 
     private fun configurarCoresDaBarra() {

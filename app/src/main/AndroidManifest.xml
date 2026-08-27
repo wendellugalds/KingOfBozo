@@ -121,6 +121,11 @@
             android:exported="false"
             android:theme="@style/Base.Theme.KingOfBozo.Standard" />
 
+        <activity
+            android:name=".ui.game.GameLoadingActivity"
+            android:exported="false"
+            android:theme="@style/Base.Theme.KingOfBozo.Standard" />
+
     </application>
 
 </manifest>
