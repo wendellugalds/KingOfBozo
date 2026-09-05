@@ -477,7 +477,6 @@ class MarcadorFragment : Fragment() {
 
                 val players = it.playersState
                 val maxScore = players.maxOf { p -> p.totalScore }
-                val minScore = players.minOf { p -> p.totalScore }
                 
                 binding.textPlayerName.text = currentPlayer.playerName
                 
@@ -496,25 +495,24 @@ class MarcadorFragment : Fragment() {
                     binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                 } else {
                     val tiedWithOthers = players.filter { it.playerName != currentPlayer.playerName && it.totalScore == currentPlayer.totalScore }
-                    
                     if (tiedWithOthers.isNotEmpty()) {
                         val othersNames = tiedWithOthers.joinToString(", ") { it.playerName.substringBefore(" ") }
                         binding.textStatus.text = "Empatado com $othersNames"
                         binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_bug_tie, 0, 0, 0)
                     } else {
-                        when (currentPlayer.totalScore) {
-                            maxScore -> {
-                                binding.textStatus.text = "Ganhando"
-                                binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_crown, 0, 0, 0)
-                            }
-                            minScore -> {
-                                binding.textStatus.text = "Perdendo"
-                                binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_perdendo, 0, 0, 0)
-                            }
-                            else -> {
-                                binding.textStatus.text = " "
-                                binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
-                            }
+                        val distinctScores = players.map { it.totalScore }.distinct().sortedDescending()
+                        val scoreTierIndex = distinctScores.indexOf(currentPlayer.totalScore)
+                        
+                        if (scoreTierIndex == 0) {
+                            binding.textStatus.text = "Ganhando"
+                            binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_crown, 0, 0, 0)
+                        } else {
+                            val scoreAbove = distinctScores[scoreTierIndex - 1]
+                            val diff = scoreAbove - currentPlayer.totalScore
+                            val playersBetterThanAbove = players.count { it.totalScore > scoreAbove }
+                            val rankAbove = playersBetterThanAbove + 1
+                            binding.textStatus.text = "Perdendo de \n$diff pontos do ${rankAbove}º lugar"
+                            binding.textStatus.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_perdendo, 0, 0, 0)
                         }
                     }
                 }
