@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Gerais -->
+    <string name="app_name">King of Bozó</string>
+    <string name="king_of_boz">King Of Bozó</string>
+    <string name="bom_dia">GOOD MORNING!</string>
+    <string name="tarde">AFTERNOON!</string>
+    <string name="ola_boa_noite">HELLO, GOOD EVENING!</string>
+    <string name="ficou_sem_sono">CANT SLEEP?\nLET\'S PLAY THEN!</string>
+    <string name="logo_king_of_boz">King of Bozó Logo</string>
+
+    <!-- Navegação / Menu -->
+    <string name="title_home">Home</string>
+    <string name="title_players">Players</string>
+    <string name="jogadores">PLAYERS</string>
+    <string name="title_add">Scorecard</string>
+    <string name="title_saved_games">Saved</string>
+    <string name="title_settings">Settings</string>
+    <string name="marcar_bozo">SCORE BOZÓ</string>
+    <string name="adicionar_jogador">ADD PLAYER</string>
+    <string name="alterar_jogador">EDIT PLAYER</string>
+    <string name="hint_nome_jogador">Player Name</string>
+    <string name="hint_idade">Age</string>
+    <string name="gerenciar_jogadores">Manage Players</string>
+
+    <!-- Dialogs e Confirmações -->
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
+    <string name="voltar">BACK</string>
+    <string name="cancelar">Cancel</string>
+    <string name="confirmar">Confirm</string>
+    <string name="salvar">SAVE</string>
+    <string name="apagar">Delete</string>
+    <string name="limpar">CLEAR</string>
+    <string name="limpar_tudo">CLEAR ALL</string>
+
+    <string name="dialog_apagar_jogo_titulo">Delete Game</string>
+    <string name="dialog_apagar_jogo_msg">Do you want to delete this saved game?</string>
+
+    <string name="dialog_apagar_jogador_titulo">Delete Player</string>
+    <string name="dialog_apagar_jogador_msg">Are you sure you want to delete the selected player?</string>
+    <string name="dialog_apagar_jogador_msg_singular">Are you sure you want to delete %1$s?</string>
+
+    <string name="dialog_sair_jogo_titulo">Leave Game</string>
+    <string name="dialog_sair_jogo_msg">Do you want to save your progress for this match?</string>
+
+    <string name="dialog_salvar_jogo_titulo">Save</string>
+    <string name="dialog_salvar_jogo_msg">Do you want to save the progress of this match to continue later?</string>
+
+    <string name="dialog_confirmar_boca_titulo">Won on First Roll?</string>
+    <string name="dialog_confirmar_boca_msg">Confirm maximum score for winning on the first roll (de boca)?</string>
+    <string name="dialog_confirmar_boca_sim">Yes, First Roll</string>
+
+    <string name="dialog_reset_dados_titulo">Clear All Data</string>
+    <string name="dialog_reset_dados_msg">This will delete all saved games and reset all statistics for all players. Players will NOT be deleted. Do you want to continue?</string>
+
+    <!-- Desempate -->
+    <string name="empate_titulo">TIE</string>
+    <string name="empate_instrucoes">Tie-breaker dice roll! \n Choose the player below and select \n the point they rolled.</string>
+    <string name="empate_confirmar">CONFIRM TIE-BREAKER</string>
+    <string name="empate_pontos_vencedor">WINNER\'S POINTS</string>
+    <string name="empate_instrucoes_ponto">Select the points to add \n and make this player win!</string>
+    <string name="empate_sair_titulo">LEAVE NOW?</string>
+    <string name="empate_sair_msg">The tie-breaker is not resolved. \n Do you want to leave and save the incomplete game?</string>
+    <string name="empate_sim_sair">YES, LEAVE</string>
+
+    <!-- Telas / Seções -->
+    <string name="carregando_partida">LOADING MATCH</string>
+    <string name="ranking">Leaderboard</string>
+    <string name="ranking_geral">GENERAL LEADERBOARD</string>
+    <string name="ranking_pessoal">Personal leaderboard</string>
+    <string name="estatistica">Statistics</string>
+    <string name="cor_destaque">ACCENT COLOR</string>
+    <string name="escolha_o_tema">Choose Theme</string>
+    <string name="tema_claro">Light Theme</string>
+    <string name="tema_escuro">Dark Theme</string>
+    <string name="modo_sistema">System Mode</string>
+    <string name="limpar_banco_dados">DATABASE</string>
+    <string name="tela_ligada">ON</string>
+    <string name="padrao_sistema">SYSTEM DEFAULT</string>
+
+    <!-- Categorias do Bozó -->
+    <string name="cat_az">Ace</string>
+    <string name="cat_duque">Deuce</string>
+    <string name="cat_terno">Three</string>
+    <string name="cat_quadra">Four</string>
+    <string name="cat_quina">Five</string>
+    <string name="cat_sena">Six</string>
+    <string name="cat_full">Full House</string>
+    <string name="cat_seguida">Straight</string>
+    <string name="cat_quadrada">Square</string>
+    <string name="cat_general">General</string>
+    <string name="riscar">SCRATCH</string>
+    <string name="de_boca">FIRST ROLL</string>
+
+    <!-- Status do Jogo -->
+    <string name="ganhando">Winning</string>
+    <string name="perdendo">Losing</string>
+    <string name="empatado_com">Tied with %1$s</string>
+    <string name="perdendo_de_format">Losing by \n%1$d points from %2$dº place</string>
+
+    <!-- Formatos e Textos dinâmicos -->
+    <string name="rodada_format">ROUND %1$02d</string>
+    <string name="rodadas_qtd_format">%1$d Rounds</string>
+    <string name="pontos_format">%1$d Points</string>
+    <string name="pontos_simples_format">%1$d pts</string>
+    <string name="vitorias_format">%1$d Wins</string>
+    <string name="vitoria_singular">1 Win</string>
+    <string name="versao_format">Version: %1$s</string>
+    <string name="idade_format">%1$d years old</string>
+    <string name="copyright_info">© 2026 Ugalds Designer \nInc. All rights reserved.</string>
+
+    <!-- Seleção de Jogadores -->
+    <string name="selecione_pelo_menos_2">Select at least 2 players</string>
+    <string name="nenhum_jogador_selecionado">No players selected</string>
+    <string name="limite_9_jogadores">9-player limit reached</string>
+    <string name="selecione_ate_x_jogadores">Select up to %1$d players</string>
+
+    <!-- Toasts -->
+    <string name="toast_preencha_todos_campos">Please fill in all fields</string>
+    <string name="toast_idade_invalida">Please enter a valid age.</string>
+    <string name="toast_imagem_removida">Image removed.</string>
+    <string name="toast_permissao_camera_negada">Camera permission denied</string>
+    <string name="toast_jogador_adicionado">%1$s has been added!</string>
+    <string name="toast_jogador_atualizado">Player updated!</string>
+    <string name="toast_jogador_apagado">%1$s has been deleted.</string>
+    <string name="toast_jogadores_apagados">Players deleted</string>
+    <string name="toast_jogo_salvo">Game saved.</string>
+    <string name="toast_jogo_apagado">Game deleted.</string>
+
+    <plurals name="players_selected">
+        <item quantity="one">%d player selected</item>
+        <item quantity="other">%d players selected</item>
+    </plurals>
+</resources>

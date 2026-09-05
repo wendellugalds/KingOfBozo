@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SAIR AGORA?"
+        android:text="@string/empate_sair_titulo"
         android:textColor="?attr/colorPrimary"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="O desempate não foi resolvido. \n Deseja sair e salvar o jogo incompleto?"
+        android:text="@string/empate_sair_msg"
         android:textColor="?attr/textFillColor"
         android:textSize="16sp"
         android:alpha="0.8"
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="VOLTAR"
+            android:text="@string/voltar"
             android:textColor="?attr/textFillColor" />
 
         <com.google.android.material.button.MaterialButton
@@ -47,7 +47,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SIM, SAIR"
+            android:text="@string/empate_sim_sair"
             android:layout_marginStart="8dp"
             android:backgroundTint="?attr/colorPrimary"
             android:textColor="@android:color/white" />

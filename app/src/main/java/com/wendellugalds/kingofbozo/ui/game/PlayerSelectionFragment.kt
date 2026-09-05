@@ -126,10 +126,10 @@ class PlayerSelectionFragment : Fragment() {
             binding.tirarSeleO.isVisible = selectionCount > 0
 
             binding.infoText.text = when {
-                selectionCount == 0 -> "Nenhum jogador selecionado"
-                selectionCount < 2 -> "Selecione pelo menos 2 jogadores"
-                selectionCount == 9 -> "Limite de 9 jogadores atingido"
-                else -> "Selecione até ${if (allPlayers.size > 9) 9 else allPlayers.size} jogadores"
+                selectionCount == 0 -> getString(R.string.nenhum_jogador_selecionado)
+                selectionCount < 2 -> getString(R.string.selecione_pelo_menos_2)
+                selectionCount == 9 -> getString(R.string.limite_9_jogadores)
+                else -> getString(R.string.selecione_ate_x_jogadores, if (allPlayers.size > 9) 9 else allPlayers.size)
             }
         }
     }
@@ -141,10 +141,10 @@ class PlayerSelectionFragment : Fragment() {
 
         binding.infoText.isVisible = totalPlayersCount > 0
         binding.infoText.text = when {
-            selectionCount == 0 -> "Nenhum jogador selecionado"
-            selectionCount < 2 -> "Selecione pelo menos 2 jogadores"
-            selectionCount == 9 -> "Limite de 9 jogadores atingido"
-            else -> "Selecione até $maxSelectable jogadores"
+            selectionCount == 0 -> getString(R.string.nenhum_jogador_selecionado)
+            selectionCount < 2 -> getString(R.string.selecione_pelo_menos_2)
+            selectionCount == 9 -> getString(R.string.limite_9_jogadores)
+            else -> getString(R.string.selecione_ate_x_jogadores, maxSelectable)
         }
     }
 

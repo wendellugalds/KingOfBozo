@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Gerais -->
+    <string name="app_name">King of Bozó</string>
+    <string name="king_of_boz">King Of Bozó</string>
+    <string name="bom_dia">BONJOUR !</string>
+    <string name="tarde">BON APRÈS-MIDI !</string>
+    <string name="ola_boa_noite">BONSOIR !</string>
+    <string name="ficou_sem_sono">PAS DE SOMMEIL ?\nJOUONS ALORS !</string>
+    <string name="logo_king_of_boz">Logo King of Bozó</string>
+
+    <!-- Navegação / Menu -->
+    <string name="title_home">Accueil</string>
+    <string name="title_players">Joueurs</string>
+    <string name="jogadores">JOUEURS</string>
+    <string name="title_add">Feuille de score</string>
+    <string name="title_saved_games">Sauvegardes</string>
+    <string name="title_settings">Paramètres</string>
+    <string name="marcar_bozo">MARQUER BOZÓ</string>
+    <string name="adicionar_jogador">AJOUTER UN JOUEUR</string>
+    <string name="alterar_jogador">MODIFIER LE JOUEUR</string>
+    <string name="hint_nome_jogador">Nom du joueur</string>
+    <string name="hint_idade">Âge</string>
+    <string name="gerenciar_jogadores">Gérer les joueurs</string>
+
+    <!-- Dialogs e Confirmações -->
+    <string name="sim">Oui</string>
+    <string name="nao">Non</string>
+    <string name="voltar">RETOUR</string>
+    <string name="cancelar">Annuler</string>
+    <string name="confirmar">Confirmer</string>
+    <string name="salvar">ENREGISTRER</string>
+    <string name="apagar">Supprimer</string>
+    <string name="limpar">EFFACER</string>
+    <string name="limpar_tudo">TOUT EFFACER</string>
+
+    <string name="dialog_apagar_jogo_titulo">Supprimer la partie</string>
+    <string name="dialog_apagar_jogo_msg">Voulez-vous supprimer cette partie sauvegardée ?</string>
+
+    <string name="dialog_apagar_jogador_titulo">Supprimer le joueur</string>
+    <string name="dialog_apagar_jogador_msg">Êtes-vous sûr de vouloir supprimer le joueur sélectionné ?</string>
+    <string name="dialog_apagar_jogador_msg_singular">Êtes-vous sûr de vouloir supprimer %1$s ?</string>
+
+    <string name="dialog_sair_jogo_titulo">Quitter la partie</string>
+    <string name="dialog_sair_jogo_msg">Voulez-vous sauvegarder la progression de cette partie ?</string>
+
+    <string name="dialog_salvar_jogo_titulo">Sauvegarder</string>
+    <string name="dialog_salvar_jogo_msg">Voulez-vous sauvegarder la progression de cette partie pour continuer plus tard ?</string>
+
+    <string name="dialog_confirmar_boca_titulo">Gagné du Premier Coup ?</string>
+    <string name="dialog_confirmar_boca_msg">Confirmer le score maximal pour avoir gagné au premier lancer ?</string>
+    <string name="dialog_confirmar_boca_sim">Oui, du Premier Coup</string>
+
+    <string name="dialog_reset_dados_titulo">Effacer Toutes les Données</string>
+    <string name="dialog_reset_dados_msg">Cela supprimera toutes les parties sauvegardées et réinitialisera toutes les statistiques de tous les joueurs. Les joueurs ne seront PAS supprimés. Voulez-vous continuer ?</string>
+
+    <!-- Desempate -->
+    <string name="empate_titulo">ÉGALITÉ</string>
+    <string name="empate_instrucoes">Départage aux dés ! \n Choisissez le joueur ci-dessous et sélectionnez \n le point qu\'il a obtenu.</string>
+    <string name="empate_confirmar">CONFIRMER LE DÉPARTAGE</string>
+    <string name="empate_pontos_vencedor">POINTS DU GAGNANT</string>
+    <string name="empate_instrucoes_ponto">Sélectionnez le point à ajouter \n pour faire gagner ce joueur !</string>
+    <string name="empate_sair_titulo">QUITTER MAINTENANT ?</string>
+    <string name="empate_sair_msg">Le départage n\'est pas résolu. \n Voulez-vous quitter et sauvegarder la partie incomplète ?</string>
+    <string name="empate_sim_sair">OUI, QUITTER</string>
+
+    <!-- Telas / Seções -->
+    <string name="carregando_partida">CHARGEMENT DE LA PARTIE</string>
+    <string name="ranking">Classement</string>
+    <string name="ranking_geral">CLASSEMENT GÉNÉRAL</string>
+    <string name="ranking_pessoal">Classement personnel</string>
+    <string name="estatistica">Statistiques</string>
+    <string name="cor_destaque">COULEUR D\'ACCENT</string>
+    <string name="escolha_o_tema">Choisir le thème</string>
+    <string name="tema_claro">Thème clair</string>
+    <string name="tema_escuro">Thème sombre</string>
+    <string name="modo_sistema">Mode système</string>
+    <string name="limpar_banco_dados">BASE DE DONNÉES</string>
+    <string name="tela_ligada">ALLUMÉE</string>
+    <string name="padrao_sistema">PAR DÉFAUT SYSTÈME</string>
+
+    <!-- Categorias do Bozó -->
+    <string name="cat_az">As</string>
+    <string name="cat_duque">Deux</string>
+    <string name="cat_terno">Trois</string>
+    <string name="cat_quadra">Quatre</string>
+    <string name="cat_quina">Cinq</string>
+    <string name="cat_sena">Six</string>
+    <string name="cat_full">Full</string>
+    <string name="cat_seguida">Suite</string>
+    <string name="cat_quadrada">Carré</string>
+    <string name="cat_general">Général</string>
+    <string name="riscar">RAYER</string>
+    <string name="de_boca">DU PREMIER</string>
+
+    <!-- Status do Jogo -->
+    <string name="ganhando">En tête</string>
+    <string name="perdendo">En retard</string>
+    <string name="empatado_com">Égalité avec %1$s</string>
+    <string name="perdendo_de_format">Retard de \n%1$d points sur la %2$dº place</string>
+
+    <!-- Formatos e Textos dinâmicos -->
+    <string name="rodada_format">MANCHE %1$02d</string>
+    <string name="rodadas_qtd_format">%1$d Manches</string>
+    <string name="pontos_format">%1$d Points</string>
+    <string name="pontos_simples_format">%1$d pts</string>
+    <string name="vitorias_format">%1$d Victoires</string>
+    <string name="vitoria_singular">1 Victoire</string>
+    <string name="versao_format">Version : %1$s</string>
+    <string name="idade_format">%1$d ans</string>
+    <string name="copyright_info">© 2026 Ugalds Designer \nInc. Tous droits réservés.</string>
+
+    <!-- Seleção de Jogadores -->
+    <string name="selecione_pelo_menos_2">Sélectionnez au moins 2 joueurs</string>
+    <string name="nenhum_jogador_selecionado">Aucun joueur sélectionné</string>
+    <string name="limite_9_jogadores">Limite de 9 joueurs atteinte</string>
+    <string name="selecione_ate_x_jogadores">Sélectionnez jusqu\'à %1$d joueurs</string>
+
+    <!-- Toasts -->
+    <string name="toast_preencha_todos_campos">Veuillez remplir tous les champs</string>
+    <string name="toast_idade_invalida">Veuillez entrer un âge valide.</string>
+    <string name="toast_imagem_removida">Image supprimée.</string>
+    <string name="toast_permissao_camera_negada">Autorisation de la caméra refusée</string>
+    <string name="toast_jogador_adicionado">%1$s a été ajouté !</string>
+    <string name="toast_jogador_atualizado">Joueur mis à jour !</string>
+    <string name="toast_jogador_apagado">%1$s a été supprimé.</string>
+    <string name="toast_jogadores_apagados">Joueurs supprimés</string>
+    <string name="toast_jogo_salvo">Partie sauvegardée.</string>
+    <string name="toast_jogo_apagado">Partie supprimée.</string>
+
+    <plurals name="players_selected">
+        <item quantity="one">%d joueur sélectionné</item>
+        <item quantity="other">%d joueurs sélectionnés</item>
+    </plurals>
+</resources>

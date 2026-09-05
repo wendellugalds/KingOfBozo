@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Gerais -->
+    <string name="app_name">King of Bozó</string>
+    <string name="king_of_boz">King Of Bozó</string>
+    <string name="bom_dia">좋은 아침입니다!</string>
+    <string name="tarde">좋은 오후입니다!</string>
+    <string name="ola_boa_noite">안녕하세요, 좋은 밤입니다!</string>
+    <string name="ficou_sem_sono">잠이 안 오시나요?\n그럼 게임을 시작해요!</string>
+    <string name="logo_king_of_boz">King of Bozó 로고</string>
+
+    <!-- Navegação / Menu -->
+    <string name="title_home">홈</string>
+    <string name="title_players">플레이어</string>
+    <string name="jogadores">플레이어</string>
+    <string name="title_add">점수판</string>
+    <string name="title_saved_games">저장됨</string>
+    <string name="title_settings">설정</string>
+    <string name="marcar_bozo">보조 기록</string>
+    <string name="adicionar_jogador">플레이어 추가</string>
+    <string name="alterar_jogador">플레이어 수정</string>
+    <string name="hint_nome_jogador">플레이어 이름</string>
+    <string name="hint_idade">나이</string>
+    <string name="gerenciar_jogadores">플레이어 관리</string>
+
+    <!-- Dialogs e Confirmações -->
+    <string name="sim">예</string>
+    <string name="nao">아니요</string>
+    <string name="voltar">뒤로</string>
+    <string name="cancelar">취소</string>
+    <string name="confirmar">확인</string>
+    <string name="salvar">저장</string>
+    <string name="apagar">삭제</string>
+    <string name="limpar">지우기</string>
+    <string name="limpar_tudo">모두 지우기</string>
+
+    <string name="dialog_apagar_jogo_titulo">게임 삭제</string>
+    <string name="dialog_apagar_jogo_msg">이 저장된 게임을 삭제하시겠습니까?</string>
+
+    <string name="dialog_apagar_jogador_titulo">플레이어 삭제</string>
+    <string name="dialog_apagar_jogador_msg">선택한 플레이어를 정말 삭제하시겠습니까?</string>
+    <string name="dialog_apagar_jogador_msg_singular">%1$s님을 정말 삭제하시겠습니까?</string>
+
+    <string name="dialog_sair_jogo_titulo">게임 나가기</string>
+    <string name="dialog_sair_jogo_msg">이 경기의 진행 상황을 저장하시겠습니까?</string>
+
+    <string name="dialog_salvar_jogo_titulo">저장</string>
+    <string name="dialog_salvar_jogo_msg">나중에 이어서하기 위해 이 경기의 진행 상황을 저장하시겠습니까?</string>
+
+    <string name="dialog_confirmar_boca_titulo">첫 주사위로 승리하셨나요?</string>
+    <string name="dialog_confirmar_boca_msg">첫 번째 던지기(de boca)로 승리한 최대 점수를 확인하시겠습니까?</string>
+    <string name="dialog_confirmar_boca_sim">네, 첫 주사위 성공</string>
+
+    <string name="dialog_reset_dados_titulo">모든 데이터 초기화</string>
+    <string name="dialog_reset_dados_msg">저장된 모든 게임이 삭제되고 모든 플레이어의 통계가 초기화됩니다. 플레이어 자체는 삭제되지 않습니다. 계속하시겠습니까?</string>
+
+    <!-- Desempate -->
+    <string name="empate_titulo">동점</string>
+    <string name="empate_instrucoes">주사위 타이브레이커! \n 아래 플레이어를 선택하고 \n 나온 주사위 눈금을 선택하세요.</string>
+    <string name="empate_confirmar">타이브레이커 확인</string>
+    <string name="empate_pontos_vencedor">승자의 점수</string>
+    <string name="empate_instrucoes_ponto">추가할 점수를 선택하고 \n 이 플레이어를 승리하게 만드세요!</string>
+    <string name="empate_sair_titulo">지금 나가시겠습니까?</string>
+    <string name="empate_sair_msg">타이브레이커가 해결되지 않았습니다. \n 나가서 미완료된 게임을 저장하시겠습니까?</string>
+    <string name="empate_sim_sair">네, 나가기</string>
+
+    <!-- Telas / Seções -->
+    <string name="carregando_partida">경기 불러오는 중</string>
+    <string name="ranking">순위</string>
+    <string name="ranking_geral">전체 순위</string>
+    <string name="ranking_pessoal">개인 순위</string>
+    <string name="estatistica">통계</string>
+    <string name="cor_destaque">강조 색상</string>
+    <string name="escolha_o_tema">테마 선택</string>
+    <string name="tema_claro">라이트 테마</string>
+    <string name="tema_escuro">다크 테마</string>
+    <string name="modo_sistema">시스템 모드</string>
+    <string name="limpar_banco_dados">데이터베이스</string>
+    <string name="tela_ligada">켜짐</string>
+    <string name="padrao_sistema">시스템 기본값</string>
+
+    <!-- Categorias do Bozó -->
+    <string name="cat_az">에이스(1)</string>
+    <string name="cat_duque">듀크(2)</string>
+    <string name="cat_terno">테르노(3)</string>
+    <string name="cat_quadra">콰드라(4)</string>
+    <string name="cat_quina">키나(5)</string>
+    <string name="cat_sena">세나(6)</string>
+    <string name="cat_full">풀하우스</string>
+    <string name="cat_seguida">스트레이트</string>
+    <string name="cat_quadrada">스퀘어</string>
+    <string name="cat_general">제너럴</string>
+    <string name="riscar">지우기</string>
+    <string name="de_boca">첫주사위</string>
+
+    <!-- Status do Jogo -->
+    <string name="ganhando">이기는 중</string>
+    <string name="perdendo">지는 중</string>
+    <string name="empatado_com">%1$s님과 동점</string>
+    <string name="perdendo_de_format">%2$d위와 \n%1$d점 차이로 뒤지는 중</string>
+
+    <!-- Formatos e Textos dinâmicos -->
+    <string name="rodada_format">라운드 %1$02d</string>
+    <string name="rodadas_qtd_format">%1$d라운드</string>
+    <string name="pontos_format">%1$d점</string>
+    <string name="pontos_simples_format">%1$d점</string>
+    <string name="vitorias_format">%1$d승</string>
+    <string name="vitoria_singular">1승</string>
+    <string name="versao_format">버전: %1$s</string>
+    <string name="idade_format">%1$d세</string>
+    <string name="copyright_info">© 2026 Ugalds Designer \nInc. All rights reserved.</string>
+
+    <!-- Seleção de Jogadores -->
+    <string name="selecione_pelo_menos_2">최소 2명의 플레이어를 선택하세요</string>
+    <string name="nenhum_jogador_selecionado">선택된 플레이어가 없습니다</string>
+    <string name="limite_9_jogadores">최대 9명까지만 선택할 수 있습니다</string>
+    <string name="selecione_ate_x_jogadores">최대 %1$d명까지 선택하세요</string>
+
+    <!-- Toasts -->
+    <string name="toast_preencha_todos_campos">모든 필드를 채워주세요</string>
+    <string name="toast_idade_invalida">유효한 나이를 입력해주세요.</string>
+    <string name="toast_imagem_removida">이미지가 삭제되었습니다.</string>
+    <string name="toast_permissao_camera_negada">카메라 권한이 거부되었습니다</string>
+    <string name="toast_jogador_adicionado">%1$s님이 추가되었습니다!</string>
+    <string name="toast_jogador_atualizado">플레이어 정보가 업데이트되었습니다!</string>
+    <string name="toast_jogador_apagado">%1$s님이 삭제되었습니다.</string>
+    <string name="toast_jogadores_apagados">플레이어들이 삭제되었습니다</string>
+    <string name="toast_jogo_salvo">게임이 저장되었습니다.</string>
+    <string name="toast_jogo_apagado">게임이 삭제되었습니다.</string>
+
+    <plurals name="players_selected">
+        <item quantity="one">%d명 선택됨</item>
+        <item quantity="other">%d명 선택됨</item>
+    </plurals>
+</resources>

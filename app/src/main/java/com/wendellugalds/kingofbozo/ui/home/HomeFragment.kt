@@ -68,10 +68,10 @@ class HomeFragment : Fragment() {
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
 
         val greeting = when (hour) {
-            in 0..5 -> "FICOU SEM SONO?\nBORA JOGAR ENTÃO!"
-            in 6..11 -> "BOM DIA!"
-            in 12..17 -> "TARDE!"
-            else -> "OLÁ BOA NOITE!"
+            in 0..5 -> getString(R.string.ficou_sem_sono)
+            in 6..11 -> getString(R.string.bom_dia)
+            in 12..17 -> getString(R.string.tarde)
+            else -> getString(R.string.ola_boa_noite)
         }
 
         binding.textGreeting.text = greeting
