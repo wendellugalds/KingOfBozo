@@ -1,7 +1,9 @@
 package com.wendellugalds.kingofbozo.model
 
+import androidx.annotation.Keep
 import java.io.Serializable
 
+@Keep
 data class Category(
     val type: CategoryType,
     val name: String,

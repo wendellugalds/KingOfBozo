@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="32" />
-
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-
     <application
         android:name=".PlayersApplication"
         android:allowBackup="false"
@@ -21,7 +16,7 @@
 
         <activity
             android:name=".SplashActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Base.Theme.KingOfBozo.Standard" />
 
         <activity-alias

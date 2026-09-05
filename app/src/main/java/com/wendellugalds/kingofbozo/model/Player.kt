@@ -1,9 +1,11 @@
 package com.wendellugalds.kingofbozo.model
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
+@Keep
 @Entity(tableName = "players")
 data class Player(
     @PrimaryKey(autoGenerate = true)

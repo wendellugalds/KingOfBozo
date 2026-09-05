@@ -44,17 +44,20 @@ object ThemeStorage {
 
         aliases.forEach { alias ->
             val componentName = ComponentName(packageName, alias)
-            val state = if (alias == aliasName) {
+            val desiredState = if (alias == aliasName) {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED
             } else {
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED
             }
 
-            packageManager.setComponentEnabledSetting(
-                componentName,
-                state,
-                PackageManager.DONT_KILL_APP
-            )
+            val currentState = packageManager.getComponentEnabledSetting(componentName)
+            if (currentState != desiredState) {
+                packageManager.setComponentEnabledSetting(
+                    componentName,
+                    desiredState,
+                    PackageManager.DONT_KILL_APP
+                )
+            }
         }
     }
 

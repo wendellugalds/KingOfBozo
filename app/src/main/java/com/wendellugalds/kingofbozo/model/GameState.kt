@@ -1,8 +1,11 @@
 package com.wendellugalds.kingofbozo.model
 
+import androidx.annotation.Keep
+
 /**
  * Representa o estado de um único jogador em um determinado momento.
  */
+@Keep
 data class PlayerState(
     val playerId: Long = 0,
     val playerName: String,
@@ -18,6 +21,7 @@ data class PlayerState(
 /**
  * Representa o estado completo do jogo em um determinado momento.
  */
+@Keep
 data class GameState(
     val gameId: Long = 0,
     val playersState: List<PlayerState>,
