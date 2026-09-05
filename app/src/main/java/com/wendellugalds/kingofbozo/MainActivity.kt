@@ -5,14 +5,18 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
@@ -61,7 +65,13 @@ class MainActivity : AppCompatActivity() {
 
         setupCustomNavigation()
         setupNavigationVisibility()
-        
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.container) { _, insets ->
+            val navBarInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            binding.container.setPadding(0, 0, 0, navBarInsets.bottom)
+            insets
+        }
+
         handleIntent(intent)
     }
 
@@ -92,8 +102,15 @@ class MainActivity : AppCompatActivity() {
         theme.resolveAttribute(R.attr.customBackground, typedValue, true)
         val bgColor = typedValue.data
 
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+
         window.statusBarColor = bgColor
         window.navigationBarColor = bgColor
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
     }
 
     private fun applyKeepScreenOn(enabled: Boolean) {
@@ -173,15 +190,23 @@ class MainActivity : AppCompatActivity() {
             val backgroundColor = typedValueBackground.data
 
             // Altera diretamente a cor da barra de status e navegação baseada na tela ativa
+            val controller = WindowInsetsControllerCompat(window, window.decorView)
+
             if (destination.id == R.id.playerSelectionFragment) {
                 window.statusBarColor = primaryColor
                 window.navigationBarColor = primaryColor
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
+                controller.isAppearanceLightStatusBars = false
+                controller.isAppearanceLightNavigationBars = false
             } else {
                 window.statusBarColor = backgroundColor
                 window.navigationBarColor = backgroundColor
-                val isLight = typedValueBackground.data == Color.WHITE || isColorLight(backgroundColor)
-                WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = isLight
+                val isLight = isColorLight(backgroundColor)
+                controller.isAppearanceLightStatusBars = isLight
+                controller.isAppearanceLightNavigationBars = isLight
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                window.isNavigationBarContrastEnforced = false
             }
         }
     }

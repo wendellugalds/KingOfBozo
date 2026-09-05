@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -46,7 +47,7 @@ class AddPlayerBottomSheet : BottomSheetDialogFragment() {
     private var selectedImageUri: Uri? = null
     private var tempImageUri: Uri? = null
 
-    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
         uri?.let {
             try {
                 requireActivity().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -189,7 +190,7 @@ class AddPlayerBottomSheet : BottomSheetDialogFragment() {
             .setItems(options) { _, which ->
                 when (which) {
                     0 -> checkCameraPermission()
-                    1 -> imagePickerLauncher.launch("image/*")
+                    1 -> imagePickerLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 }
             }
             .show()

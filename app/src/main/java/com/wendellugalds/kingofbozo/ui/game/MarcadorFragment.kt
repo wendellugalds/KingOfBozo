@@ -352,11 +352,39 @@ class MarcadorFragment : Fragment() {
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
-            bottomSheet?.let {
-                it.setBackgroundResource(android.R.color.transparent)
-                val behavior = BottomSheetBehavior.from(it)
+            // 1. Pega a cor EXATA do tema (R.attr.customBackground)
+            val typedValue = android.util.TypedValue()
+            requireActivity().theme.resolveAttribute(R.attr.customBackground, typedValue, true)
+            val corDoPainel = typedValue.data
+
+            // 2. Configurações da View (BottomSheet) - Fundo sólido com cantos arredondados
+            bottomSheet?.let { sheet ->
+                val behavior = BottomSheetBehavior.from(sheet)
                 behavior.state = BottomSheetBehavior.STATE_EXPANDED
                 behavior.skipCollapsed = true
+
+                val radius55 = 55f * resources.displayMetrics.density
+                val shapeDrawable = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(corDoPainel)
+                    cornerRadii = floatArrayOf(radius55, radius55, radius55, radius55, 0f, 0f, 0f, 0f)
+                }
+                sheet.background = shapeDrawable
+            }
+
+            // 3. Configurações da Janela (Window) - Cor da barra de navegação idêntica
+            bottomSheetDialog.window?.let { window ->
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+                window.navigationBarColor = corDoPainel
+
+                val controller = androidx.core.view.WindowInsetsControllerCompat(window, sheetView)
+                val isNightMode = (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) == android.content.res.Configuration.UI_MODE_NIGHT_YES
+                controller.isAppearanceLightNavigationBars = !isNightMode
+
+                // Desliga a sombra escura forçada da One UI (Samsung)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                    window.isNavigationBarContrastEnforced = false
+                }
             }
         }
 
@@ -410,7 +438,7 @@ class MarcadorFragment : Fragment() {
             }
         }
         
-        view.findViewById<View>(R.id.button_cancel)?.setOnClickListener { dialog.dismiss() }
+//        view.findViewById<View>(R.id.button_cancel)?.setOnClickListener { dialog.dismiss() }
     }
 
     private fun showConfirmBocaDialog(type: CategoryType, parentDialog: BottomSheetDialog) {

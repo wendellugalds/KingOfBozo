@@ -27,17 +27,17 @@
         android:gravity="center"
         tools:ignore="MissingConstraints">
 
-        <ImageView
-            android:id="@+id/button_cancel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="?attr/cardBackgroundColor"
-            android:background="@drawable/background_circle_yellow"
-            android:padding="12dp"
-            android:layout_marginRight="10dp"
-            app:tint="?attr/textFillColor"
-            android:src="@drawable/ic_arrow_back"
-            tools:ignore="ContentDescription" />
+<!--        <ImageView-->
+<!--            android:id="@+id/button_cancel"-->
+<!--            android:layout_width="50dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:backgroundTint="?attr/cardBackgroundColor"-->
+<!--            android:background="@drawable/background_circle_yellow"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            app:tint="?attr/textFillColor"-->
+<!--            android:src="@drawable/ic_arrow_back"-->
+<!--            tools:ignore="ContentDescription" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
