@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AdManager
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentRankingDuranteJogoBinding
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingAtualAdapter
@@ -76,8 +77,10 @@ class RankingDuranteJogoFragment : Fragment() {
     }
 
     private fun showRankingGeralBottomSheet() {
-        val bottomSheet = RankingGeralBottomSheet()
-        bottomSheet.show(childFragmentManager, "RankingGeralBottomSheet")
+        AdManager.checkAndShowRankingAd(requireActivity(), childFragmentManager) {
+            val bottomSheet = RankingGeralBottomSheet()
+            bottomSheet.show(childFragmentManager, "RankingGeralBottomSheet")
+        }
     }
 
     override fun onDestroyView() {

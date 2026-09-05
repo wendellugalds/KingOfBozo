@@ -1,5 +1,6 @@
 package com.wendellugalds.kingofbozo.ui.game
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,8 @@ import com.wendellugalds.kingofbozo.model.SavedGame
 import com.wendellugalds.kingofbozo.model.ScoreEntry
 import com.wendellugalds.kingofbozo.model.GameStatus
 import com.wendellugalds.kingofbozo.model.TieBreakerState
+import com.wendellugalds.kingofbozo.util.PremiumManager
+import com.wendellugalds.kingofbozo.util.AdManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
@@ -42,6 +45,13 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
     private val _gameSavedSuccessfully = MutableLiveData<Boolean>()
     val gameSavedSuccessfully: LiveData<Boolean> = _gameSavedSuccessfully
     
+    private val _showPremiumLimitEvent = MutableLiveData<Int?>(null)
+    val showPremiumLimitEvent: LiveData<Int?> = _showPremiumLimitEvent
+
+    fun resetPremiumLimitEvent() {
+        _showPremiumLimitEvent.value = null
+    }
+
     private val _tieBreakerUiState = MutableLiveData<TieBreakerState>(TieBreakerState.Idle)
     val tieBreakerUiState: LiveData<TieBreakerState> = _tieBreakerUiState
 
@@ -113,6 +123,7 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
 
     fun startGame() {
         isFinishingRound = false
+        AdManager.resetSessionTempAccess()
         _tieBreakerUiState.value = TieBreakerState.Idle
         _tempTieBreakerValues.value = emptyMap()
         
@@ -372,8 +383,30 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
         )
     }
 
-    fun saveCurrentGame() {
+    suspend fun getSavedGamesCount(): Int {
+        return repository.getSavedGamesCount()
+    }
+
+    fun saveCurrentGame(context: Context? = null) {
         val state = _gameState.value ?: return
+
+        // Se for um novo jogo (gameId == 0) e o contexto estiver disponível, valida limite premium
+        if (state.gameId == 0L && context != null) {
+            viewModelScope.launch {
+                val savedCount = repository.getSavedGamesCount()
+                if (!PremiumManager.podeSalvarNovoJogo(context, savedCount)) {
+                    _showPremiumLimitEvent.value = 1 // 1 = limite de jogos salvos
+                } else {
+                    executeSaveGame(state)
+                }
+            }
+            return
+        }
+
+        executeSaveGame(state)
+    }
+
+    private fun executeSaveGame(state: GameState) {
         viewModelScope.launch {
             val gson = Gson()
             val playerStatesJson = gson.toJson(state.playersState)

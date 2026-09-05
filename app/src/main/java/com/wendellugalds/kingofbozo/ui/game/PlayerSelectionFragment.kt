@@ -17,8 +17,10 @@ import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayerSelectionMarkerBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerSelectionAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.SelectablePlayerItem
+import com.wendellugalds.kingofbozo.util.PremiumManager
 import com.wendellugalds.kingofbozo.R
 
 class PlayerSelectionFragment : Fragment() {
@@ -83,8 +85,14 @@ class PlayerSelectionFragment : Fragment() {
         }
 
         binding.buttonAdicionarJogador.setOnClickListener {
-            val addPlayerSheet = AddPlayerBottomSheet()
-            addPlayerSheet.show(parentFragmentManager, "AddPlayerSheet")
+            val totalJogadores = gameViewModel.sortedPlayerListForSelection.value.orEmpty().size
+            if (!PremiumManager.isUserPremium(requireContext()) && totalJogadores >= PremiumManager.MAX_FREE_PLAYERS) {
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            } else {
+                val addPlayerSheet = AddPlayerBottomSheet()
+                addPlayerSheet.show(parentFragmentManager, "AddPlayerSheet")
+            }
         }
 
         binding.tirarSeleO.setOnClickListener {

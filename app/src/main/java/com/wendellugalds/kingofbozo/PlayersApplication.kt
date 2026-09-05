@@ -4,6 +4,8 @@ import android.app.Application
 import com.wendellugalds.kingofbozo.data.PlayerRepository
 import com.wendellugalds.kingofbozo.database.AppDatabase
 import com.wendellugalds.kingofbozo.util.ThemeStorage
+import com.wendellugalds.kingofbozo.util.AdManager
+import com.wendellugalds.kingofbozo.util.BillingManager
 
 class PlayersApplication : Application() {
     private val database by lazy { AppDatabase.getDatabase(this) }
@@ -12,5 +14,7 @@ class PlayersApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         ThemeStorage.applySettings(this)
+        AdManager.initAdMob(this)
+        BillingManager.initialize(this)
     }
 }

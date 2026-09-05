@@ -39,6 +39,20 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/button_premium_home"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/background_circle"
+            android:backgroundTint="?attr/cardBackgroundColor"
+            android:padding="10dp"
+            android:src="@drawable/ic_diamond_shine"
+            app:tint="?attr/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            tools:ignore="ContentDescription" />
 
     </FrameLayout>
 

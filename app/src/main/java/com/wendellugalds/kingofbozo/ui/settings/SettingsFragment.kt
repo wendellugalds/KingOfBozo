@@ -34,6 +34,8 @@ import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
 import com.wendellugalds.kingofbozo.util.ThemeStorage
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import com.wendellugalds.kingofbozo.util.PremiumManager
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import kotlinx.coroutines.launch
 
 class SettingsFragment : Fragment() {
@@ -91,21 +93,31 @@ class SettingsFragment : Fragment() {
 
         binding.cardCor.setOnClickListener {
             resetCountdown()
-            val bottomSheet = ThemeSelectionBottomSheet { themeKey ->
-                AnimationUtil.applyCollapseAnimation(binding.cardCor) {
-                    ThemeStorage.saveTheme(requireContext(), themeKey)
-                    val intent = Intent(requireContext(), ThemeLoadingActivity::class.java)
-                    intent.putExtra("theme_key", themeKey)
-                    startActivity(intent)
-                    requireActivity().finish()
+            if (!PremiumManager.isUserPremium(requireContext())) {
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            } else {
+                val bottomSheet = ThemeSelectionBottomSheet { themeKey ->
+                    AnimationUtil.applyCollapseAnimation(binding.cardCor) {
+                        ThemeStorage.saveTheme(requireContext(), themeKey)
+                        val intent = Intent(requireContext(), ThemeLoadingActivity::class.java)
+                        intent.putExtra("theme_key", themeKey)
+                        startActivity(intent)
+                        requireActivity().finish()
+                    }
                 }
+                bottomSheet.show(parentFragmentManager, "ThemeSelection")
             }
-            bottomSheet.show(parentFragmentManager, "ThemeSelection")
         }
 
         binding.cardTema.setOnClickListener {
             resetCountdown()
-            showNightModeDialog()
+            if (!PremiumManager.isUserPremium(requireContext())) {
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            } else {
+                showNightModeDialog()
+            }
         }
 
         binding.cardTela.setOnClickListener {
@@ -120,13 +132,24 @@ class SettingsFragment : Fragment() {
         
         binding.cardReset.setOnClickListener {
             resetCountdown()
-            showResetDataDialog()
+            if (!PremiumManager.isUserPremium(requireContext())) {
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            } else {
+                showResetDataDialog()
+            }
         }
 
         binding.cardVersao.setOnClickListener {
             resetCountdown()
             val intent = Intent(requireContext(), SobreActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.buttonPremiumSettings.setOnClickListener {
+            resetCountdown()
+            val premiumSheet = PremiumBottomSheet()
+            premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
         }
     }
 

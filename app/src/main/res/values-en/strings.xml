@@ -128,6 +128,28 @@
     <string name="toast_jogo_salvo">Game saved.</string>
     <string name="toast_jogo_apagado">Game deleted.</string>
 
+    <!-- Modo Premium -->
+    <string name="premium_title">KING OF BOZÓ PREMIUM</string>
+    <string name="premium_subtitle">Unlock all features and play without limits!</string>
+    <string name="premium_feat_no_ads">Complete removal of all ads</string>
+    <string name="premium_feat_unlimited_players">Unlimited players (Free version: max 3)</string>
+    <string name="premium_feat_unlimited_saved_games">Unlimited saved games (Free version: max 1)</string>
+    <string name="premium_feat_unlimited_themes">All themes and accent colors unlocked</string>
+    <string name="premium_feat_reset_data">Access to Database Reset &amp; Cleanup</string>
+    <string name="premium_btn_unlock">Unlock Full Version for $1.99</string>
+    <string name="premium_active_status">YOU ARE PREMIUM!</string>
+    <string name="premium_toast_unlocked">Congratulations! Premium version activated successfully!</string>
+    <string name="premium_limit_players_msg">3-player limit reached in the free version. Go Premium to add more!</string>
+    <string name="premium_limit_games_msg">1 saved game limit reached in the free version. Go Premium to save more!</string>
+
+    <!-- Anúncios Recompensados (Rewarded Ads) -->
+    <string name="ad_rewarded_dialog_title">Temporary Access</string>
+    <string name="ad_rewarded_ranking_msg">Watch a short video to unlock Leaderboards for this match, or go Premium for unlimited ad-free access!</string>
+    <string name="ad_rewarded_round_msg">You reached the free round limit for this match. Watch a video to continue playing or go Premium!</string>
+    <string name="ad_rewarded_btn_watch">Watch Video (Unlock)</string>
+    <string name="ad_rewarded_btn_premium">Go Premium (Ad-Free)</string>
+    <string name="ad_rewarded_unlocked_toast">Temporary access granted for this match!</string>
+
     <plurals name="players_selected">
         <item quantity="one">%d player selected</item>
         <item quantity="other">%d players selected</item>

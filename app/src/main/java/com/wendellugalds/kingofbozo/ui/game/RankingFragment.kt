@@ -21,6 +21,7 @@ import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingAtualAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingGeralAdapter
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
+import com.wendellugalds.kingofbozo.util.AdManager
 
 class RankingFragment : Fragment() {
 
@@ -72,10 +73,12 @@ class RankingFragment : Fragment() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
         
         binding.cardRankingGeral.setOnClickListener {
-            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            } else {
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            AdManager.checkAndShowRankingAd(requireActivity(), parentFragmentManager) {
+                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                } else {
+                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                }
             }
         }
     }

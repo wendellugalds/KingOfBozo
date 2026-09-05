@@ -10,7 +10,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.launch
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
@@ -23,6 +25,8 @@ import com.wendellugalds.kingofbozo.ui.game.GameViewModel
 import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import com.wendellugalds.kingofbozo.util.PremiumManager
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import com.wendellugalds.kingofbozo.ui.game.GameLoadingActivity
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
@@ -63,8 +67,16 @@ class SavedGamesFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.buttonMarcadorJogo.setOnClickListener {
-            AnimationUtil.applyCollapseAnimation(binding.buttonMarcadorJogo) {
-                findNavController().navigate(R.id.action_global_playerSelectionFragment)
+            viewLifecycleOwner.lifecycleScope.launch {
+                val count = gameViewModel.getSavedGamesCount()
+                if (!PremiumManager.isUserPremium(requireContext()) && count >= PremiumManager.MAX_FREE_SAVED_GAMES) {
+                    val premiumSheet = PremiumBottomSheet()
+                    premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+                } else {
+                    AnimationUtil.applyCollapseAnimation(binding.buttonMarcadorJogo) {
+                        findNavController().navigate(R.id.action_global_playerSelectionFragment)
+                    }
+                }
             }
         }
     }

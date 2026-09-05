@@ -128,6 +128,28 @@
     <string name="toast_jogo_salvo">Juego guardado.</string>
     <string name="toast_jogo_apagado">Juego borrado.</string>
 
+    <!-- Modo Premium -->
+    <string name="premium_title">KING OF BOZÓ PREMIUM</string>
+    <string name="premium_subtitle">¡Desbloquea todas las funciones y juega sin límites!</string>
+    <string name="premium_feat_no_ads">Eliminación total de todos los anuncios</string>
+    <string name="premium_feat_unlimited_players">Jugadores ilimitados (Versión gratis: máx. 3)</string>
+    <string name="premium_feat_unlimited_saved_games">Partidas guardadas ilimitadas (Versión gratis: máx. 1)</string>
+    <string name="premium_feat_unlimited_themes">Todos los temas y colores de énfasis desbloqueados</string>
+    <string name="premium_feat_reset_data">Acceso a Limpieza de la Base de Datos</string>
+    <string name="premium_btn_unlock">Desbloquear Versión Completa por $1.99</string>
+    <string name="premium_active_status">¡ERES PREMIUM!</string>
+    <string name="premium_toast_unlocked">¡Felicidades! ¡Versión Premium activada con éxito!</string>
+    <string name="premium_limit_players_msg">Límite de 3 jugadores alcanzado en la versión gratuita. ¡Pásate a Premium para registrar más!</string>
+    <string name="premium_limit_games_msg">Límite de 1 juego guardado alcanzado en la versión gratuita. ¡Pásate a Premium para guardar más!</string>
+
+    <!-- Anúncios Recompensados (Rewarded Ads) -->
+    <string name="ad_rewarded_dialog_title">Acceso Temporal</string>
+    <string name="ad_rewarded_ranking_msg">¡Mira un vídeo corto para desbloquear la Clasificación en esta partida, o hazte Premium para acceso ilimitado sin anuncios!</string>
+    <string name="ad_rewarded_round_msg">Has alcanzado el límite de rondas gratuitas en esta partida. ¡Mira un vídeo para continuar o hazte Premium!</string>
+    <string name="ad_rewarded_btn_watch">Ver Vídeo (Desbloquear)</string>
+    <string name="ad_rewarded_btn_premium">Hazte Premium (Sin Anuncios)</string>
+    <string name="ad_rewarded_unlocked_toast">¡Acceso temporal concedido para esta partida!</string>
+
     <plurals name="players_selected">
         <item quantity="one">%d jugador seleccionado</item>
         <item quantity="other">%d jugadores seleccionados</item>

@@ -19,6 +19,8 @@ import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.FragmentManagePlayersBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
+import com.wendellugalds.kingofbozo.util.PremiumManager
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 
 class ManagePlayersFragment : Fragment() {
@@ -97,8 +99,14 @@ class ManagePlayersFragment : Fragment() {
         }
 
         binding.btnJogarMaisUm.setOnClickListener {
-            val addPlayerBottomSheet = AddPlayerBottomSheet()
-            addPlayerBottomSheet.show(parentFragmentManager, "AddPlayerBottomSheet")
+            val totalJogadores = gameViewModel.availablePlayers.value.orEmpty().size
+            if (!PremiumManager.isUserPremium(requireContext()) && totalJogadores >= PremiumManager.MAX_FREE_PLAYERS) {
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            } else {
+                val addPlayerBottomSheet = AddPlayerBottomSheet()
+                addPlayerBottomSheet.show(parentFragmentManager, "AddPlayerBottomSheet")
+            }
         }
 
         // Ajuste de padding dinâmico para o recycler proporcional ao painel inferior

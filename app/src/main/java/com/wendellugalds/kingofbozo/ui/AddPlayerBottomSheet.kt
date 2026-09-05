@@ -29,6 +29,8 @@ import com.wendellugalds.kingofbozo.databinding.BottomSheetAddPlayerBinding
 import com.wendellugalds.kingofbozo.model.Player
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModel
 import com.wendellugalds.kingofbozo.ui.players.PlayerViewModelFactory
+import com.wendellugalds.kingofbozo.util.PremiumManager
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -226,6 +228,14 @@ class AddPlayerBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun savePlayer() {
+        val currentPlayersCount = playerViewModel.players.value.orEmpty().size
+        if (!PremiumManager.podeAdicionarJogador(requireContext(), currentPlayersCount)) {
+            Toast.makeText(requireContext(), getString(R.string.premium_limit_players_msg), Toast.LENGTH_LONG).show()
+            val premiumSheet = PremiumBottomSheet()
+            premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            return
+        }
+
         val name = binding.editTextName.text.toString().trim()
         val ageString = binding.editTextAge.text.toString().trim()
 

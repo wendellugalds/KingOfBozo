@@ -14,6 +14,11 @@
         android:theme="@style/Base.Theme.KingOfBozo.Standard"
         tools:replace="android:allowBackup">
 
+        <!-- AdMob App ID (Sample/Test App ID da Google) -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="false"

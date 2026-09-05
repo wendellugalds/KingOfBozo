@@ -9,10 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.color.MaterialColors
+import kotlinx.coroutines.launch
+import com.wendellugalds.kingofbozo.PlayersApplication
+import com.wendellugalds.kingofbozo.ui.game.GameViewModel
+import com.wendellugalds.kingofbozo.ui.game.GameViewModelFactory
+import com.wendellugalds.kingofbozo.util.PremiumManager
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentHomeBinding
 import java.util.Calendar
@@ -21,6 +28,10 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val gameViewModel: GameViewModel by activityViewModels {
+        GameViewModelFactory((requireActivity().application as PlayersApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +49,22 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonMarcador.setOnClickListener {
-            AnimationUtil.applyCollapseAnimation(binding.buttonMarcador) {
-                findNavController().navigate(R.id.action_global_playerSelectionFragment)
+            viewLifecycleOwner.lifecycleScope.launch {
+                val count = gameViewModel.getSavedGamesCount()
+                if (!PremiumManager.isUserPremium(requireContext()) && count >= PremiumManager.MAX_FREE_SAVED_GAMES) {
+                    val premiumSheet = PremiumBottomSheet()
+                    premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+                } else {
+                    AnimationUtil.applyCollapseAnimation(binding.buttonMarcador) {
+                        findNavController().navigate(R.id.action_global_playerSelectionFragment)
+                    }
+                }
             }
+        }
+
+        binding.buttonPremiumHome.setOnClickListener {
+            val premiumSheet = PremiumBottomSheet()
+            premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
         }
 
         updateGreeting()

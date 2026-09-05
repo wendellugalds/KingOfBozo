@@ -20,6 +20,10 @@ class PlayerRepository(
     val allPlayers: Flow<List<Player>> = playerDao.getAlphabetizedPlayers()
     val allSavedGames: Flow<List<SavedGame>> = savedGameDao.getAllSavedGames()
 
+    suspend fun getSavedGamesCount(): Int {
+        return savedGameDao.getSavedGamesCount()
+    }
+
     fun getPlayerById(playerId: Long): Flow<Player> {
         return playerDao.getPlayerById(playerId)
     }

@@ -31,7 +31,9 @@ import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayersBinding
 import com.wendellugalds.kingofbozo.databinding.DialogDeletePlayerBinding
 import com.wendellugalds.kingofbozo.ui.AddPlayerBottomSheet
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
+import com.wendellugalds.kingofbozo.util.PremiumManager
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
 
@@ -90,8 +92,14 @@ class PlayersFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.buttonAdicionarJogador.setOnClickListener {
-            val addSheet = AddPlayerBottomSheet()
-            addSheet.show(parentFragmentManager, "AddPlayerSheet")
+            val totalJogadores = playerAdapter.itemCount
+            if (!PremiumManager.isUserPremium(requireContext()) && totalJogadores >= PremiumManager.MAX_FREE_PLAYERS) {
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+            } else {
+                val addSheet = AddPlayerBottomSheet()
+                addSheet.show(parentFragmentManager, "AddPlayerSheet")
+            }
         }
 
         binding.personSelect.setOnClickListener {

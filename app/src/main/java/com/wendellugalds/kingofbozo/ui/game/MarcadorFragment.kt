@@ -17,7 +17,9 @@ import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -44,6 +46,7 @@ import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.TieBreakerAdapter
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import com.wendellugalds.kingofbozo.util.AdManager
 
 @Suppress("DEPRECATION")
 class MarcadorFragment : Fragment() {
@@ -81,7 +84,9 @@ class MarcadorFragment : Fragment() {
         
         binding.btnJogarMaisUm.setOnClickListener {
             if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
-                findNavController().navigate(R.id.action_marcadorFragment_to_rankingDuranteJogoFragment)
+                AdManager.checkAndShowRankingAd(requireActivity(), parentFragmentManager) {
+                    findNavController().navigate(R.id.action_marcadorFragment_to_rankingDuranteJogoFragment)
+                }
             }
         }
 
@@ -235,8 +240,10 @@ class MarcadorFragment : Fragment() {
 
         dialogBinding.btnConfirm.setOnClickListener {
             dialog.dismiss()
-            gameViewModel.saveCurrentGame()
-            findNavController().navigate(R.id.navigation_saved_games)
+            gameViewModel.saveCurrentGame(requireContext())
+            if (gameViewModel.showPremiumLimitEvent.value == null) {
+                findNavController().navigate(R.id.navigation_saved_games)
+            }
         }
 
         dialogBinding.btnCancel.setOnClickListener {
@@ -291,9 +298,11 @@ class MarcadorFragment : Fragment() {
             .create()
 
         dialogBinding.btnSave.setOnClickListener {
-            gameViewModel.saveCurrentGame()
+            gameViewModel.saveCurrentGame(requireContext())
             dialog.dismiss()
-            findNavController().navigate(R.id.navigation_saved_games)
+            if (gameViewModel.showPremiumLimitEvent.value == null) {
+                findNavController().navigate(R.id.navigation_saved_games)
+            }
         }
 
         dialogBinding.btnExitNoSave.setOnClickListener {
@@ -565,9 +574,21 @@ class MarcadorFragment : Fragment() {
         gameViewModel.navigateToRanking.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
                 if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
-                    findNavController().navigate(R.id.action_marcadorFragment_to_rankingFragment)
+                    val currentRound = gameViewModel.gameState.value?.currentRound ?: 1
+                    AdManager.checkAndShowRoundLimitAd(requireActivity(), parentFragmentManager, currentRound) {
+                        findNavController().navigate(R.id.action_marcadorFragment_to_rankingFragment)
+                    }
                 }
                 gameViewModel.onRankingNavigated()
+            }
+        }
+
+        gameViewModel.showPremiumLimitEvent.observe(viewLifecycleOwner) { limitType ->
+            if (limitType == 1) {
+                Toast.makeText(requireContext(), getString(R.string.premium_limit_games_msg), Toast.LENGTH_LONG).show()
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
+                gameViewModel.resetPremiumLimitEvent()
             }
         }
     }

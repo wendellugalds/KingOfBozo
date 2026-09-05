@@ -128,6 +128,28 @@
     <string name="toast_jogo_salvo">Partie sauvegardée.</string>
     <string name="toast_jogo_apagado">Partie supprimée.</string>
 
+    <!-- Modo Premium -->
+    <string name="premium_title">KING OF BOZÓ PREMIUM</string>
+    <string name="premium_subtitle">Débloquez toutes les fonctionnalités et jouez sans limites !</string>
+    <string name="premium_feat_no_ads">Suppression totale de toutes les publicités</string>
+    <string name="premium_feat_unlimited_players">Joueurs illimités (Version gratuite : max 3)</string>
+    <string name="premium_feat_unlimited_saved_games">Parties sauvegardées illimitées (Version gratuite : max 1)</string>
+    <string name="premium_feat_unlimited_themes">Tous les thèmes et couleurs d\'accent débloqués</string>
+    <string name="premium_feat_reset_data">Accès au nettoyage de la base de données</string>
+    <string name="premium_btn_unlock">Débloquer la version complète pour 1,99 €</string>
+    <string name="premium_active_status">VOUS ÊTES PREMIUM !</string>
+    <string name="premium_toast_unlocked">Félicitations ! Version Premium activée avec succès !</string>
+    <string name="premium_limit_players_msg">Limite de 3 joueurs atteinte en version gratuite. Passez à Premium pour en ajouter plus !</string>
+    <string name="premium_limit_games_msg">Limite de 1 partie sauvegardée atteinte en version gratuite. Passez à Premium pour en sauvegarder plus !</string>
+
+    <!-- Anúncios Recompensados (Rewarded Ads) -->
+    <string name="ad_rewarded_dialog_title">Accès Temporaire</string>
+    <string name="ad_rewarded_ranking_msg">Regardez une courte vidéo pour débloquer le Classement pour cette partie, ou passez à Premium pour un accès illimité sans publicité !</string>
+    <string name="ad_rewarded_round_msg">Vous avez atteint la limite de manches gratuites pour cette partie. Regardez une vidéo pour continuer ou passez à Premium !</string>
+    <string name="ad_rewarded_btn_watch">Regarder la vidéo (Débloquer)</string>
+    <string name="ad_rewarded_btn_premium">Passer à Premium (Sans pub)</string>
+    <string name="ad_rewarded_unlocked_toast">Accès temporaire accordé pour cette partie !</string>
+
     <plurals name="players_selected">
         <item quantity="one">%d joueur sélectionné</item>
         <item quantity="other">%d joueurs sélectionnés</item>

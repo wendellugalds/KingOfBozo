@@ -12,6 +12,9 @@ interface SavedGameDao {
     @Query("SELECT * FROM saved_games")
     suspend fun getAllSavedGamesList(): List<SavedGame>
 
+    @Query("SELECT COUNT(*) FROM saved_games")
+    suspend fun getSavedGamesCount(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(savedGame: SavedGame): Long
 

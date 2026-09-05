@@ -67,6 +67,12 @@ dependencies {
     // Coil
     implementation(libs.coil)
 
+    // AdMob Ads
+    implementation("com.google.android.gms:play-services-ads:23.3.0")
+
+    // Google Play Billing
+    implementation("com.android.billingclient:billing-ktx:7.0.0")
+
     // Testes
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
