@@ -282,7 +282,7 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
         rawScores.forEach { (key, entry) ->
             val categoryType = when (key) {
                 is CategoryType -> key
-                is String -> try { CategoryType.valueOf(key) } catch (e: Exception) { null }
+                is String -> try { CategoryType.valueOf(key) } catch (_: Exception) { null }
                 else -> null
             }
             if (categoryType != null && entry != null) {

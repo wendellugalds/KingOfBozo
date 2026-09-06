@@ -293,18 +293,22 @@ class MarcadorFragment : Fragment() {
             .setView(dialogBinding.root)
             .create()
 
+        val navOptions = androidx.navigation.NavOptions.Builder()
+            .setPopUpTo(R.id.navigation_home, false)
+            .build()
+
         dialogBinding.btnSave.setOnClickListener {
             gameViewModel.saveCurrentGame(requireContext())
             dialog.dismiss()
             if (gameViewModel.showPremiumLimitEvent.value == null) {
-                findNavController().navigate(R.id.navigation_saved_games)
+                findNavController().navigate(R.id.navigation_saved_games, null, navOptions)
             }
         }
 
         dialogBinding.btnExitNoSave.setOnClickListener {
             gameViewModel.discardUnsavedChanges()
             dialog.dismiss()
-            findNavController().navigate(R.id.navigation_saved_games)
+            findNavController().navigate(R.id.navigation_saved_games, null, navOptions)
         }
 
         dialogBinding.btnCancel.setOnClickListener {
