@@ -65,8 +65,8 @@ object AdManager {
         fragmentManager: FragmentManager,
         onAccessGranted: () -> Unit
     ) {
-        // Se for Premium ou se o acesso temporário já foi liberado nesta partida
-        if (PremiumManager.isUserPremium(activity) || isRankingUnlockedTemp) {
+        // Se for Premium, libera o acesso direto sem anúncio
+        if (PremiumManager.isUserPremium(activity)) {
             onAccessGranted()
             return
         }
@@ -78,6 +78,37 @@ object AdManager {
                 dialog.dismiss()
                 showRewardedAd(activity) {
                     isRankingUnlockedTemp = true
+                    Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
+                    onAccessGranted()
+                }
+            }
+            .setNeutralButton(activity.getString(R.string.ad_rewarded_btn_premium)) { dialog, _ ->
+                dialog.dismiss()
+                val premiumSheet = PremiumBottomSheet()
+                premiumSheet.show(fragmentManager, "PremiumBottomSheet")
+            }
+            .setNegativeButton(activity.getString(R.string.cancelar)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    fun checkAndShowNextRoundAd(
+        activity: Activity,
+        fragmentManager: FragmentManager,
+        onAccessGranted: () -> Unit
+    ) {
+        if (PremiumManager.isUserPremium(activity)) {
+            onAccessGranted()
+            return
+        }
+
+        MaterialAlertDialogBuilder(activity, R.style.CustomAlertDialog)
+            .setTitle(activity.getString(R.string.ad_rewarded_dialog_title))
+            .setMessage(activity.getString(R.string.ad_rewarded_round_msg))
+            .setPositiveButton(activity.getString(R.string.ad_rewarded_btn_watch)) { dialog, _ ->
+                dialog.dismiss()
+                showRewardedAd(activity) {
                     Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
                     onAccessGranted()
                 }

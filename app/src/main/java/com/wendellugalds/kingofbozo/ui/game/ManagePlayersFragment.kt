@@ -76,9 +76,9 @@ class ManagePlayersFragment : Fragment() {
         setupDragAndDrop()
 
         gameViewModel.gameState.observe(viewLifecycleOwner) { state ->
-            val inGamePlayers = state.playersState.map { pState ->
+            val inGamePlayers = state?.playersState?.map { pState ->
                 Player(name = pState.playerName, age = 0, imageUri = pState.playerImage)
-            }
+            } ?: emptyList()
             prepararTransicao()
             inGameAdapter.submitList(inGamePlayers, true)
             binding.totalJOGADORESLISTA.text = inGamePlayers.size.toString()

@@ -10,16 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.DialogExitGameBinding
 import com.wendellugalds.kingofbozo.databinding.FragmentRankingBinding
-import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.ui.game.adapter.RankingAtualAdapter
-import com.wendellugalds.kingofbozo.ui.game.adapter.RankingGeralAdapter
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AdManager
 
@@ -33,8 +28,6 @@ class RankingFragment : Fragment() {
     }
 
     private lateinit var rankingAdapter: RankingAtualAdapter
-    private lateinit var rankingGeralAdapter: RankingGeralAdapter
-    private lateinit var bottomSheetBehavior: BottomSheetBehavior<View>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRankingBinding.inflate(inflater, container, false)
@@ -44,7 +37,6 @@ class RankingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViews()
-        setupBottomSheet()
         observeGameState()
         setupButtons()
         setupOnBackPressed()
@@ -61,32 +53,21 @@ class RankingFragment : Fragment() {
             adapter = rankingAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
-
-        rankingGeralAdapter = RankingGeralAdapter()
-        binding.recyclerViewListaJogadoresRankingGeralJogoAtual.apply {
-            adapter = rankingGeralAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
-    }
-
-    private fun setupBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.persistentBottomSheet)
-        
-        binding.cardRankingGeral.setOnClickListener {
-            AdManager.checkAndShowRankingAd(requireActivity(), parentFragmentManager) {
-                if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                } else {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                }
-            }
-        }
     }
 
     private fun setupButtons() {
+        binding.btnRankingGeralRodada.setOnClickListener {
+            AdManager.checkAndShowRankingAd(requireActivity(), parentFragmentManager) {
+                val bottomSheet = RankingGeralBottomSheet()
+                bottomSheet.show(childFragmentManager, "RankingGeralBottomSheet")
+            }
+        }
+
         binding.btnJogarMaisUm.setOnClickListener {
-            gameViewModel.startNextRound()
-            findNavController().navigateUp()
+            AdManager.checkAndShowNextRoundAd(requireActivity(), parentFragmentManager) {
+                gameViewModel.startNextRound()
+                findNavController().navigateUp()
+            }
         }
 
         binding.btnSair.setOnClickListener {
@@ -101,16 +82,17 @@ class RankingFragment : Fragment() {
             .create()
 
         dialogBinding.btnSave.setOnClickListener {
-            gameViewModel.startNextRound()
-            gameViewModel.saveCurrentGame()
+            gameViewModel.saveCurrentGame(requireContext())
             dialog.dismiss()
-            findNavController().popBackStack(R.id.navigation_home, false)
+            if (gameViewModel.showPremiumLimitEvent.value == null) {
+                findNavController().navigate(R.id.navigation_saved_games)
+            }
         }
 
         dialogBinding.btnExitNoSave.setOnClickListener {
-            gameViewModel.startNextRound()
+            gameViewModel.discardUnsavedChanges()
             dialog.dismiss()
-            findNavController().popBackStack(R.id.navigation_home, false)
+            findNavController().navigate(R.id.navigation_saved_games)
         }
 
         dialogBinding.btnCancel.setOnClickListener {
@@ -124,11 +106,7 @@ class RankingFragment : Fragment() {
     private fun setupOnBackPressed() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                } else {
-                    showExitConfirmationDialog()
-                }
+                showExitConfirmationDialog()
             }
         })
     }
@@ -137,19 +115,10 @@ class RankingFragment : Fragment() {
         gameViewModel.gameState.observe(viewLifecycleOwner) { state ->
             state?.let {
                 binding.textTitleJogadores.text = "RODADA ${it.currentRound.toString().padStart(2, '0')}"
-                binding.totalRodadas.text = "${it.currentRound} Rodadas"
 
                 // Ranking da rodada finalizada
                 val sortedCurrent = it.playersState.sortedByDescending { p -> p.totalScore }
                 rankingAdapter.submitList(sortedCurrent)
-
-                // Ranking Geral (Sessão) - Apenas jogadores com 1 ou mais vitórias
-                val sortedGeral = it.playersState.sortedWith(
-                    compareByDescending<PlayerState> { p -> p.sessionWins }
-                        .thenByDescending { p -> p.sessionTotalPoints }
-                ).filter { p -> p.sessionWins >= 1 }
-                
-                rankingGeralAdapter.submitList(sortedGeral)
             }
         }
     }

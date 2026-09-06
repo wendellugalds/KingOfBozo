@@ -82,12 +82,8 @@ class MarcadorFragment : Fragment() {
 
         binding.buttonBack.setOnClickListener { showExitConfirmationDialog() }
         
-        binding.btnJogarMaisUm.setOnClickListener {
-            if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
-                AdManager.checkAndShowRankingAd(requireActivity(), parentFragmentManager) {
-                    findNavController().navigate(R.id.action_marcadorFragment_to_rankingDuranteJogoFragment)
-                }
-            }
+        binding.btnRankingDuranteJogo.setOnClickListener {
+            findNavController().navigate(R.id.action_marcadorFragment_to_rankingDuranteJogoFragment)
         }
 
         binding.buttonGerenciarJogadores.setOnClickListener {
@@ -306,6 +302,7 @@ class MarcadorFragment : Fragment() {
         }
 
         dialogBinding.btnExitNoSave.setOnClickListener {
+            gameViewModel.discardUnsavedChanges()
             dialog.dismiss()
             findNavController().navigate(R.id.navigation_saved_games)
         }
@@ -573,13 +570,12 @@ class MarcadorFragment : Fragment() {
 
         gameViewModel.navigateToRanking.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
-                if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
-                    val currentRound = gameViewModel.gameState.value?.currentRound ?: 1
-                    AdManager.checkAndShowRoundLimitAd(requireActivity(), parentFragmentManager, currentRound) {
+                view?.post {
+                    if (isAdded && findNavController().currentDestination?.id == R.id.marcadorFragment) {
                         findNavController().navigate(R.id.action_marcadorFragment_to_rankingFragment)
                     }
+                    gameViewModel.onRankingNavigated()
                 }
-                gameViewModel.onRankingNavigated()
             }
         }
 

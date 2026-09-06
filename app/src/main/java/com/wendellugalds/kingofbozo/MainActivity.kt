@@ -88,8 +88,21 @@ class MainActivity : AppCompatActivity() {
                     val game = value.find { it.id == gameId }
                     if (game != null) {
                         gameViewModel.loadGame(game)
-                        navController.navigate(R.id.marcadorFragment)
                         gameViewModel.allSavedGames.removeObserver(this)
+
+                        gameViewModel.gameState.observe(this@MainActivity, object : androidx.lifecycle.Observer<com.wendellugalds.kingofbozo.model.GameState?> {
+                            override fun onChanged(value: com.wendellugalds.kingofbozo.model.GameState?) {
+                                if (value != null) {
+                                    val destination = if (gameViewModel.navigateToRanking.value == true) {
+                                        R.id.rankingFragment
+                                    } else {
+                                        R.id.marcadorFragment
+                                    }
+                                    navController.navigate(destination)
+                                    gameViewModel.gameState.removeObserver(this)
+                                }
+                            }
+                        })
                     }
                 }
             }

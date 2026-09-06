@@ -119,8 +119,13 @@ class SavedGamesFragment : Fragment() {
         val listType = object : TypeToken<List<PlayerState>>() {}.type
         val playerStates: List<PlayerState> = gson.fromJson(savedGame.playerStatesJson, listType)
 
-        // Ordena por pontuação da rodada (totalScore) para mostrar a classificação
-        val sortedPlayers = playerStates.sortedByDescending { it.totalScore }
+        // Se houver pontos marcados na rodada, ordena pela pontuação. Caso contrário (0 pontos), mantém a ordem de jogada original.
+        val hasScores = playerStates.any { it.totalScore > 0 }
+        val sortedPlayers = if (hasScores) {
+            playerStates.sortedByDescending { it.totalScore }
+        } else {
+            playerStates
+        }
 
         val adapter = SavedGamePlayersAdapter(savedGame.currentRound)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())

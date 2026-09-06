@@ -66,6 +66,7 @@ class SavedGamePlayersAdapter(private val currentRound: Int) : ListAdapter<Playe
                 isEmpateNoTopo -> R.drawable.ic_bug_tie
                 else -> {
                     when (rank) {
+                        1 -> R.drawable.ic_1
                         2 -> R.drawable.ic_2
                         3 -> R.drawable.ic_3
                         4 -> R.drawable.ic_4

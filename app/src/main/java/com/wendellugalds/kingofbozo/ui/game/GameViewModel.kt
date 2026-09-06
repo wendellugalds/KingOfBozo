@@ -27,8 +27,8 @@ import kotlinx.coroutines.launch
 
 class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
 
-    private val _gameState = MutableLiveData<GameState>()
-    val gameState: LiveData<GameState> = _gameState
+    private val _gameState = MutableLiveData<GameState?>()
+    val gameState: LiveData<GameState?> = _gameState
 
     private val _openedCategory = MutableLiveData<Category?>()
     val openedCategory: LiveData<Category?> = _openedCategory
@@ -165,7 +165,9 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
         updatedPlayers.add(newPlayerState)
 
         _gameState.value = currentState.copy(playersState = updatedPlayers)
-        saveCurrentGame()
+        if (currentState.gameId != 0L) {
+            saveCurrentGame()
+        }
     }
 
     fun removePlayerFromCurrentGame(playerName: String) {
@@ -183,7 +185,9 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
             playersState = updatedPlayers,
             currentPlayerIndex = newCurrentIndex
         )
-        saveCurrentGame()
+        if (currentState.gameId != 0L) {
+            saveCurrentGame()
+        }
     }
 
     fun setCurrentPlayer(playerIndex: Int) {
@@ -260,10 +264,32 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
     }
 
     private fun isRoundOver(state: GameState): Boolean {
-        // Uma rodada só acaba se TODOS os jogadores preencheram TODAS as 10 categorias.
-        return state.playersState.all { player ->
-            player.scores.values.count { it != null } == 10
+        if (state.playersState.isEmpty()) return false
+        val hasGeneralBoca = state.playersState.any { player ->
+            player.scores.values.any { it?.value == 1000 && it.isBoca }
         }
+        if (hasGeneralBoca) return true
+
+        return state.playersState.all { player ->
+            player.scores.values.count { it != null && it.isScored } == 10
+        }
+    }
+
+    private fun normalizeScores(rawScores: Map<*, ScoreEntry?>?): MutableMap<CategoryType, ScoreEntry?> {
+        val normalizedMap = CategoryType.values().associateWith { null as ScoreEntry? }.toMutableMap()
+        if (rawScores == null) return normalizedMap
+
+        rawScores.forEach { (key, entry) ->
+            val categoryType = when (key) {
+                is CategoryType -> key
+                is String -> try { CategoryType.valueOf(key) } catch (e: Exception) { null }
+                else -> null
+            }
+            if (categoryType != null && entry != null) {
+                normalizedMap[categoryType] = entry
+            }
+        }
+        return normalizedMap
     }
 
     private fun finishRound(state: GameState) {
@@ -427,6 +453,23 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
         }
     }
     
+    fun discardUnsavedChanges() {
+        val state = _gameState.value ?: return
+        if (state.gameId != 0L) {
+            viewModelScope.launch {
+                val allGames = repository.allSavedGames.first()
+                val dbGame = allGames.find { it.id == state.gameId }
+                if (dbGame != null) {
+                    loadGame(dbGame)
+                } else {
+                    _gameState.value = null
+                }
+            }
+        } else {
+            _gameState.value = null
+        }
+    }
+
     fun deleteSavedGame(savedGame: SavedGame) {
         viewModelScope.launch {
             repository.deleteSavedGame(savedGame)
@@ -447,11 +490,15 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
             val allPlayers = repository.allPlayers.first()
             val syncedPlayerStates = playerStates.map { pState ->
                 val dbPlayer = allPlayers.find { it.id == pState.playerId }
-                if (dbPlayer != null) {
-                    pState.copy(playerName = dbPlayer.name, playerImage = dbPlayer.imageUri)
-                } else {
-                    pState
-                }
+                val playerName = dbPlayer?.name ?: pState.playerName
+                val playerImage = dbPlayer?.imageUri ?: pState.playerImage
+                val normalizedScores = normalizeScores(pState.scores)
+
+                pState.copy(
+                    playerName = playerName,
+                    playerImage = playerImage,
+                    scores = normalizedScores
+                )
             }
             
             val tiedPlayerIds: List<Long>? = gson.fromJson(savedGame.tiedPlayerIdsJson, object : TypeToken<List<Long>>() {}.type)
@@ -472,13 +519,11 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
                 val tiedPlayers = syncedPlayerStates.filter { it.playerId in (tiedPlayerIds ?: emptyList()) }
                 _tieBreakerUiState.value = TieBreakerState.ShowTiedPlayers(tiedPlayers)
                 _navigateToRanking.value = false
+            } else if (isRoundOver(state)) {
+                // Se a rodada do jogo salvo já estava finalizada, abre direto na tela de Ranking
+                _navigateToRanking.value = true
             } else {
-                val hasGeneralBoca = playerStates.any { it.scores[CategoryType.GENERAL]?.value == 1000 }
-                if (hasGeneralBoca) {
-                    startNextRound()
-                } else {
-                    _navigateToRanking.value = false
-                }
+                _navigateToRanking.value = false
             }
         }
     }
