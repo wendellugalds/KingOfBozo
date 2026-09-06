@@ -1,41 +1,35 @@
 package com.wendellugalds.kingofbozo.util
 
-import android.accounts.AccountManager
 import android.content.Context
+import com.wendellugalds.kingofbozo.BuildConfig
 
 object PremiumManager {
 
     private const val PREFS_NAME = "premium_prefs"
     private const val KEY_IS_PREMIUM = "is_user_premium"
 
-    const val DEVELOPER_EMAIL = "wendellugaldsg@gmail.com"
-
     const val MAX_FREE_PLAYERS = 3
     const val MAX_FREE_SAVED_GAMES = 1
 
+    // =========================================================================
+    // FLAG DE TESTE MANUAL (Apenas para modo DEBUG):
+    // - Mude para 'true'  -> Força o app a rodar como PREMIUM nos testes
+    // - Mude para 'false' -> Força o app a rodar como GRATUITO nos testes
+    // - Mude para 'null'  -> Usa o status real gravado no aparelho (SharedPreferences / Compras)
+    // =========================================================================
+    private val DEBUG_OVERRIDE_PREMIUM: Boolean? = false as Boolean?
+
     fun isUserPremium(context: Context): Boolean {
-        // Bypass automático do desenvolvedor (wendellugaldsg@gmail.com)
-        if (checkIsDeveloperAccount(context)) {
-            return true
+        // A flag de teste manual 'DEBUG_OVERRIDE_PREMIUM' SÓ é usada em builds de DEBUG.
+        // Em versão de PRODUÇÃO (Release), o código abaixo é ignorado totalmente.
+        if (BuildConfig.DEBUG) {
+            DEBUG_OVERRIDE_PREMIUM?.let { override ->
+                return override
+            }
         }
 
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return prefs.getBoolean(KEY_IS_PREMIUM, false)
-    }
-
-    fun checkIsDeveloperAccount(context: Context): Boolean {
-        try {
-            val accountManager = AccountManager.get(context)
-            val accounts = accountManager.getAccountsByType("com.google")
-            for (account in accounts) {
-                if (account.name.equals(DEVELOPER_EMAIL, ignoreCase = true)) {
-                    return true
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return false
     }
 
     fun setUserPremium(context: Context, isPremium: Boolean) {
