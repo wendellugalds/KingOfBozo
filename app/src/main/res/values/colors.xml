@@ -7,12 +7,31 @@
     <color name="text_dark">#000000</color>
 
     <color name="card_light">#FFFFFF</color>
-    <color name="card_dark">#313131</color>
+    <color name="card_dark">#17212A</color>
 
     <color name="fundo_light">#EFEFEF</color>
     <color name="fundo_dark">#17191a</color>
 
     <color name="opacity">#00000000</color>
+
+    <!-- Fundo Preto Profundo (Matte Black) -->
+    <color name="premium_background_deep_black">#202E3A</color>
+
+    <!-- Fundo do Card de Recursos (levemente mais claro que o preto absoluto para contraste) -->
+    <color name="premium_card_dark_grey">#17212A</color>
+
+    <!-- Dourado Premium Suave (para textos e ícones) -->
+    <color name="premium_gold_soft">#F4D18D</color>
+
+    <!-- Dourado mais escuro (para textos secundários/dull) -->
+    <color name="premium_gold_dull">#A09070</color>
+
+    <!-- Gradiente do Botão Dourado (Polished Gold) -->
+    <color name="premium_button_gold_start">#E6C17A</color> <!-- Dourado mais claro -->
+    <color name="premium_button_gold_end">#C49B55</color>   <!-- Dourado mais escuro -->
+
+    <!-- Preto Fosco (para o texto DENTRO do botão dourado) -->
+    <color name="premium_text_on_gold">#000000</color>
 
     <color name="king">#FFD700</color>
 

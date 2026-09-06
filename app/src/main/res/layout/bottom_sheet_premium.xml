@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="@color/padrao_dark_nigth"
+    android:backgroundTint="@color/premium_background_deep_black"
     android:background="@drawable/bottom_sheet_background"
     android:fillViewport="true">
 
@@ -20,7 +20,7 @@
             android:layout_width="40dp"
             android:layout_height="4dp"
             android:layout_marginBottom="16dp"
-            app:tint="@color/premium"
+            app:tint="@color/premium_gold_dull"
             android:src="@drawable/background_card_dark"
             tools:ignore="ContentDescription" />
 
@@ -30,10 +30,10 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:background="@drawable/background_circle"
-            android:backgroundTint="@color/padrao_dark"
+            android:backgroundTint="@color/premium_card_dark_grey"
             android:padding="16dp"
             android:src="@drawable/ic_diamond_shine"
-            app:tint="@color/premium"
+            app:tint="@color/premium_gold_soft"
             tools:ignore="ContentDescription" />
 
         <!-- Title -->
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/premium_title"
-            android:textColor="@color/premium"
+            android:textColor="@color/premium_gold_soft"
             android:textSize="22sp"
             android:textStyle="bold"
             android:gravity="center" />
@@ -55,9 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/premium_subtitle"
-            android:textColor="?attr/customTextBackground"
+            android:textColor="@color/premium_gold_dull"
             android:textSize="14sp"
-            android:alpha="0.8"
             android:gravity="center" />
 
         <!-- Advantages Container -->
@@ -67,7 +66,7 @@
             android:orientation="vertical"
             android:layout_marginTop="24dp"
             android:background="@drawable/background_card_game"
-            android:backgroundTint="@color/padrao_dark"
+            android:backgroundTint="@color/premium_card_dark_grey"
             android:padding="16dp">
 
             <!-- Advantage 1: No Ads -->
@@ -81,15 +80,16 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_diamond_shine"
-                    app:tint="@color/premium"
+                    app:tint="@color/premium_gold_soft"
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/text_premium_anuncios"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/premium_feat_no_ads"
-                    android:textColor="?attr/customTextBackground"
+                    android:textColor="@color/premium_gold_soft"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -104,15 +104,16 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_players"
-                    app:tint="@color/premium"
+                    app:tint="@color/premium_gold_soft"
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/text_premium_joagores"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/premium_feat_unlimited_players"
-                    android:textColor="?attr/customTextBackground"
+                    android:textColor="@color/premium_gold_soft"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -127,15 +128,16 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_game"
-                    app:tint="@color/premium"
+                    app:tint="@color/premium_gold_soft"
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/text_premium_jogos_salvos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/premium_feat_unlimited_saved_games"
-                    android:textColor="?attr/customTextBackground"
+                    android:textColor="@color/premium_gold_soft"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -150,15 +152,16 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_settings"
-                    app:tint="@color/premium"
+                    app:tint="@color/premium_gold_soft"
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/text_premium_cores_temas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/premium_feat_unlimited_themes"
-                    android:textColor="?attr/customTextBackground"
+                    android:textColor="@color/premium_gold_soft"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -173,15 +176,16 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_limpar_dados"
-                    app:tint="@color/premium"
+                    app:tint="@color/premium_gold_soft"
                     tools:ignore="ContentDescription" />
 
                 <TextView
+                    android:id="@+id/text_premium_nuvem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/premium_feat_reset_data"
-                    android:textColor="?attr/customTextBackground"
+                    android:textColor="@color/premium_gold_soft"
                     android:textSize="14sp"/>
             </LinearLayout>
 
@@ -194,14 +198,15 @@
             android:layout_height="56dp"
             android:layout_marginTop="24dp"
             android:text="@string/premium_btn_unlock"
-            android:textColor="@color/premium"
+            android:textColor="@color/premium_text_on_gold"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:backgroundTint="@color/padrao_dark"
+            app:backgroundTint="@null"
+            android:background="@drawable/bg_gold_button"
             app:cornerRadius="28dp"
             app:icon="@drawable/ic_diamond_shine"
             app:iconGravity="textStart"
-            app:iconTint="@color/premium" />
+            app:iconTint="@color/premium_text_on_gold" />
 
     </LinearLayout>
 

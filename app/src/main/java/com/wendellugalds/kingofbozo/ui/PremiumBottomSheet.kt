@@ -35,7 +35,7 @@ class PremiumBottomSheet(
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
-            val corDoPainel = ContextCompat.getColor(requireContext(), R.color.padrao_dark_nigth)
+            val corDoPainel = ContextCompat.getColor(requireContext(), R.color.premium_background_deep_black)
 
             bottomSheet?.let { sheet ->
                 val behavior = BottomSheetBehavior.from(sheet)
@@ -113,17 +113,45 @@ class PremiumBottomSheet(
     private fun updateUiState() {
         val isPremium = PremiumManager.isUserPremium(requireContext())
         if (isPremium) {
+            //TEXTOS
+            binding.textPremiumSubtitle.text = "Todos os recursos liberados"
+            binding.textPremiumAnuncios.text = "Sem Anúncios"
+            binding.textPremiumJoagores.text = "Jogadores ilimitados"
+            binding.textPremiumJogosSalvos.text = "Jogos salvos ilimitados"
+            binding.textPremiumCoresTemas.text = "Temas e cores liberados"
+            binding.textPremiumNuvem.text = "Limpeza de dados liberados"
+
+            binding.iconCrownPremium.imageTintList = ContextCompat.getColorStateList(requireContext(), R.color.premium_card_dark_grey)
+            binding.iconCrownPremium.backgroundTintList = null
+            binding.iconCrownPremium.setBackgroundResource(R.drawable.bg_gold_button)
+
+
+            // ESTADO: NÃO É PREMIUM (Botão de Compra)
             binding.btnUnlockPremium.text = getString(R.string.premium_active_status)
             binding.btnUnlockPremium.setIconResource(R.drawable.ic_diamond_shine)
-            binding.btnUnlockPremium.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.premium)
-            binding.btnUnlockPremium.setTextColor(ContextCompat.getColor(requireContext(), R.color.padrao_dark_nigth))
-            binding.btnUnlockPremium.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.padrao_dark_nigth)
+            binding.btnUnlockPremium.isEnabled = true
+
+            // Anula o tint (essencial) e aplica o fundo com gradiente dourado
+            binding.btnUnlockPremium.backgroundTintList = null
+            binding.btnUnlockPremium.setBackgroundResource(R.drawable.bg_gold_button)
+
+            // Texto e ícone em preto fosco para dar contraste máximo sobre o dourado
+            binding.btnUnlockPremium.setTextColor(ContextCompat.getColor(requireContext(), R.color.premium_text_on_gold))
+            binding.btnUnlockPremium.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.premium_text_on_gold)
+
+            // Impede o clique já que ele já possui a versão premium
+            binding.btnUnlockPremium.isEnabled = false
         } else {
             binding.btnUnlockPremium.text = getString(R.string.premium_btn_unlock)
             binding.btnUnlockPremium.setIconResource(R.drawable.ic_diamond_shine)
-            binding.btnUnlockPremium.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.padrao_dark)
-            binding.btnUnlockPremium.setTextColor(ContextCompat.getColor(requireContext(), R.color.premium))
-            binding.btnUnlockPremium.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.premium)
+
+            // Aplica o fundo cinza escuro dos cards para mesclar com o layout
+            binding.btnUnlockPremium.setBackgroundResource(R.drawable.bg_gold_button) // Remove o gradiente
+            binding.btnUnlockPremium.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.premium_card_dark_grey)
+
+            // Deixa o texto e o ícone no dourado padrão
+            binding.btnUnlockPremium.setTextColor(ContextCompat.getColor(requireContext(), R.color.premium_gold_soft))
+            binding.btnUnlockPremium.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.premium_gold_soft)
         }
     }
 

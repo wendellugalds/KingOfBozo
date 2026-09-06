@@ -165,7 +165,7 @@
                     android:importantForAccessibility="no"
                     android:rotation="-45"
                     android:src="@drawable/ic_crown"
-                    app:tint="@color/king" />
+                    app:tint="@color/premium" />
 
                 <TextView
                     android:id="@+id/sigla_nome"

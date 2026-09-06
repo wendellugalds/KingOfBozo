@@ -2,14 +2,18 @@ package com.wendellugalds.kingofbozo.util
 
 import android.app.Activity
 import android.content.Context
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.button.MaterialButton
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 
@@ -71,26 +75,14 @@ object AdManager {
             return
         }
 
-        MaterialAlertDialogBuilder(activity, R.style.CustomAlertDialog)
-            .setTitle(activity.getString(R.string.ad_rewarded_dialog_title))
-            .setMessage(activity.getString(R.string.ad_rewarded_ranking_msg))
-            .setPositiveButton(activity.getString(R.string.ad_rewarded_btn_watch)) { dialog, _ ->
-                dialog.dismiss()
-                showRewardedAd(activity) {
-                    isRankingUnlockedTemp = true
-                    Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
-                    onAccessGranted()
-                }
-            }
-            .setNeutralButton(activity.getString(R.string.ad_rewarded_btn_premium)) { dialog, _ ->
-                dialog.dismiss()
-                val premiumSheet = PremiumBottomSheet()
-                premiumSheet.show(fragmentManager, "PremiumBottomSheet")
-            }
-            .setNegativeButton(activity.getString(R.string.cancelar)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        showTemporaryAccessDialog(
+            activity,
+            fragmentManager,
+            activity.getString(R.string.ad_rewarded_ranking_msg)
+        ) {
+            isRankingUnlockedTemp = true
+            onAccessGranted()
+        }
     }
 
     fun checkAndShowNextRoundAd(
@@ -103,25 +95,13 @@ object AdManager {
             return
         }
 
-        MaterialAlertDialogBuilder(activity, R.style.CustomAlertDialog)
-            .setTitle(activity.getString(R.string.ad_rewarded_dialog_title))
-            .setMessage(activity.getString(R.string.ad_rewarded_round_msg))
-            .setPositiveButton(activity.getString(R.string.ad_rewarded_btn_watch)) { dialog, _ ->
-                dialog.dismiss()
-                showRewardedAd(activity) {
-                    Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
-                    onAccessGranted()
-                }
-            }
-            .setNeutralButton(activity.getString(R.string.ad_rewarded_btn_premium)) { dialog, _ ->
-                dialog.dismiss()
-                val premiumSheet = PremiumBottomSheet()
-                premiumSheet.show(fragmentManager, "PremiumBottomSheet")
-            }
-            .setNegativeButton(activity.getString(R.string.cancelar)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        showTemporaryAccessDialog(
+            activity,
+            fragmentManager,
+            activity.getString(R.string.ad_rewarded_round_msg)
+        ) {
+            onAccessGranted()
+        }
     }
 
     fun checkAndShowRoundLimitAd(
@@ -136,26 +116,56 @@ object AdManager {
             return
         }
 
-        MaterialAlertDialogBuilder(activity, R.style.CustomAlertDialog)
-            .setTitle(activity.getString(R.string.ad_rewarded_dialog_title))
-            .setMessage(activity.getString(R.string.ad_rewarded_round_msg))
-            .setPositiveButton(activity.getString(R.string.ad_rewarded_btn_watch)) { dialog, _ ->
-                dialog.dismiss()
-                showRewardedAd(activity) {
-                    isRoundsUnlockedTemp = true
-                    Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
-                    onAccessGranted()
-                }
+        showTemporaryAccessDialog(
+            activity,
+            fragmentManager,
+            activity.getString(R.string.ad_rewarded_round_msg)
+        ) {
+            isRoundsUnlockedTemp = true
+            onAccessGranted()
+        }
+    }
+
+    private fun showTemporaryAccessDialog(
+        activity: Activity,
+        fragmentManager: FragmentManager,
+        message: String,
+        onRewardEarned: () -> Unit
+    ) {
+        val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_temporary_access, null)
+        val dialog = AlertDialog.Builder(activity, R.style.CustomAlertDialog)
+            .setView(dialogView)
+            .create()
+
+        val titleView = dialogView.findViewById<TextView>(R.id.dialog_title)
+        val messageView = dialogView.findViewById<TextView>(R.id.dialog_message)
+        val btnWatch = dialogView.findViewById<MaterialButton>(R.id.btn_watch)
+        val btnPremium = dialogView.findViewById<MaterialButton>(R.id.btn_premium)
+        val btnCancel = dialogView.findViewById<ImageView>(R.id.btn_cancel)
+
+        titleView.text = activity.getString(R.string.ad_rewarded_dialog_title)
+        messageView.text = message
+
+        btnWatch.setOnClickListener {
+            dialog.dismiss()
+            showRewardedAd(activity) {
+                Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
+                onRewardEarned()
             }
-            .setNeutralButton(activity.getString(R.string.ad_rewarded_btn_premium)) { dialog, _ ->
-                dialog.dismiss()
-                val premiumSheet = PremiumBottomSheet()
-                premiumSheet.show(fragmentManager, "PremiumBottomSheet")
-            }
-            .setNegativeButton(activity.getString(R.string.cancelar)) { dialog, _ ->
-                dialog.dismiss()
-            }
-            .show()
+        }
+
+        btnPremium.setOnClickListener {
+            dialog.dismiss()
+            val premiumSheet = PremiumBottomSheet()
+            premiumSheet.show(fragmentManager, "PremiumBottomSheet")
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
     }
 
     private fun showRewardedAd(activity: Activity, onRewardGranted: () -> Unit) {

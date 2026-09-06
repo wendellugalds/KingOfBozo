@@ -6,6 +6,21 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <!-- 1. Atualize o estilo do BottomSheet para usar o Overlay -->
+    <style name="Widget.KingOfBozo.BottomSheetPremium" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="backgroundTint">@color/premium_background_deep_black</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.KingOfBozo.BottomSheet</item>
+    </style>
+
+    <!-- 2. Crie este novo estilo de Shape (Formato) logo abaixo dele -->
+    <style name="ShapeAppearanceOverlay.KingOfBozo.BottomSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">28dp</item>
+        <item name="cornerSizeTopRight">28dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
     <style name="Theme.KingOfBozo.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="materialAlertDialogTitleTextStyle">@style/Theme.KingOfBozo.AlertDialog.Title</item>
         <item name="buttonBarNegativeButtonStyle">@style/Theme.KingOfBozo.AlertDialog.Button</item>

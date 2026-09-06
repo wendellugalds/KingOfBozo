@@ -27,7 +27,7 @@
             android:layout_marginStart="-3dp"
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_crown"
-            app:tint="@color/king"/>
+            app:tint="@color/premium"/>
 
 
         <ImageView

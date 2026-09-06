@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Gradiente linear de cima para baixo -->
+    <gradient
+        android:angle="270"
+        android:startColor="@color/premium_button_gold_start"
+        android:endColor="@color/premium_button_gold_end"
+        android:type="linear" />
+
+    <!-- Cantos arredondados (ajuste para combinar com o estilo do app) -->
+    <corners android:radius="50dp" />
+
+</shape>
