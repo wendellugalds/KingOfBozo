@@ -28,6 +28,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
 
 class MainActivity : AppCompatActivity() {
@@ -111,19 +112,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun configurarCoresDaBarra() {
-        val typedValue = android.util.TypedValue()
-        theme.resolveAttribute(R.attr.customBackground, typedValue, true)
-        val bgColor = typedValue.data
-
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-
-        window.statusBarColor = bgColor
-        window.navigationBarColor = bgColor
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            window.isNavigationBarContrastEnforced = false
-        }
+        SystemBarUtil.applySystemBarColors(
+            window,
+            binding.root,
+            statusBarAttr = R.attr.customBackground,
+            navBarAttr = R.attr.customBackground
+        )
     }
 
     private fun applyKeepScreenOn(enabled: Boolean) {
@@ -194,32 +188,32 @@ class MainActivity : AppCompatActivity() {
             
             updateNavIcons(destination.id)
 
-            val typedValuePrimary = android.util.TypedValue()
-            theme.resolveAttribute(R.attr.colorPrimary, typedValuePrimary, true)
-            val primaryColor = typedValuePrimary.data
-
-            val typedValueBackground = android.util.TypedValue()
-            theme.resolveAttribute(R.attr.customBackground, typedValueBackground, true)
-            val backgroundColor = typedValueBackground.data
-
-            // Altera diretamente a cor da barra de status e navegação baseada na tela ativa
-            val controller = WindowInsetsControllerCompat(window, window.decorView)
-
-            if (destination.id == R.id.playerSelectionFragment) {
-                window.statusBarColor = primaryColor
-                window.navigationBarColor = primaryColor
-                controller.isAppearanceLightStatusBars = false
-                controller.isAppearanceLightNavigationBars = false
-            } else {
-                window.statusBarColor = backgroundColor
-                window.navigationBarColor = backgroundColor
-                val isLight = isColorLight(backgroundColor)
-                controller.isAppearanceLightStatusBars = isLight
-                controller.isAppearanceLightNavigationBars = isLight
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                window.isNavigationBarContrastEnforced = false
+            // Garante que as cores das barras de sistema (Status e Navigation) coincidam EXATAMENTE com a cor de fundo de cada tela
+            when (destination.id) {
+                R.id.playerSelectionFragment -> {
+                    SystemBarUtil.applySystemBarColors(
+                        window,
+                        binding.root,
+                        statusBarAttr = R.attr.colorPrimary,
+                        navBarAttr = R.attr.colorPrimary
+                    )
+                }
+                R.id.marcadorFragment -> {
+                    SystemBarUtil.applySystemBarColors(
+                        window,
+                        binding.root,
+                        statusBarAttr = R.attr.cardBackgroundColor,
+                        navBarAttr = R.attr.cardBackgroundColor
+                    )
+                }
+                else -> {
+                    SystemBarUtil.applySystemBarColors(
+                        window,
+                        binding.root,
+                        statusBarAttr = R.attr.customBackground,
+                        navBarAttr = R.attr.customBackground
+                    )
+                }
             }
         }
     }

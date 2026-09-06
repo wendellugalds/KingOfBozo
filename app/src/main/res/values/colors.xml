@@ -14,7 +14,11 @@
 
     <color name="opacity">#00000000</color>
 
-    <color name="king">#D4AF37</color>
+    <color name="king">#FFD700</color>
+
+    <color name="premium">#D4AF37</color>
+    <color name="padrao_dark">#1E2B37</color>
+    <color name="padrao_dark_nigth">#17212A</color>
 
 <!--    <color name="padrao">#34495e</color>-->
     <color name="padrao">#34495e</color>

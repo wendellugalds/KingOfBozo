@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.databinding.FragmentPlayerSelectionMarkerBinding
 import com.wendellugalds.kingofbozo.model.Player
@@ -21,6 +20,7 @@ import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerSelectionAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.SelectablePlayerItem
 import com.wendellugalds.kingofbozo.util.PremiumManager
+import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.R
 
 class PlayerSelectionFragment : Fragment() {
@@ -45,18 +45,27 @@ class PlayerSelectionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Força a barra de status a assumir a cor primária exata do tema de forma opaca
-        val window = requireActivity().window
-        val colorPrimary = MaterialColors.getColor(binding.root, R.attr.colorPrimary)
-        window.statusBarColor = colorPrimary
-        window.navigationBarColor = colorPrimary
+        // Força a barra de status e de navegação a assumirem a cor primária exata do tema
+        SystemBarUtil.applySystemBarColors(
+            requireActivity().window,
+            binding.root,
+            statusBarAttr = R.attr.colorPrimary,
+            navBarAttr = R.attr.colorPrimary
+        )
 
-        // Afasta o cabeçalho para baixo da barra de status (relógio/bateria)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.actionBar) { v, insets ->
+        // Ajusta o espaçamento do cabeçalho (Status Bar) e do botão iniciar (Navigation Bar)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+
+            binding.actionBar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
                 topMargin = statusBarHeight + 16
             }
+
+            binding.iniciar.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = navBarHeight + 16
+            }
+
             insets
         }
 

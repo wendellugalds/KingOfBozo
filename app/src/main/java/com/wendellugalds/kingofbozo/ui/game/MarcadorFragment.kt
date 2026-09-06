@@ -251,7 +251,12 @@ class MarcadorFragment : Fragment() {
     }
 
     private fun configurarCoresDaBarra() {
-        SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.cardBackgroundColor)
+        SystemBarUtil.applySystemBarColors(
+            requireActivity().window,
+            binding.root,
+            statusBarAttr = R.attr.cardBackgroundColor,
+            navBarAttr = R.attr.cardBackgroundColor
+        )
     }
 
     private fun setupRecyclerView() {

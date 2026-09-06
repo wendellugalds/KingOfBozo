@@ -27,8 +27,13 @@ object SystemBarUtil {
     fun setSystemBarColors(window: Window, root: View, statusBarColor: Int, navBarColor: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             window.statusBarColor = statusBarColor
             window.navigationBarColor = navBarColor
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
         }
 
         val controller = WindowInsetsControllerCompat(window, root)

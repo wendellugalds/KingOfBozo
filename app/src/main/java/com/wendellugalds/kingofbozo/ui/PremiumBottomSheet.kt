@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -34,9 +35,7 @@ class PremiumBottomSheet(
             val bottomSheetDialog = dialogInterface as BottomSheetDialog
             val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
 
-            val typedValue = android.util.TypedValue()
-            requireActivity().theme.resolveAttribute(R.attr.cardBackgroundColor, typedValue, true)
-            val corDoPainel = typedValue.data
+            val corDoPainel = ContextCompat.getColor(requireContext(), R.color.padrao_dark_nigth)
 
             bottomSheet?.let { sheet ->
                 val behavior = BottomSheetBehavior.from(sheet)
@@ -57,7 +56,7 @@ class PremiumBottomSheet(
                 window.navigationBarColor = corDoPainel
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    window.isNavigationBarContrastEnforced = false
+                    window.isNavigationBarContrastEnforced = true
                 }
             }
         }
@@ -116,9 +115,15 @@ class PremiumBottomSheet(
         if (isPremium) {
             binding.btnUnlockPremium.text = getString(R.string.premium_active_status)
             binding.btnUnlockPremium.setIconResource(R.drawable.ic_diamond_shine)
+            binding.btnUnlockPremium.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.premium)
+            binding.btnUnlockPremium.setTextColor(ContextCompat.getColor(requireContext(), R.color.padrao_dark_nigth))
+            binding.btnUnlockPremium.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.padrao_dark_nigth)
         } else {
             binding.btnUnlockPremium.text = getString(R.string.premium_btn_unlock)
             binding.btnUnlockPremium.setIconResource(R.drawable.ic_diamond_shine)
+            binding.btnUnlockPremium.backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.padrao_dark)
+            binding.btnUnlockPremium.setTextColor(ContextCompat.getColor(requireContext(), R.color.premium))
+            binding.btnUnlockPremium.iconTint = ContextCompat.getColorStateList(requireContext(), R.color.premium)
         }
     }
 

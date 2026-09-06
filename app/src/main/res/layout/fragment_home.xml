@@ -46,10 +46,10 @@
             android:layout_gravity="end|top"
             android:layout_marginTop="10dp"
             android:background="@drawable/background_circle"
-            android:backgroundTint="?attr/cardBackgroundColor"
+            android:backgroundTint="@color/premium"
             android:padding="10dp"
             android:src="@drawable/ic_diamond_shine"
-            app:tint="?attr/colorPrimary"
+            app:tint="@color/padrao_dark"
             android:clickable="true"
             android:focusable="true"
             tools:ignore="ContentDescription" />
