@@ -6,7 +6,7 @@
     <string name="bom_dia">BOM DIA!</string>
     <string name="tarde">TARDE!</string>
     <string name="ola_boa_noite">OLÁ BOA NOITE!</string>
-    <string name="ficou_sem_sono">FICOU SEM SONO?\nBORA JOGAR ENTÃO!</string>
+    <string name="ficou_sem_sono">MADRUGOUUUU!</string>
     <string name="logo_king_of_boz">Logo King of Bozó</string>
 
     <!-- Navegação / Menu -->
@@ -149,6 +149,8 @@
     <string name="ad_rewarded_btn_watch">Assistir Vídeo (Liberar)</string>
     <string name="ad_rewarded_btn_premium">Seja Premium (Sem Anúncios)</string>
     <string name="ad_rewarded_unlocked_toast">Acesso temporário liberado para esta partida!</string>
+    <string name="ajustes">AJUSTES</string>
+    <string name="jogos_salvos">JOGOS SALVOS</string>
 
     <plurals name="players_selected">
         <item quantity="one">%d jogador selecionado</item>

@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.updateLayoutParams
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.navigation.NavController
@@ -67,9 +68,11 @@ class MainActivity : AppCompatActivity() {
         setupCustomNavigation()
         setupNavigationVisibility()
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.container) { _, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.cardNavigation) { v, insets ->
             val navBarInsets = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            binding.container.setPadding(0, 0, 0, navBarInsets.bottom)
+            v.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = navBarInsets.bottom + (4 * resources.displayMetrics.density).toInt()
+            }
             insets
         }
 

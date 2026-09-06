@@ -17,7 +17,7 @@ object PremiumManager {
     // - Mude para 'false' -> Força o app a rodar como GRATUITO nos testes
     // - Mude para 'null'  -> Usa o status real gravado no aparelho (SharedPreferences / Compras)
     // =========================================================================
-    private val DEBUG_OVERRIDE_PREMIUM: Boolean? = true as Boolean?
+    private val DEBUG_OVERRIDE_PREMIUM: Boolean? = false as Boolean?
 
     fun isUserPremium(context: Context): Boolean {
         // A flag de teste manual 'DEBUG_OVERRIDE_PREMIUM' SÓ é usada em builds de DEBUG.

@@ -88,7 +88,7 @@ object ThemeStorage {
 
     fun getNightMode(context: Context): Int {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        return prefs.getInt(KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        return prefs.getInt(KEY_NIGHT_MODE, AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     fun saveKeepScreenOn(context: Context, keepOn: Boolean) {
