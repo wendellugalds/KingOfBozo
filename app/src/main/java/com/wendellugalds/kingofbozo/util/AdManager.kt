@@ -19,8 +19,7 @@ import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 
 object AdManager {
 
-    // ID de teste oficial do Google AdMob para Vídeo Recompensado
-    private const val ADMOB_REWARDED_TEST_UNIT_ID = "ca-app-pub-3940256099942544/5224354917"
+    private const val ADMOB_REWARDED_UNIT_ID = "ca-app-pub-8591104286915086/5992681322"
 
     const val MAX_FREE_ROUNDS_PER_MATCH = 3
 
@@ -48,7 +47,7 @@ object AdManager {
         val adRequest = AdRequest.Builder().build()
         RewardedAd.load(
             context,
-            ADMOB_REWARDED_TEST_UNIT_ID,
+            ADMOB_REWARDED_UNIT_ID,
             adRequest,
             object : RewardedAdLoadCallback() {
                 override fun onAdLoaded(ad: RewardedAd) {

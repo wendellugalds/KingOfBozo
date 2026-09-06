@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
     <application
         android:name=".PlayersApplication"
         android:allowBackup="false"
@@ -14,10 +18,20 @@
         android:theme="@style/Base.Theme.KingOfBozo.Standard"
         tools:replace="android:allowBackup">
 
-        <!-- AdMob App ID (Sample/Test App ID da Google) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- AdMob App ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713" />
+            android:value="ca-app-pub-8591104286915086~9608492706" />
 
         <activity
             android:name=".SplashActivity"
