@@ -7,14 +7,14 @@ plugins {
 
 android {
     namespace = "com.wendellugalds.kingofbozo"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.wendellugalds.kingofbozo"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.26.09.04.1"
+        targetSdk = 36
+        versionCode = 3
+        versionName = "3.26.09.08.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -71,7 +71,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-ads:23.3.0")
 
     // Google Play Billing
-    implementation("com.android.billingclient:billing-ktx:7.0.0")
+    implementation("com.android.billingclient:billing-ktx:8.0.0")
 
     // Testes
     testImplementation(libs.junit)

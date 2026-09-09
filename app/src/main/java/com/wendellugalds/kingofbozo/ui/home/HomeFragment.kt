@@ -70,7 +70,8 @@ class HomeFragment : Fragment() {
         updateGreeting()
         configurarCoresDaBarra()
         iniciarAnimacoesLoop()
-        
+        PremiumManager.updatePremiumButton(binding.buttonPremiumHome)
+
         binding.buttonMarcador.post {
             AnimationUtil.applyExpansionAnimation(binding.buttonMarcador)
         }
@@ -103,6 +104,13 @@ class HomeFragment : Fragment() {
 
     private fun configurarCoresDaBarra() {
         SystemBarUtil.applySystemBarColors(requireActivity().window, binding.root, statusBarAttr = R.attr.customBackground, navBarAttr = R.attr.cardBackgroundColor)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (_binding != null) {
+            PremiumManager.updatePremiumButton(binding.buttonPremiumHome)
+        }
     }
 
     override fun onDestroyView() {

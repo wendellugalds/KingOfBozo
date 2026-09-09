@@ -94,7 +94,11 @@ class ManagePlayersAdapter(
 
     companion object DiffCallback : DiffUtil.ItemCallback<Player>() {
         override fun areItemsTheSame(oldItem: Player, newItem: Player): Boolean {
-            return oldItem.name == newItem.name
+            return if (oldItem.id != 0L && newItem.id != 0L) {
+                oldItem.id == newItem.id
+            } else {
+                oldItem.name == newItem.name
+            }
         }
 
         override fun areContentsTheSame(oldItem: Player, newItem: Player): Boolean {

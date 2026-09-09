@@ -77,7 +77,7 @@ class ManagePlayersFragment : Fragment() {
 
         gameViewModel.gameState.observe(viewLifecycleOwner) { state ->
             val inGamePlayers = state?.playersState?.map { pState ->
-                Player(name = pState.playerName, age = 0, imageUri = pState.playerImage)
+                Player(id = pState.playerId, name = pState.playerName, age = 0, imageUri = pState.playerImage)
             } ?: emptyList()
             prepararTransicao()
             inGameAdapter.submitList(inGamePlayers, true)
@@ -88,7 +88,7 @@ class ManagePlayersFragment : Fragment() {
 
         gameViewModel.availablePlayers.observe(viewLifecycleOwner) {
             val inGamePlayers = gameViewModel.gameState.value?.playersState?.map { pState ->
-                Player(name = pState.playerName, age = 0, imageUri = pState.playerImage)
+                Player(id = pState.playerId, name = pState.playerName, age = 0, imageUri = pState.playerImage)
             } ?: emptyList()
             prepararTransicao()
             updateAvailableList(inGamePlayers)
@@ -141,7 +141,11 @@ class ManagePlayersFragment : Fragment() {
 
     private fun updateAvailableList(inGamePlayers: List<Player>) {
         val all = gameViewModel.availablePlayers.value ?: emptyList()
-        val available = all.filter { p -> inGamePlayers.none { it.name == p.name } }
+        val available = all.filter { p ->
+            inGamePlayers.none { inGame ->
+                (inGame.id != 0L && inGame.id == p.id) || inGame.name == p.name
+            }
+        }
         availableAdapter.submitList(available, false)
         binding.totalNoJOGADORESLISTA.text = available.size.toString()
     }

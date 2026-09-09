@@ -94,9 +94,9 @@ object BillingManager : PurchasesUpdatedListener {
             .setProductList(productList)
             .build()
 
-        billingClient?.queryProductDetailsAsync(params) { billingResult, productDetailsList ->
+        billingClient?.queryProductDetailsAsync(params) { billingResult, productDetailsResult ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                for (productDetails in productDetailsList) {
+                for (productDetails in productDetailsResult.productDetailsList) {
                     if (productDetails.productId == PRODUCT_ID_PREMIUM) {
                         premiumProductDetails = productDetails
                     }

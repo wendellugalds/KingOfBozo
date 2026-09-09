@@ -85,7 +85,14 @@ class SavedGamePlayersAdapter(private val currentRound: Int) : ListAdapter<Playe
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<PlayerState>() {
-        override fun areItemsTheSame(oldItem: PlayerState, newItem: PlayerState) = oldItem.playerName == newItem.playerName
+        override fun areItemsTheSame(oldItem: PlayerState, newItem: PlayerState): Boolean {
+            return if (oldItem.playerId != 0L && newItem.playerId != 0L) {
+                oldItem.playerId == newItem.playerId
+            } else {
+                oldItem.playerName == newItem.playerName
+            }
+        }
+
         override fun areContentsTheSame(oldItem: PlayerState, newItem: PlayerState) = oldItem == newItem
     }
 }

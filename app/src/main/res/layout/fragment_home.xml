@@ -54,10 +54,10 @@
             android:layout_height="44dp"
             android:layout_gravity="center_vertical"
             android:background="@drawable/bg_gold_button"
-            android:backgroundTint="@null"
+            android:backgroundTint="?attr/cardBackgroundColor"
             android:padding="10dp"
             android:src="@drawable/ic_diamond_shine"
-            app:tint="@color/premium_text_on_gold"
+            app:tint="@color/premium"
             android:clickable="true"
             android:focusable="true"
             tools:ignore="ContentDescription" />

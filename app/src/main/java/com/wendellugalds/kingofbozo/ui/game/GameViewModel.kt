@@ -69,9 +69,15 @@ class GameViewModel(private val repository: PlayerRepository) : ViewModel() {
             repository.allPlayers.collect { allDbPlayers ->
                 _gameState.value?.let { currentState ->
                     val updatedPlayersState = currentState.playersState.map { pState ->
-                        val dbPlayer = allDbPlayers.find { it.id == pState.playerId }
-                        if (dbPlayer != null && (dbPlayer.name != pState.playerName || dbPlayer.imageUri != pState.playerImage)) {
-                            pState.copy(playerName = dbPlayer.name, playerImage = dbPlayer.imageUri)
+                        val dbPlayer = allDbPlayers.find { 
+                            (pState.playerId != 0L && it.id == pState.playerId) || it.name == pState.playerName 
+                        }
+                        if (dbPlayer != null && (dbPlayer.name != pState.playerName || dbPlayer.imageUri != pState.playerImage || pState.playerId == 0L)) {
+                            pState.copy(
+                                playerId = dbPlayer.id,
+                                playerName = dbPlayer.name,
+                                playerImage = dbPlayer.imageUri
+                            )
                         } else {
                             pState
                         }

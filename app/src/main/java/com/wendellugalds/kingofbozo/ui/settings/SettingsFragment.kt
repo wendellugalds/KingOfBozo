@@ -53,6 +53,7 @@ class SettingsFragment : Fragment() {
 
     private val handler = Handler(Looper.getMainLooper())
     private var countdownSeconds = 0
+    private var isUpdatingDevSwitch = false
     private val countdownRunnable = object : Runnable {
         override fun run() {
             if (_binding != null && countdownSeconds >= 0) {
@@ -86,6 +87,7 @@ class SettingsFragment : Fragment() {
         configurarCoresDaBarra()
         updateNightModeDisplay()
         updateThemeName()
+        PremiumManager.updatePremiumButton(binding.buttonPremiumSettings)
 
         binding.cardCor.post {
             AnimationUtil.applyExpansionAnimation(binding.cardCor)
@@ -151,6 +153,39 @@ class SettingsFragment : Fragment() {
             val premiumSheet = PremiumBottomSheet()
             premiumSheet.show(parentFragmentManager, "PremiumBottomSheet")
         }
+
+        if (BuildConfig.DEBUG) {
+            binding.cardPremiumDeveloper.visibility = View.VISIBLE
+            updateDevPremiumDisplay()
+
+            binding.cardPremiumDeveloper.setOnClickListener {
+                resetCountdown()
+                val isChecked = !binding.switchKeepPremium.isChecked
+                binding.switchKeepPremium.isChecked = isChecked
+            }
+
+            binding.switchKeepPremium.setOnCheckedChangeListener { _, isChecked ->
+                setDevPremium(isChecked)
+            }
+        } else {
+            binding.cardPremiumDeveloper.visibility = View.GONE
+        }
+    }
+
+    private fun setDevPremium(enabled: Boolean) {
+        if (isUpdatingDevSwitch) return
+        PremiumManager.setUserPremium(requireContext(), enabled)
+        updateDevPremiumDisplay()
+    }
+
+    private fun updateDevPremiumDisplay() {
+        if (_binding == null) return
+        val isPremium = PremiumManager.isUserPremium(requireContext())
+        isUpdatingDevSwitch = true
+        binding.switchKeepPremium.isChecked = isPremium
+        isUpdatingDevSwitch = false
+        binding.textPremiumGratis.text = if (isPremium) "ATIVO" else "DESATIVADO"
+        PremiumManager.updatePremiumButton(binding.buttonPremiumSettings)
     }
 
     private fun showResetDataDialog() {
@@ -193,6 +228,10 @@ class SettingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         updateKeepScreenOnDisplay()
+        PremiumManager.updatePremiumButton(binding.buttonPremiumSettings)
+        if (BuildConfig.DEBUG) {
+            updateDevPremiumDisplay()
+        }
     }
 
     override fun onPause() {

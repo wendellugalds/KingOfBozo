@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
@@ -119,21 +120,43 @@ class SavedGamesFragment : Fragment() {
         val listType = object : TypeToken<List<PlayerState>>() {}.type
         val playerStates: List<PlayerState> = gson.fromJson(savedGame.playerStatesJson, listType)
 
-        // Se houver pontos marcados na rodada, ordena pela pontuação. Caso contrário (0 pontos), mantém a ordem de jogada original.
-        val hasScores = playerStates.any { it.totalScore > 0 }
-        val sortedPlayers = if (hasScores) {
-            playerStates.sortedByDescending { it.totalScore }
-        } else {
-            playerStates
-        }
-
         val adapter = SavedGamePlayersAdapter(savedGame.currentRound)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
-        adapter.submitList(sortedPlayers)
 
         textTitle.text = "LISTA DE JOGADORES"
         textInstructions.text = "${playerStates.size} jogadores nesse jogo"
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val repository = (requireActivity().application as PlayersApplication).repository
+            val allDbPlayers = repository.allPlayers.first()
+
+            val syncedPlayerStates = playerStates.map { pState ->
+                val dbPlayer = allDbPlayers.find { 
+                    (pState.playerId != 0L && it.id == pState.playerId) || it.name == pState.playerName 
+                }
+                if (dbPlayer != null) {
+                    pState.copy(
+                        playerId = dbPlayer.id,
+                        playerName = dbPlayer.name,
+                        playerImage = dbPlayer.imageUri
+                    )
+                } else {
+                    pState
+                }
+            }
+
+            // Se houver pontos marcados na rodada, ordena pela pontuação. Caso contrário (0 pontos), mantém a ordem de jogada original.
+            val hasScores = syncedPlayerStates.any { it.totalScore > 0 }
+            val sortedPlayers = if (hasScores) {
+                syncedPlayerStates.sortedByDescending { it.totalScore }
+            } else {
+                syncedPlayerStates
+            }
+
+            adapter.submitList(sortedPlayers)
+            textInstructions.text = "${syncedPlayerStates.size} jogadores nesse jogo"
+        }
 
         btnClose.setOnClickListener {
             dialog.dismiss()
