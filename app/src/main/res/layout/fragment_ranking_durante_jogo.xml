@@ -260,7 +260,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/background_card_list_gamers"
-                android:backgroundTint="@color/silver" />
+                android:backgroundTint="@color/silver"
+                android:layout_marginHorizontal="5dp"/>
 
         </LinearLayout>
 
