@@ -156,22 +156,27 @@
                 android:textStyle="bold"
                 tools:text="Wendell Ugalds" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/text_score_podio_1"
+                style="?attr/materialButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="@drawable/background_card_btn_repouso_destaque_menu"
                 android:backgroundTint="@color/premium"
-                android:textAlignment="center"
-                android:padding="5dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="5dp"
                 android:textColor="?attr/customTextBackground"
                 android:textSize="13sp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="10dp"
+                app:icon="@drawable/ic_score"
                 app:iconGravity="textStart"
-                app:drawableStartCompat="@drawable/ic_score"
-                app:drawableTint="?attr/customTextBackground"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/customTextBackground"
                 tools:text="25435 Pontos" />
 
             <LinearLayout
@@ -250,22 +255,27 @@
                 android:textStyle="bold"
                 tools:text="Wendell Ugalds" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/text_score_podio_2"
+                style="?attr/materialButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="@drawable/background_card_btn_repouso_destaque_menu"
                 android:backgroundTint="@color/silver"
-                android:textAlignment="center"
-                android:padding="5dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="5dp"
                 android:textColor="?attr/customTextBackground"
                 android:textSize="13sp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="10dp"
+                app:icon="@drawable/ic_score"
                 app:iconGravity="textStart"
-                app:drawableStartCompat="@drawable/ic_score"
-                app:drawableTint="?attr/customTextBackground"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/customTextBackground"
                 tools:text="25435 Pontos" />
 
             <LinearLayout
@@ -274,7 +284,8 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:background="@drawable/background_card_list_gamers"
-                android:backgroundTint="@color/silver" />
+                android:backgroundTint="@color/silver"
+                android:layout_marginHorizontal="5dp" />
 
         </LinearLayout>
 
@@ -343,22 +354,27 @@
                 android:textStyle="bold"
                 tools:text="Wendell Ugalds" />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/text_score_podio_3"
+                style="?attr/materialButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:background="@drawable/background_card_btn_repouso_destaque_menu"
                 android:backgroundTint="@color/bronze"
-                android:textAlignment="center"
-                android:padding="5dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="5dp"
                 android:textColor="?attr/customTextBackground"
                 android:textSize="13sp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="10dp"
+                app:icon="@drawable/ic_score"
                 app:iconGravity="textStart"
-                app:drawableStartCompat="@drawable/ic_score"
-                app:drawableTint="?attr/customTextBackground"
+                app:iconPadding="8dp"
+                app:iconTint="?attr/customTextBackground"
                 tools:text="25435 Pontos" />
 
             <LinearLayout
