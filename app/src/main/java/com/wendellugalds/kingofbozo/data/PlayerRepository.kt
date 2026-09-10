@@ -33,11 +33,22 @@ class PlayerRepository(
     }
 
     suspend fun insert(player: Player) {
-        playerDao.insert(player)
+        val formattedPlayer = player.copy(name = player.name.capitalizeWords())
+        playerDao.insert(formattedPlayer)
     }
 
     suspend fun update(player: Player) {
-        playerDao.update(player)
+        val formattedPlayer = player.copy(name = player.name.capitalizeWords())
+        playerDao.update(formattedPlayer)
+    }
+
+    private fun String.capitalizeWords(): String {
+        return this.trim()
+            .split("\\s+".toRegex())
+            .filter { it.isNotEmpty() }
+            .joinToString(" ") { word ->
+                word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+            }
     }
 
     suspend fun resetAllPlayerStats() {

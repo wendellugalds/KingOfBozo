@@ -1,8 +1,8 @@
 package com.wendellugalds.kingofbozo.ui.game
 
-import android.net.Uri
-import coil.transform.CircleCropTransformation
 import android.animation.ValueAnimator
+import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.transition.ChangeBounds
 import android.transition.Fade
@@ -19,17 +19,23 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
@@ -38,9 +44,10 @@ import com.wendellugalds.kingofbozo.PlayersApplication
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.*
 import com.wendellugalds.kingofbozo.model.CategoryType
+import com.wendellugalds.kingofbozo.model.GameStatus
 import com.wendellugalds.kingofbozo.model.PlayerState
 import com.wendellugalds.kingofbozo.model.TieBreakerState
-import com.wendellugalds.kingofbozo.model.GameStatus
+import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 import com.wendellugalds.kingofbozo.ui.game.adapter.CategoryAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.PlayerMarkerAdapter
 import com.wendellugalds.kingofbozo.ui.game.adapter.TieBreakerAdapter
@@ -78,6 +85,7 @@ class MarcadorFragment : Fragment() {
         observeGameState()
         observeTieBreakerState()
         configurarCoresDaBarra()
+        setupNavigationModeMargins()
         setupOnBackPressed()
 
         binding.buttonBack.setOnClickListener { showExitConfirmationDialog() }
@@ -90,6 +98,37 @@ class MarcadorFragment : Fragment() {
             if (findNavController().currentDestination?.id == R.id.marcadorFragment) {
                 findNavController().navigate(R.id.action_marcadorFragment_to_managePlayersFragment)
             }
+        }
+    }
+
+    private fun setupNavigationModeMargins() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val navBarInset = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val isGestureNavigation = navBarInset.bottom <= TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 20f, resources.displayMetrics
+            )
+
+            val recyclerBottomMargin = if (isGestureNavigation) {
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt()
+            } else {
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50f, resources.displayMetrics).toInt()
+            }
+
+            val gridBottomMargin = if (isGestureNavigation) {
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40f, resources.displayMetrics).toInt()
+            } else {
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 65f, resources.displayMetrics).toInt()
+            }
+
+            binding.recyclerViewJogadoresRodada.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = recyclerBottomMargin
+            }
+
+            binding.gridLayoutCategories.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = gridBottomMargin
+            }
+
+            insets
         }
     }
 
@@ -255,7 +294,7 @@ class MarcadorFragment : Fragment() {
             requireActivity().window,
             binding.root,
             statusBarAttr = R.attr.cardBackgroundColor,
-            navBarAttr = R.attr.cardBackgroundColor
+            navBarAttr = R.attr.colorPrimary
         )
     }
 
@@ -265,16 +304,59 @@ class MarcadorFragment : Fragment() {
         }
         binding.recyclerViewJogadoresRodada.apply {
             adapter = playerMarkerAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            val lm = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = lm
             clipChildren = false
             clipToPadding = false
 
-            val snapHelper = LinearSnapHelper()
+            val snapHelper = object : PagerSnapHelper() {
+                override fun findTargetSnapPosition(
+                    layoutManager: RecyclerView.LayoutManager,
+                    velocityX: Int,
+                    velocityY: Int
+                ): Int {
+                    val centerView = findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
+                    val currentPosition = layoutManager.getPosition(centerView)
+                    if (currentPosition == RecyclerView.NO_POSITION) return RecyclerView.NO_POSITION
+
+                    return when {
+                        velocityX > 300 -> (currentPosition + 1).coerceAtMost(layoutManager.itemCount - 1)
+                        velocityX < -300 -> (currentPosition - 1).coerceAtLeast(0)
+                        else -> currentPosition
+                    }
+                }
+            }
             snapHelper.attachToRecyclerView(this)
 
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    updateItemScalesAndAlpha(recyclerView)
+                }
+
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        val centerView = snapHelper.findSnapView(lm)
+                        if (centerView != null) {
+                            val snappedPosition = lm.getPosition(centerView)
+                            val currentActiveIndex = gameViewModel.gameState.value?.currentPlayerIndex ?: -1
+                            if (snappedPosition != RecyclerView.NO_POSITION && snappedPosition != currentActiveIndex) {
+                                gameViewModel.setCurrentPlayer(snappedPosition)
+                            }
+                        }
+                    }
+                }
+            })
+
             post {
-                val itemWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 81f, resources.displayMetrics).toInt()
-                val horizontalPadding = (width / 2) - (itemWidth / 2)
+                val firstView = lm.findViewByPosition(0)
+                val itemWidth = if (firstView != null && firstView.width > 0) {
+                    firstView.width
+                } else {
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 89f, resources.displayMetrics).toInt()
+                }
+                val horizontalPadding = (width / 2) - (itemWidth / 3)
                 setPadding(horizontalPadding, paddingTop, horizontalPadding, paddingBottom)
                 
                 gameViewModel.gameState.value?.let { state ->
@@ -520,17 +602,44 @@ class MarcadorFragment : Fragment() {
 
                 val players = it.playersState
                 val maxScore = players.maxOf { p -> p.totalScore }
+                val winnersCount = players.count { p -> p.totalScore == maxScore && p.totalScore > 0 }
                 
                 binding.textPlayerName.text = currentPlayer.playerName
                 
-                val isWinner = currentPlayer.totalScore == maxScore && maxScore > 0
+                val isWinner = currentPlayer.totalScore == maxScore && winnersCount == 1 && maxScore > 0
+                val playersBetter = players.count { p -> p.totalScore > currentPlayer.totalScore }
+                val playerRank = playersBetter + 1
+
+                // 1º lugar isolado exibe a Coroa e esconde o ícone de posição no ranking (icon_position_raking)
                 binding.iconKing.isVisible = isWinner
+                binding.iconPositionRaking.isVisible = !isWinner
                 
                 if (isWinner) {
                     val floatingAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.floating)
                     binding.iconKing.startAnimation(floatingAnim)
                 } else {
                     binding.iconKing.clearAnimation()
+
+                    val positionIcon = when (playerRank) {
+                        1 -> R.drawable.ic_1
+                        2 -> R.drawable.ic_2
+                        3 -> R.drawable.ic_3
+                        4 -> R.drawable.ic_4
+                        5 -> R.drawable.ic_5
+                        6 -> R.drawable.ic_6
+                        7 -> R.drawable.ic_7
+                        8 -> R.drawable.ic_8
+                        9 -> R.drawable.ic_9
+                        else -> R.drawable.ic_0
+                    }
+                    binding.iconPositionRaking.setImageResource(positionIcon)
+
+                    val rankColor = when (playerRank) {
+                        2 -> ContextCompat.getColor(requireContext(), R.color.silver)
+                        3 -> ContextCompat.getColor(requireContext(), R.color.bronze)
+                        else -> MaterialColors.getColor(requireContext(), R.attr.colorPrimary, 0)
+                    }
+                    ImageViewCompat.setImageTintList(binding.iconPositionRaking, ColorStateList.valueOf(rankColor))
                 }
 
                 if (maxScore == 0) {
@@ -567,13 +676,18 @@ class MarcadorFragment : Fragment() {
                     playerMarkerAdapter.updateState(it.currentPlayerIndex, it.playersState)
                     scrollToPositionCentered(it.currentPlayerIndex, isImmediate = true)
                 } else {
-                    scrollToPositionCentered(it.currentPlayerIndex, isImmediate = false) {
-                        playerMarkerAdapter.updateState(it.currentPlayerIndex, it.playersState)
-                    }
+                    playerMarkerAdapter.updateState(it.currentPlayerIndex, it.playersState)
+                    scrollToPositionCentered(it.currentPlayerIndex, isImmediate = false)
                 }
 
                 binding.totalRodadas.text = "RODADA ${it.currentRound.toString().padStart(2, '0')}"
                 updateCategoryButtonsForPlayer(currentPlayer)
+
+                // Regra: O botão Ranking só aparece se TODOS os jogadores ativos já tiverem jogado ao menos uma vez (pontuado ou riscado)
+                val haveAllPlayersPlayed = players.all { player ->
+                    player.scores.values.any { entry -> entry != null }
+                }
+                binding.btnRankingDuranteJogo.isVisible = haveAllPlayersPlayed
             }
         }
 
@@ -620,37 +734,98 @@ class MarcadorFragment : Fragment() {
             .start()
     }
 
-    private fun scrollToPositionCentered(position: Int, isImmediate: Boolean, onComplete: (() -> Unit)? = null) {
+    private fun updateItemScalesAndAlpha(recyclerView: RecyclerView) {
+        val recyclerCenter = recyclerView.width / 2f
+        if (recyclerCenter <= 0f) return
+
+        val itemWidth = if (recyclerView.childCount > 0) {
+            recyclerView.getChildAt(0).width.toFloat()
+        } else {
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 89f, resources.displayMetrics)
+        }
+
+        // Distância para atingir a menor escala (1.5x a largura do item)
+        val maxScaleDistance = itemWidth * 1.9f
+
+        for (i in 0 until recyclerView.childCount) {
+            val child = recyclerView.getChildAt(i)
+            val childCenter = (child.left + child.right) / 2f
+            val distanceFromCenter = Math.abs(recyclerCenter - childCenter)
+
+            val fraction = (distanceFromCenter / maxScaleDistance).coerceIn(0f, 1f)
+
+            // Escala: 1.05f no centro -> 0.55f no vizinho direto (~metade da escala) -> 0.35f nos mais distantes
+            val scale = 1.05f - (fraction * 0.70f)
+            child.scaleX = scale
+            child.scaleY = scale
+
+            // Opacidade: 1.0f no centro -> 0.5f no vizinho -> 0.25f nos mais distantes
+            val alpha = 1.0f - (fraction * 0.75f)
+            child.alpha = alpha.coerceAtLeast(0.2f)
+        }
+    }
+
+    private fun scrollToPositionCentered(position: Int, isImmediate: Boolean = false, onComplete: (() -> Unit)? = null) {
         val recyclerView = binding.recyclerViewJogadoresRodada
         recyclerView.post {
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val offset = recyclerView.paddingStart
+            val layoutManager = recyclerView.layoutManager as? LinearLayoutManager ?: return@post
+            val targetView = layoutManager.findViewByPosition(position)
 
-            if (isImmediate) {
-                layoutManager.scrollToPositionWithOffset(position, offset)
-                onComplete?.invoke()
-            } else {
-                val smoothScroller = object : LinearSmoothScroller(requireContext()) {
-                    override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
-                    override fun calculateSpeedPerPixel(displayMetrics: android.util.DisplayMetrics): Float {
-                        return 450f / displayMetrics.densityDpi
+            if (targetView != null) {
+                val recyclerCenter = recyclerView.width / 2
+                val viewCenter = targetView.left + (targetView.width / 2)
+                val dx = viewCenter - recyclerCenter
+
+                if (isImmediate) {
+                    if (Math.abs(dx) > 0) {
+                        recyclerView.scrollBy(dx, 0)
                     }
-                    override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
-                        val dx = calculateDxToMakeVisible(targetView, horizontalSnapPreference)
-                        val dy = calculateDyToMakeVisible(targetView, verticalSnapPreference)
-                        val distance = Math.sqrt((dx * dx + dy * dy).toDouble()).toInt()
-                        val time = Math.max(1200, calculateTimeForDeceleration(distance))
-                        if (time > 0) {
-                            action.update(-dx, -dy, time, DecelerateInterpolator(3.0f))
+                    updateItemScalesAndAlpha(recyclerView)
+                    onComplete?.invoke()
+                } else {
+                    if (Math.abs(dx) > 2) {
+                        val smoothScroller = object : LinearSmoothScroller(requireContext()) {
+                            override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
+                            override fun calculateSpeedPerPixel(displayMetrics: android.util.DisplayMetrics): Float {
+                                return 150f / displayMetrics.densityDpi
+                            }
+                            override fun onTargetFound(targetView: View, state: RecyclerView.State, action: Action) {
+                                val dxToCenter = (targetView.left + targetView.width / 2) - (recyclerView.width / 2)
+                                action.update(dxToCenter, 0, 300, DecelerateInterpolator(1.8f))
+                            }
+                            override fun onStop() {
+                                super.onStop()
+                                onComplete?.invoke()
+                            }
                         }
-                    }
-                    override fun onStop() {
-                        super.onStop()
-                        recyclerView.post { onComplete?.invoke() }
+                        smoothScroller.targetPosition = position
+                        layoutManager.startSmoothScroll(smoothScroller)
+                    } else {
+                        updateItemScalesAndAlpha(recyclerView)
+                        onComplete?.invoke()
                     }
                 }
-                smoothScroller.targetPosition = position
-                layoutManager.startSmoothScroll(smoothScroller)
+            } else {
+                val itemWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 89f, resources.displayMetrics).toInt()
+                val offset = (recyclerView.width / 2) - (itemWidth / 2)
+                if (isImmediate) {
+                    layoutManager.scrollToPositionWithOffset(position, offset)
+                    recyclerView.post { updateItemScalesAndAlpha(recyclerView) }
+                    onComplete?.invoke()
+                } else {
+                    val smoothScroller = object : LinearSmoothScroller(requireContext()) {
+                        override fun getHorizontalSnapPreference(): Int = SNAP_TO_START
+                        override fun calculateSpeedPerPixel(displayMetrics: android.util.DisplayMetrics): Float {
+                            return 150f / displayMetrics.densityDpi
+                        }
+                        override fun onStop() {
+                            super.onStop()
+                            onComplete?.invoke()
+                        }
+                    }
+                    smoothScroller.targetPosition = position
+                    layoutManager.startSmoothScroll(smoothScroller)
+                }
             }
         }
     }

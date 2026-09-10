@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
+    android:paddingTop="32dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?attr/cardBackgroundColor">
@@ -98,13 +98,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bottom_sheet_background"
         android:backgroundTint="?attr/colorPrimary"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingTop="25dp"
-        android:paddingBottom="150dp"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:paddingBottom="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,9 +116,10 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_weight="1"
+                android:orientation="vertical"
                 android:paddingStart="16dp">
+
                 <TextView
                     android:id="@+id/text_player_name"
                     android:layout_width="wrap_content"
@@ -131,14 +133,14 @@
                     android:id="@+id/text_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ganhando"
                     android:alpha="0.6"
+                    android:drawablePadding="10dp"
+                    android:gravity="start"
+                    android:text="Ganhando"
                     android:textColor="?attr/customTextBackground"
                     android:textSize="15sp"
-                    android:gravity="start"
                     app:drawableStartCompat="@drawable/ic_crown"
-                    app:drawableTint="?attr/customTextBackground"
-                    android:drawablePadding="10dp"/>
+                    app:drawableTint="?attr/customTextBackground" />
 
             </LinearLayout>
 
@@ -147,13 +149,13 @@
                 android:id="@+id/avatarContainer"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="15dp"
                 android:layout_marginTop="-20dp"
                 android:layout_marginEnd="-20dp"
+                android:clickable="true"
                 android:clipChildren="false"
-                android:clipToPadding="false">
+                android:clipToPadding="false"
+                android:focusable="true"
+                android:padding="15dp">
 
                 <ImageView
                     android:id="@+id/icon_king"
@@ -166,6 +168,19 @@
                     android:rotation="-45"
                     android:src="@drawable/ic_crown"
                     app:tint="@color/premium" />
+                <ImageView
+                    android:id="@+id/icon_position_raking"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="-10dp"
+                    android:layout_marginTop="-5dp"
+                    android:elevation="1dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_2"
+                    app:tint="?attr/colorPrimary"
+                    android:layout_marginBottom="-6dp"
+                    android:backgroundTint="?attr/customTextBackground"
+                    android:background="@drawable/circle_background" />
 
                 <TextView
                     android:id="@+id/sigla_nome"
@@ -173,11 +188,11 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/background_circle"
                     android:backgroundTint="?attr/customTextBackground"
+                    android:gravity="center"
                     android:text="WU"
                     android:textColor="?attr/colorPrimary"
-                    android:textStyle="bold"
                     android:textSize="25sp"
-                    android:gravity="center" />
+                    android:textStyle="bold" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imagePlayerAvatarDetail"
@@ -192,221 +207,213 @@
         </LinearLayout>
 
         <GridLayout
+            android:id="@+id/gridLayoutCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="40dp"
             android:columnCount="3"
-            android:rowCount="4"
-            android:layout_marginTop="8dp">
+            android:rowCount="4">
 
             <TextView
                 android:id="@+id/valor_az"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Áz"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="0"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Áz"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_full"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Full"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="0"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Full"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_quadra"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Quadra"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="0"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Quadra"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_duque"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Duque"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="1"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Duque"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_seguida"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Seguida"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="1"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Seguida"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_quina"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Quina"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="1"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Quina"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_terno"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Terno"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="2"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Terno"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_quadrada"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Quadrada"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="2"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Quadrada"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_sena"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="Sena"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="2"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="Sena"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/valor_general"
-                android:layout_height="65dp"
                 android:layout_width="0dp"
-                android:backgroundTint="?attr/customTextBackground"
-                android:background="@drawable/background_card_black"
-                android:textColor="?attr/colorPrimary"
-                android:text="General"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:alpha="0.5"
+                android:layout_height="65dp"
                 android:layout_row="3"
                 android:layout_column="0"
                 android:layout_columnSpan="3"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:layout_margin="4dp"/>
+                android:layout_margin="4dp"
+                android:alpha="0.5"
+                android:background="@drawable/background_card_black"
+                android:backgroundTint="?attr/customTextBackground"
+                android:gravity="center"
+                android:text="General"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </GridLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/navigation_bar_container"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewJogadoresRodada"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottom_sheet_background"
-        android:backgroundTint="?attr/cardBackgroundColor"
-        android:orientation="vertical"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="25dp"
+        android:padding="5dp"
+        android:backgroundTint="?attr/customTextBackground"
+        android:background="@drawable/background_card_btn_repouso_destaque_menu"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        tools:listitem="@layout/item_jogador_selection"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:paddingBottom="55dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewJogadoresRodada"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:orientation="horizontal"
-            android:paddingTop="25dp"
-            tools:listitem="@layout/item_jogador_selection"
-            android:clipChildren="false"
-            android:clipToPadding="false"/>
-
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,19 +31,28 @@ class RankingAtualAdapter(private val isDuranteJogo: Boolean = false) : ListAdap
         // O King (Coroa) só aparece se o jogador tiver a pontuação máxima e for o único líder.
         val isKing = player.totalScore == maxScore && winnersCount == 1
 
-        // O layout colorido (theme_king) é aplicado tanto para o líder isolado quanto para qualquer empate.
-        val useKingTheme = isKing || isEmpate
+        // Se for durante o jogo (tela de pódio), NUNCA usa o theme_king na lista (usa sempre theme_normal)
+        val useKingTheme = if (isDuranteJogo) false else (isKing || isEmpate)
 
-        holder.bind(player, useKingTheme, position + 1, isEmpate)
+        val rank = if (isDuranteJogo) position + 4 else position + 1
+
+        holder.bind(player, useKingTheme, rank, isEmpate)
     }
 
     class ViewHolder(private val binding: ItemPlayerRodadaRankingBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(player: PlayerState, useKingTheme: Boolean, rank: Int, isEmpate: Boolean) {
+            val words = player.playerName.trim().split("\\s+".toRegex()).filter { it.isNotEmpty() }
+            val displayName = if (words.size >= 2) {
+                "${words[0]} ${words[1]}"
+            } else {
+                player.playerName.trim()
+            }
+
             if (useKingTheme) {
                 binding.themeKing.isVisible = true
                 binding.themeNormal.isVisible = false
                 
-                binding.textPlayerNameKing.text = player.playerName
+                binding.textPlayerNameKing.text = displayName
                 binding.textPlayerWinsKing.text = "${player.totalScore} Pontos"
                 
                 // Se estiver empatado, usa o ícone de empate (ic_bug_tie). Caso contrário, é o Rei isolado.
@@ -68,7 +77,7 @@ class RankingAtualAdapter(private val isDuranteJogo: Boolean = false) : ListAdap
                 binding.themeKing.isVisible = false
                 binding.themeNormal.isVisible = true
                 
-                binding.textPlayerName.text = player.playerName
+                binding.textPlayerName.text = displayName
                 binding.textPlayerWins.text = "${player.totalScore} Pontos"
                 
                 val iconRes = when (rank) {

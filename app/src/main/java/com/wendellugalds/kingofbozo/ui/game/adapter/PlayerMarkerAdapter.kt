@@ -1,16 +1,21 @@
 package com.wendellugalds.kingofbozo.ui.game.adapter
 
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.R
 import com.wendellugalds.kingofbozo.databinding.ItemJogadorSelectionBinding
 import com.wendellugalds.kingofbozo.model.PlayerState
@@ -55,6 +60,10 @@ class PlayerMarkerAdapter(
         fun bind(playerState: PlayerState, isSelected: Boolean, position: Int) {
             val context = binding.root.context
             
+            // Nome do Jogador (Apenas o primeiro nome)
+            val firstName = playerState.playerName.trim().substringBefore(" ")
+            binding.textPlayerName.text = firstName
+
             // Imagem ou Sigla
             if (!playerState.playerImage.isNullOrEmpty()) {
                 binding.imagePlayerAvatarJogo.visibility = View.VISIBLE
@@ -66,27 +75,19 @@ class PlayerMarkerAdapter(
                 binding.siglaNome.text = playerState.playerName.take(2).uppercase()
             }
             
-            // Animação de subida (Destaque)
-            val riseAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, -30f, context.resources.displayMetrics)
-            
-            binding.root.animate().cancel()
+            // Destaque inicial na horizontal
+            binding.root.translationY = 0f
             if (isSelected) {
-                binding.root.translationY = 0f // Reset para garantir início limpo
-                binding.root.animate()
-                    .translationY(riseAmount)
-                    .setDuration(1000)
-                    .setInterpolator(OvershootInterpolator(1.5f))
-                    .alpha(1.0f)
-                    .start()
+                binding.root.scaleX = 1.05f
+                binding.root.scaleY = 1.05f
+                binding.root.alpha = 1.0f
             } else {
-                binding.root.animate()
-                    .translationY(0f)
-                    .setDuration(1000)
-                    .alpha(0.6f)
-                    .start()
+                binding.root.scaleX = 0.55f
+                binding.root.scaleY = 0.55f
+                binding.root.alpha = 0.5f
             }
             
-            // Ordem do jogador
+            // Ordem do jogador na rodada
             val positionIcon = when (position) {
                 0 -> R.drawable.ic_1
                 1 -> R.drawable.ic_2
@@ -100,6 +101,11 @@ class PlayerMarkerAdapter(
                 else -> R.drawable.ic_0
             }
             binding.iconPosition.setImageResource(positionIcon)
+            binding.iconPosition.isVisible = true
+            ImageViewCompat.setImageTintList(
+                binding.iconPosition,
+                ColorStateList.valueOf(MaterialColors.getColor(context, R.attr.colorPrimary, 0))
+            )
 
             // Lógica de Coroa (Rei) e Bug (Empate)
             val score = playerState.totalScore

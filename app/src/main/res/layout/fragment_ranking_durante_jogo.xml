@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contrai"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="32dp"
     android:background="?attr/customBackground"
-    android:id="@+id/contrai">
+    android:paddingTop="32dp">
 
     <FrameLayout
         android:id="@+id/toolbar_container"
@@ -26,8 +25,8 @@
                 android:id="@+id/button_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:backgroundTint="?attr/colorPrimary"
                 android:background="@drawable/background_circle"
+                android:backgroundTint="?attr/colorPrimary"
                 android:padding="12dp"
                 android:src="@drawable/ic_arrow_back"
                 app:tint="?attr/customTextBackground" />
@@ -36,15 +35,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/text_app_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ranking"
                     android:alpha="0.5"
+                    android:text="Ranking"
                     android:textColor="?attr/textFillColor"
                     android:textSize="10sp" />
 
@@ -72,13 +71,306 @@
         </LinearLayout>
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/raking_podio"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar_container"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <!-- 1º LUGAR -->
+        <LinearLayout
+            android:id="@+id/podio_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/icon_king_podio_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-3dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="-25dp"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/opacity"
+                android:padding="11dp"
+                android:rotation="45"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_crown"
+                app:tint="@color/premium" />
+
+            <FrameLayout
+                android:id="@+id/container_avatar_podio_1"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/sigla_nome_podio_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_circle"
+                    android:backgroundTint="?attr/customTextBackground"
+                    android:gravity="center"
+                    android:text="WU"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_avatar_podio_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                    tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_name_podio_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textAlignment="center"
+                android:textColor="?attr/textFillColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Wendell Ugalds" />
+
+            <TextView
+                android:id="@+id/text_score_podio_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/background_card_btn_repouso_destaque_menu"
+                android:backgroundTint="@color/premium"
+                android:textAlignment="center"
+                android:padding="5dp"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="13sp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:iconGravity="textStart"
+                app:drawableStartCompat="@drawable/ic_score"
+                app:drawableTint="?attr/customTextBackground"
+                tools:text="25435 Pontos" />
+
+            <LinearLayout
+                android:id="@+id/podio_1_enter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/background_card_list_gamers"
+                android:backgroundTint="@color/premium"
+                android:layout_marginHorizontal="5dp"/>
+
+        </LinearLayout>
+
+        <!-- 2º LUGAR -->
+        <LinearLayout
+            android:id="@+id/podio_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="50dp">
+
+            <ImageView
+                android:id="@+id/icon_rank_podio_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-3dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="-25dp"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/opacity"
+                android:padding="11dp"
+                android:rotation="45"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_king_position"
+                app:tint="@color/silver" />
+
+            <FrameLayout
+                android:id="@+id/container_avatar_podio_2"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/sigla_nome_podio_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_circle"
+                    android:backgroundTint="?attr/customTextBackground"
+                    android:gravity="center"
+                    android:text="WU"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_avatar_podio_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                    tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_name_podio_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textAlignment="center"
+                android:textColor="?attr/textFillColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Wendell Ugalds" />
+
+            <TextView
+                android:id="@+id/text_score_podio_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/background_card_btn_repouso_destaque_menu"
+                android:backgroundTint="@color/silver"
+                android:textAlignment="center"
+                android:padding="5dp"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="13sp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:iconGravity="textStart"
+                app:drawableStartCompat="@drawable/ic_score"
+                app:drawableTint="?attr/customTextBackground"
+                tools:text="25435 Pontos" />
+
+            <LinearLayout
+                android:id="@+id/podio_2_enter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/background_card_list_gamers"
+                android:backgroundTint="@color/silver" />
+
+        </LinearLayout>
+
+        <!-- 3º LUGAR -->
+        <LinearLayout
+            android:id="@+id/podio_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="110dp">
+
+            <ImageView
+                android:id="@+id/icon_rank_podio_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="-3dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="-25dp"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/opacity"
+                android:padding="11dp"
+                android:rotation="45"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_king_position"
+                app:tint="@color/bronze" />
+
+            <FrameLayout
+                android:id="@+id/container_avatar_podio_3"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/sigla_nome_podio_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/background_circle"
+                    android:backgroundTint="?attr/customTextBackground"
+                    android:gravity="center"
+                    android:text="WU"
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_avatar_podio_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                    tools:visibility="visible" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/text_name_podio_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:textAlignment="center"
+                android:textColor="?attr/textFillColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Wendell Ugalds" />
+
+            <TextView
+                android:id="@+id/text_score_podio_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/background_card_btn_repouso_destaque_menu"
+                android:backgroundTint="@color/bronze"
+                android:textAlignment="center"
+                android:padding="5dp"
+                android:textColor="?attr/customTextBackground"
+                android:textSize="13sp"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="10dp"
+                app:iconGravity="textStart"
+                app:drawableStartCompat="@drawable/ic_score"
+                app:drawableTint="?attr/customTextBackground"
+                tools:text="25435 Pontos" />
+
+            <LinearLayout
+                android:id="@+id/podio_3_enter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@drawable/background_card_list_gamers"
+                android:backgroundTint="@color/bronze"
+                android:layout_marginHorizontal="5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_lista_jogadores_ranking_jogo_atual"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_container"
-        android:paddingBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="400dp"
+        android:background="@drawable/bottom_sheet_background"
+        android:backgroundTint="?attr/cardBackgroundColor"
         android:clipToPadding="false"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
         tools:listitem="@layout/item_player_rodada_ranking" />
 
 </RelativeLayout>

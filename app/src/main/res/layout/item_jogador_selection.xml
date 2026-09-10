@@ -6,16 +6,21 @@
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:clipChildren="false"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:paddingHorizontal="4dp"
+    android:paddingBottom="4dp">
 
     <RelativeLayout
         android:id="@+id/avatar_container_jogo"
         android:layout_width="81dp"
         android:layout_height="81dp"
         android:padding="8dp"
-        tools:ignore="MissingConstraints"
         android:clipChildren="false"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <ImageView
             android:id="@+id/icon_king"
             android:layout_width="wrap_content"
@@ -28,7 +33,6 @@
             android:layout_alignParentTop="true"
             android:src="@drawable/ic_crown"
             app:tint="@color/premium"/>
-
 
         <ImageView
             android:id="@+id/icon_position"
@@ -65,7 +69,6 @@
             android:gravity="center"
             android:layout_centerInParent="true"/>
 
-
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imagePlayerAvatarJogo"
             android:layout_width="55dp"
@@ -75,7 +78,23 @@
             android:layout_centerInParent="true"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textPlayerName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:textColor="?attr/textFillColor"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/avatar_container_jogo"
+        tools:text="John A." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

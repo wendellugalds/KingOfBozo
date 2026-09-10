@@ -253,13 +253,19 @@ class EditPlayerBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun updatePlayer() {
-        val currentName = binding.editTextName.text.toString().trim()
+        val rawName = binding.editTextName.text.toString().trim()
         val currentAgeStr = binding.editTextAge.text.toString().trim()
 
-        if (currentName.isEmpty() || currentAgeStr.isEmpty()) {
+        if (rawName.isEmpty() || currentAgeStr.isEmpty()) {
             Toast.makeText(requireContext(), "Preencha todos os campos", Toast.LENGTH_SHORT).show()
             return
         }
+
+        val currentName = rawName.split("\\s+".toRegex())
+            .filter { it.isNotEmpty() }
+            .joinToString(" ") { word ->
+                word.replaceFirstChar { if (it.isLowerCase()) it.titlecase(java.util.Locale.getDefault()) else it.toString() }
+            }
 
         playerToEdit?.let { player ->
             val updatedPlayer = player.copy(
