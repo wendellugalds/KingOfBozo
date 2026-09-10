@@ -1,21 +1,31 @@
 package com.wendellugalds.kingofbozo.model
 
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
 @Keep
 enum class CategoryType {
-    AS, DUQUE, TERNO, QUADRA, QUINA, SENA, FULL, SEGUIDA, QUADRADA, GENERAL
+    @SerializedName("AS") AS,
+    @SerializedName("DUQUE") DUQUE,
+    @SerializedName("TERNO") TERNO,
+    @SerializedName("QUADRA") QUADRA,
+    @SerializedName("QUINA") QUINA,
+    @SerializedName("SENA") SENA,
+    @SerializedName("FULL") FULL,
+    @SerializedName("SEGUIDA") SEGUIDA,
+    @SerializedName("QUADRADA") QUADRADA,
+    @SerializedName("GENERAL") GENERAL
 }
 
 @Keep
 enum class GameStatus {
-    ONGOING,
-    WAITING_TIE_BREAKER,
-    FINISHED
+    @SerializedName("ONGOING") ONGOING,
+    @SerializedName("WAITING_TIE_BREAKER") WAITING_TIE_BREAKER,
+    @SerializedName("FINISHED") FINISHED
 }
 
 @Keep
 data class PlayerScore(
-    val name: String,
-    var totalScore: Int
+    @SerializedName("name") val name: String,
+    @SerializedName("totalScore") var totalScore: Int
 )

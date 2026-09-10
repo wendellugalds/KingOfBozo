@@ -150,7 +150,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingTop="24dp"
-        android:paddingBottom="24dp"
+        android:paddingBottom="45dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
