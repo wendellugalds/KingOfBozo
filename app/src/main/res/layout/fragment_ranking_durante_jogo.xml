@@ -367,7 +367,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="400dp"
         android:background="@drawable/bottom_sheet_background"
-        android:backgroundTint="?attr/cardBackgroundColor"
+        android:backgroundTint="?attr/customBackground"
         android:clipToPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="15dp"

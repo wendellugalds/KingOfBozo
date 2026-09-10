@@ -1,10 +1,13 @@
 package com.wendellugalds.kingofbozo.ui.game
 
+import android.animation.ValueAnimator
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -29,6 +32,7 @@ class RankingDuranteJogoFragment : Fragment() {
     }
 
     private lateinit var rankingAdapter: RankingAtualAdapter
+    private var hasAnimatedPodium = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentRankingDuranteJogoBinding.inflate(inflater, container, false)
@@ -85,6 +89,12 @@ class RankingDuranteJogoFragment : Fragment() {
                     binding.podio3.visibility = View.GONE
                 }
 
+                // Dispara as animações do pódio na abertura da tela
+                if (!hasAnimatedPodium) {
+                    hasAnimatedPodium = true
+                    triggerPodiumEntranceAnimations(sortedPlayers)
+                }
+
                 // Lista a partir do 4º jogador (se houver mais que 3 jogadores)
                 if (sortedPlayers.size > 3) {
                     binding.recyclerViewListaJogadoresRankingJogoAtual.visibility = View.VISIBLE
@@ -101,6 +111,65 @@ class RankingDuranteJogoFragment : Fragment() {
         }
     }
 
+    private fun triggerPodiumEntranceAnimations(sortedPlayers: List<PlayerState>) {
+        // 1º Lugar (podio_1) - Sobe da base (Delay 150ms)
+        if (sortedPlayers.isNotEmpty()) {
+            animatePodiumBlock(binding.podio1, 150L)
+            animateScoreCounter(binding.textScorePodio1, sortedPlayers[0].totalScore, 150L)
+        }
+
+        // 2º Lugar (podio_2) - Sobe em seguida (Delay 400ms)
+        if (sortedPlayers.size >= 2) {
+            animatePodiumBlock(binding.podio2, 400L)
+            animateScoreCounter(binding.textScorePodio2, sortedPlayers[1].totalScore, 400L)
+        }
+
+        // 3º Lugar (podio_3) - Sobe por último (Delay 650ms)
+        if (sortedPlayers.size >= 3) {
+            animatePodiumBlock(binding.podio3, 650L)
+            animateScoreCounter(binding.textScorePodio3, sortedPlayers[2].totalScore, 650L)
+        }
+    }
+
+    private fun animatePodiumBlock(podiumView: View, delayMillis: Long) {
+        podiumView.post {
+            val parentContainer = podiumView.parent as? View
+            val startY = if (parentContainer != null && parentContainer.height > 0) {
+                (parentContainer.height - podiumView.top).toFloat()
+            } else {
+                500f
+            }
+
+            podiumView.translationY = startY
+            podiumView.alpha = 0f
+            podiumView.animate()
+                .translationY(0f)
+                .alpha(1f)
+                .setStartDelay(delayMillis)
+                .setDuration(1300)
+                .setInterpolator(DecelerateInterpolator(2.2f))
+                .start()
+        }
+    }
+
+    private fun animateScoreCounter(textView: TextView, targetScore: Int, delayMillis: Long) {
+        if (targetScore <= 0) {
+            textView.text = "0 Pontos"
+            return
+        }
+        val animator = ValueAnimator.ofInt(0, targetScore)
+        animator.duration = 1500
+        animator.startDelay = delayMillis
+        animator.interpolator = DecelerateInterpolator(1.5f)
+        animator.addUpdateListener { valueAnimator ->
+            if (_binding != null) {
+                val current = valueAnimator.animatedValue as Int
+                textView.text = "$current Pontos"
+            }
+        }
+        animator.start()
+    }
+
     private fun formatPlayerName(fullName: String): String {
         val words = fullName.trim().split("\\s+".toRegex()).filter { it.isNotEmpty() }
         return if (words.size >= 2) {
@@ -112,7 +181,11 @@ class RankingDuranteJogoFragment : Fragment() {
 
     private fun bindPodium1(player: PlayerState) {
         binding.textNamePodio1.text = formatPlayerName(player.playerName)
-        binding.textScorePodio1.text = "${player.totalScore} Pontos"
+        if (!hasAnimatedPodium) {
+            binding.textScorePodio1.text = "0 Pontos"
+        } else {
+            binding.textScorePodio1.text = "${player.totalScore} Pontos"
+        }
 
         if (!player.playerImage.isNullOrEmpty()) {
             binding.imageAvatarPodio1.visibility = View.VISIBLE
@@ -127,7 +200,11 @@ class RankingDuranteJogoFragment : Fragment() {
 
     private fun bindPodium2(player: PlayerState) {
         binding.textNamePodio2.text = formatPlayerName(player.playerName)
-        binding.textScorePodio2.text = "${player.totalScore} Pontos"
+        if (!hasAnimatedPodium) {
+            binding.textScorePodio2.text = "0 Pontos"
+        } else {
+            binding.textScorePodio2.text = "${player.totalScore} Pontos"
+        }
 
         if (!player.playerImage.isNullOrEmpty()) {
             binding.imageAvatarPodio2.visibility = View.VISIBLE
@@ -142,7 +219,11 @@ class RankingDuranteJogoFragment : Fragment() {
 
     private fun bindPodium3(player: PlayerState) {
         binding.textNamePodio3.text = formatPlayerName(player.playerName)
-        binding.textScorePodio3.text = "${player.totalScore} Pontos"
+        if (!hasAnimatedPodium) {
+            binding.textScorePodio3.text = "0 Pontos"
+        } else {
+            binding.textScorePodio3.text = "${player.totalScore} Pontos"
+        }
 
         if (!player.playerImage.isNullOrEmpty()) {
             binding.imageAvatarPodio3.visibility = View.VISIBLE
