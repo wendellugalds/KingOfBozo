@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.updateLayoutParams
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
@@ -31,6 +29,8 @@ import com.wendellugalds.kingofbozo.databinding.ActivityMainBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
+import com.wendellugalds.kingofbozo.util.AdManager
+import com.google.android.gms.ads.MobileAds
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         ThemeStorage.applySettings(this)
         setTheme(ThemeStorage.getTheme(this))
         super.onCreate(savedInstanceState)
+
+        // Inicializa o AdMob e já carrega o primeiro anúncio em segundo plano
+        MobileAds.initialize(this) {
+            AdManager.loadRewardedAd(this)
+        }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
@@ -181,17 +186,15 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
             binding.cardNavigation.visibility = if (isVisible) View.VISIBLE else View.GONE
-            
-            // Animação suave para as mudanças no menu (ex: expansão do texto)
+
             val transition = AutoTransition().apply {
                 duration = 250
                 ordering = androidx.transition.TransitionSet.ORDERING_TOGETHER
             }
             TransitionManager.beginDelayedTransition(binding.bottomNavigationContainer, transition)
-            
+
             updateNavIcons(destination.id)
 
-            // Garante que as cores das barras de sistema (Status e Navigation) coincidam EXATAMENTE com a cor de fundo de cada tela
             when (destination.id) {
                 R.id.playerSelectionFragment -> {
                     SystemBarUtil.applySystemBarColors(
@@ -219,11 +222,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun isColorLight(color: Int): Boolean {
-        val darkness = 1 - (0.299 * Color.red(color) + 0.587 * Color.green(color) + 0.114 * Color.blue(color)) / 255
-        return darkness < 0.5
     }
 
     private fun updateNavIcons(activeDestinationId: Int) {
@@ -262,7 +260,6 @@ class MainActivity : AppCompatActivity() {
         icon.imageTintList = ColorStateList.valueOf(color)
         text.setTextColor(color)
 
-        // Animação de escala no ícone ao ativar
         icon.scaleX = 0.8f
         icon.scaleY = 0.8f
         icon.animate()
@@ -274,10 +271,8 @@ class MainActivity : AppCompatActivity() {
             }
             .start()
 
-        // Define o tamanho da fonte em sp sem dar erro
         text.textSize = 12f
 
-        // Converte 12dp em pixels reais para o padding lateral não estourar o limite
         val paddingPx = (12 * resources.displayMetrics.density).toInt()
         layout.setPadding(paddingPx, 0, paddingPx, 0)
 

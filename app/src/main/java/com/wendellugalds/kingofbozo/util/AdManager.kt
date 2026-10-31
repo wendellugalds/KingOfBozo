@@ -2,13 +2,16 @@ package com.wendellugalds.kingofbozo.util
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.rewarded.RewardedAd
@@ -19,9 +22,9 @@ import com.wendellugalds.kingofbozo.ui.PremiumBottomSheet
 
 object AdManager {
 
-    private const val ADMOB_REWARDED_UNIT_ID = "ca-app-pub-8591104286915086/5992681322"
-
-    const val MAX_FREE_ROUNDS_PER_MATCH = 3
+    // ID Real de Produção para Rewarded Ads
+    private const val ADMOB_REWARDED_UNIT_ID = "ca-app-pub-4216110504669009/8344709002"
+    private const val TAG = "AdManagerDebug"
 
     var isRankingUnlockedTemp: Boolean = false
     var isRoundsUnlockedTemp: Boolean = false
@@ -30,7 +33,9 @@ object AdManager {
     private var isLoadingAd = false
 
     fun initAdMob(context: Context) {
+        Log.d(TAG, "Inicializando MobileAds...")
         MobileAds.initialize(context) {
+            Log.d(TAG, "MobileAds inicializado com sucesso.")
             loadRewardedAd(context)
         }
     }
@@ -41,23 +46,38 @@ object AdManager {
     }
 
     fun loadRewardedAd(context: Context) {
-        if (rewardedAd != null || isLoadingAd) return
+        if (rewardedAd != null) {
+            Log.d(TAG, "loadRewardedAd ignorado: Anúncio já está em memória.")
+            return
+        }
+        if (isLoadingAd) {
+            Log.d(TAG, "loadRewardedAd ignorado: Anúncio já está sendo carregado...")
+            return
+        }
         isLoadingAd = true
+        Log.d(TAG, "Iniciando requisição de carregamento do anúncio premiado...")
 
         val adRequest = AdRequest.Builder().build()
+
+        MobileAds.initialize(context) {
+            Log.d(TAG, "MobileAds inicializado com sucesso.")
+        }
+
         RewardedAd.load(
-            context,
+            context.applicationContext,
             ADMOB_REWARDED_UNIT_ID,
             adRequest,
             object : RewardedAdLoadCallback() {
                 override fun onAdLoaded(ad: RewardedAd) {
                     rewardedAd = ad
                     isLoadingAd = false
+                    Log.d(TAG, "SUCESSO: Anúncio carregado com sucesso!")
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     rewardedAd = null
                     isLoadingAd = false
+                    Log.e(TAG, "FALHA ADMOB -> Código: ${error.code} | Mensagem: ${error.message} | Domínio: ${error.domain} | Causa: ${error.cause}")
                 }
             }
         )
@@ -68,7 +88,6 @@ object AdManager {
         fragmentManager: FragmentManager,
         onAccessGranted: () -> Unit
     ) {
-        // Se for Premium, libera o acesso direto sem anúncio
         if (PremiumManager.isUserPremium(activity)) {
             onAccessGranted()
             return
@@ -103,28 +122,6 @@ object AdManager {
         }
     }
 
-    fun checkAndShowRoundLimitAd(
-        activity: Activity,
-        fragmentManager: FragmentManager,
-        currentRound: Int,
-        onAccessGranted: () -> Unit
-    ) {
-        // Se for Premium ou se a rodada é <= limite gratuito ou se já liberou temporariamente nesta partida
-        if (PremiumManager.isUserPremium(activity) || currentRound <= MAX_FREE_ROUNDS_PER_MATCH || isRoundsUnlockedTemp) {
-            onAccessGranted()
-            return
-        }
-
-        showTemporaryAccessDialog(
-            activity,
-            fragmentManager,
-            activity.getString(R.string.ad_rewarded_round_msg)
-        ) {
-            isRoundsUnlockedTemp = true
-            onAccessGranted()
-        }
-    }
-
     private fun showTemporaryAccessDialog(
         activity: Activity,
         fragmentManager: FragmentManager,
@@ -145,11 +142,38 @@ object AdManager {
         titleView.text = activity.getString(R.string.ad_rewarded_dialog_title)
         messageView.text = message
 
+        if (rewardedAd == null) {
+            loadRewardedAd(activity)
+        }
+
         btnWatch.setOnClickListener {
-            dialog.dismiss()
-            showRewardedAd(activity) {
-                Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
-                onRewardEarned()
+            val ad = rewardedAd
+            if (ad != null) {
+                dialog.dismiss()
+                showAdWithCallbacks(activity, ad, onRewardEarned)
+            } else {
+                Toast.makeText(activity, "A carregar anúncio do servidor... Aguarde um instante.", Toast.LENGTH_SHORT).show()
+
+                val adRequest = AdRequest.Builder().build()
+                RewardedAd.load(
+                    activity,
+                    ADMOB_REWARDED_UNIT_ID,
+                    adRequest,
+                    object : RewardedAdLoadCallback() {
+                        override fun onAdLoaded(loadedAd: RewardedAd) {
+                            rewardedAd = loadedAd
+                            if (activity.isFinishing || activity.isDestroyed) return
+                            dialog.dismiss()
+                            showAdWithCallbacks(activity, loadedAd, onRewardEarned)
+                        }
+
+                        override fun onAdFailedToLoad(error: LoadAdError) {
+                            rewardedAd = null
+                            Log.e(TAG, "FALHA ADMOB NO CLIQUE -> Código: ${error.code} | Mensagem: ${error.message} | Domínio: ${error.domain} | Causa: ${error.cause}")
+                            Toast.makeText(activity, "Falha ao carregar anúncio. Verifique a sua conexão.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                )
             }
         }
 
@@ -167,18 +191,41 @@ object AdManager {
         dialog.show()
     }
 
-    private fun showRewardedAd(activity: Activity, onRewardGranted: () -> Unit) {
-        val ad = rewardedAd
-        if (ad != null) {
-            ad.show(activity) { _ ->
+    private fun showAdWithCallbacks(
+        activity: Activity,
+        ad: RewardedAd,
+        onRewardEarned: () -> Unit
+    ) {
+        var rewardEarned = false
+
+        ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+            override fun onAdDismissedFullScreenContent() {
+                Log.d(TAG, "Anúncio fechado pelo utilizador.")
+                rewardedAd = null
+                loadRewardedAd(activity) // Carrega o próximo em segundo plano imediatamente!
+
+                if (rewardEarned) {
+                    Toast.makeText(activity, activity.getString(R.string.ad_rewarded_unlocked_toast), Toast.LENGTH_SHORT).show()
+                    onRewardEarned()
+                } else {
+                    Log.d(TAG, "Anúncio fechado sem assistir até o fim. Recompensa negada.")
+                }
+            }
+
+            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                Log.e(TAG, "Falha ao exibir anúncio: ${adError.message}")
                 rewardedAd = null
                 loadRewardedAd(activity)
-                onRewardGranted()
             }
-        } else {
-            // Fallback gracioso para testes/offline caso o anúncio ainda não tenha carregado
-            loadRewardedAd(activity)
-            onRewardGranted()
+
+            override fun onAdShowedFullScreenContent() {
+                Log.d(TAG, "Anúncio exibido na tela.")
+            }
+        }
+
+        ad.show(activity) { _ ->
+            Log.d(TAG, "Recompensa concedida pelo Google!")
+            rewardEarned = true
         }
     }
 }
