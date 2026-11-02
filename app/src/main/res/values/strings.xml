@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- App Gerais -->
-    <string name="app_name">King of Bozó</string>
-    <string name="king_of_boz">King Of Bozó</string>
+    <string name="app_name">Rei do Bozó</string>
+    <string name="king_of_boz">Rei do Bozó</string>
     <string name="bom_dia">BOM DIA!</string>
     <string name="tarde">TARDE!</string>
     <string name="ola_boa_noite">OLÁ BOA NOITE!</string>
@@ -129,7 +129,7 @@
     <string name="toast_jogo_apagado">Jogo apagado.</string>
 
     <!-- Modo Premium -->
-    <string name="premium_title">KING OF BOZÓ PREMIUM</string>
+    <string name="premium_title">REI DO BOZÓ PREMIUM</string>
     <string name="premium_subtitle">Desbloqueie todos os recursos e jogue sem limites!</string>
     <string name="premium_feat_no_ads">Remoção total de todas as propagandas</string>
     <string name="premium_feat_unlimited_players">Jogadores ilimitados \n(Versão grátis: máx. 3)</string>

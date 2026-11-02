@@ -45,13 +45,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- KING -->
+        <!-- REI -->
         <ImageView
-            android:id="@+id/letter_k"
+            android:id="@+id/letter_r"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_k"
+            android:src="@drawable/logo_r"
+            android:visibility="invisible"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_e"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_e"
             android:visibility="invisible"
             tools:ignore="ContentDescription" />
 
@@ -64,40 +73,22 @@
             android:visibility="invisible"
             tools:ignore="ContentDescription" />
 
+        <!-- DO -->
         <ImageView
-            android:id="@+id/letter_n"
+            android:id="@+id/letter_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_n"
+            android:src="@drawable/logo_d"
             android:visibility="invisible"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/letter_g"
+            android:id="@+id/letter_o_do"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_g"
-            android:visibility="invisible"
-            tools:ignore="ContentDescription" />
-
-        <!-- OF -->
-        <ImageView
-            android:id="@+id/letter_o_of"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_o_of"
-            android:visibility="invisible"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/letter_f"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_f"
+            android:src="@drawable/logo_o_do"
             android:visibility="invisible"
             tools:ignore="ContentDescription" />
 

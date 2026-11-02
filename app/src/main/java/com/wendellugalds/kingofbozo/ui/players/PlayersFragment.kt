@@ -1,10 +1,8 @@
 package com.wendellugalds.kingofbozo.ui.players
 
 import android.animation.Animator
-import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.animation.ValueAnimator
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -36,9 +34,6 @@ import com.wendellugalds.kingofbozo.ui.players.adapter.PlayerAdapter
 import com.wendellugalds.kingofbozo.util.PremiumManager
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
 import com.wendellugalds.kingofbozo.util.AnimationUtil
-
-
-private fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 
 class PlayersFragment : Fragment() {
 
@@ -166,57 +161,12 @@ class PlayersFragment : Fragment() {
         }
     }
 
-    private fun animateButton(button: View, hFrom: Int, hTo: Int, mbFrom: Int, mbTo: Int, ptFrom: Int, ptTo: Int, pbFrom: Int, pbTo: Int) {
-        val heightAnimator = ValueAnimator.ofInt(hFrom.dpToPx(requireContext()), hTo.dpToPx(requireContext()))
-        heightAnimator.addUpdateListener {
-            val params = button.layoutParams as ViewGroup.MarginLayoutParams
-            params.height = it.animatedValue as Int
-            button.layoutParams = params
-        }
-
-        val marginAnimator = ValueAnimator.ofInt(mbFrom.dpToPx(requireContext()), mbTo.dpToPx(requireContext()))
-        marginAnimator.addUpdateListener {
-            val params = button.layoutParams as ViewGroup.MarginLayoutParams
-            params.bottomMargin = it.animatedValue as Int
-            button.layoutParams = params
-        }
-
-        val paddingAnimator = ValueAnimator.ofFloat(0f, 1f)
-        paddingAnimator.addUpdateListener {
-            val percentage = it.animatedValue as Float
-            val currentTop = (ptFrom.dpToPx(requireContext()) + ((ptTo.dpToPx(requireContext()) - ptFrom.dpToPx(requireContext())) * percentage)).toInt()
-            val currentBottom = (pbFrom.dpToPx(requireContext()) + ((pbTo.dpToPx(requireContext()) - pbFrom.dpToPx(requireContext())) * percentage)).toInt()
-            button.setPadding(button.paddingStart, currentTop, button.paddingEnd, currentBottom)
-        }
-
-        val animatorSet = AnimatorSet()
-        animatorSet.playTogether(heightAnimator, marginAnimator, paddingAnimator)
-        animatorSet.duration = 300
-        animatorSet.start()
-    }
-
-    private fun animateRecyclerViewPadding(recyclerView: RecyclerView, from: Int, to: Int) {
-        val animator = ValueAnimator.ofInt(from.dpToPx(requireContext()), to.dpToPx(requireContext()))
-        animator.duration = 300
-        animator.addUpdateListener { valueAnimator ->
-            val newPaddingBottom = valueAnimator.animatedValue as Int
-            recyclerView.setPadding(
-                recyclerView.paddingLeft,
-                recyclerView.paddingTop,
-                recyclerView.paddingRight,
-                newPaddingBottom
-            )
-        }
-        animator.start()
-    }
-
     private fun updateContextualActionBar() {
         val selectedCount = playerAdapter.getSelectedItems().size
         val totalCount = playerAdapter.itemCount
         val customToolbarLayout = binding.customToolbar.root as ViewGroup
         val actionBar = binding.actionBar
         val addPlayerButton = binding.buttonAdicionarJogador
-        val recyclerView = binding.recyclerViewPlayers
 
         val toolbarHeight = actionBar.height.toFloat()
 
@@ -235,7 +185,7 @@ class PlayersFragment : Fragment() {
                     .translationY(-toolbarHeight)
                     .alpha(0f)
                     .setDuration(300)
-                    .withEndAction { actionBar.visibility = View.GONE }
+                    .withEndAction { actionBar.visibility = View.INVISIBLE }
                     .start()
 
                 customToolbarLayout.visibility = View.VISIBLE
@@ -247,9 +197,7 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .start()
 
-                animateButton(addPlayerButton, 150, 82, 20, 20, 25, 25, 0, 0)
-                animateRecyclerViewPadding(recyclerView, 180, 110)
-                addPlayerButton.setBackgroundResource(R.drawable.background_card_dark)
+                AnimationUtil.applyCollapseAnimation(addPlayerButton)
             }
             binding.customToolbar.textSelectionCount.text = if (selectedCount == 1) "$selectedCount selecionado" else "$selectedCount selecionados"
         } else {
@@ -273,9 +221,7 @@ class PlayersFragment : Fragment() {
                     .setDuration(300)
                     .start()
 
-                animateButton(addPlayerButton, 82, 150, 20, 20, 25, 25, 0, 0)
-                animateRecyclerViewPadding(recyclerView, 110, 180)
-                addPlayerButton.setBackgroundResource(R.drawable.background_card_2_destaque)
+                AnimationUtil.applyExpansionAnimation(addPlayerButton)
             }
         }
 

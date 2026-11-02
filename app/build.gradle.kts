@@ -13,8 +13,8 @@ android {
         applicationId = "com.wendellugalds.kingofbozo"
         minSdk = 26
         targetSdk = 36
-        versionCode = 5
-        versionName = "5.26.10.31.1"
+        versionCode = 6
+        versionName = "5.26.11.02.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

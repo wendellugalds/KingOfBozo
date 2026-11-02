@@ -1,7 +1,6 @@
 package com.wendellugalds.kingofbozo
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -11,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsControllerCompat
-import com.google.android.material.color.MaterialColors
 import com.wendellugalds.kingofbozo.databinding.ActivitySplashBinding
 import com.wendellugalds.kingofbozo.util.ThemeStorage
 import com.wendellugalds.kingofbozo.util.SystemBarUtil
@@ -44,16 +41,16 @@ class SplashActivity : AppCompatActivity() {
             .start()
 
         val allElements = listOf(
-            binding.letterK, binding.letterI, binding.letterN, binding.letterG,
-            binding.letterOOf, binding.letterF,
+            binding.letterR, binding.letterE, binding.letterI,
+            binding.letterD, binding.letterODo,
             binding.letterB, binding.logoDice, binding.letterZ, binding.letterOBzo
         )
         
-        val duration = 600L // Aumentado para uma transição mais fluida
-        val delayBetweenLetters = 70L // Reduzido o intervalo para o texto fluir melhor
+        val duration = 600L // Transição fluida para cada letra
+        val delayBetweenLetters = 70L // Intervalo ritmado para revelar "REI DO BOZÓ"
 
         allElements.forEachIndexed { index, view ->
-            view.scaleX = 0.7f // Começa um pouco maior para evitar o efeito de "explosão"
+            view.scaleX = 0.7f
             view.scaleY = 0.7f
             view.alpha = 0f
             view.visibility = View.VISIBLE
@@ -64,14 +61,14 @@ class SplashActivity : AppCompatActivity() {
                 .alpha(1f)
                 .setDuration(duration)
                 .setStartDelay(index * delayBetweenLetters)
-                .setInterpolator(DecelerateInterpolator()) // Curva mais suave
+                .setInterpolator(DecelerateInterpolator())
                 .start()
         }
 
-        // Animação da coroa (mais suave ao cair)
+        // Animação da coroa caindo sobre "REI"
         binding.crown.apply {
             alpha = 0f
-            translationY = -80f // Distância menor para um impacto mais sutil
+            translationY = -80f
             visibility = View.VISIBLE
 
             animate()

@@ -87,13 +87,21 @@
         app:layout_constraintBottom_toTopOf="@+id/button_marcador"
         app:layout_constraintTop_toBottomOf="@+id/text_ajustes_title">
 
-        <!-- KING -->
+        <!-- REI -->
         <ImageView
-            android:id="@+id/letter_k"
+            android:id="@+id/letter_r"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_k"
+            android:src="@drawable/logo_r"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/letter_e"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/logo_e"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -104,37 +112,21 @@
             android:src="@drawable/logo_i"
             tools:ignore="ContentDescription" />
 
+        <!-- DO -->
         <ImageView
-            android:id="@+id/letter_n"
+            android:id="@+id/letter_d"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_n"
+            android:src="@drawable/logo_d"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/letter_g"
+            android:id="@+id/letter_o_do"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:src="@drawable/logo_g"
-            tools:ignore="ContentDescription" />
-
-        <!-- OF -->
-        <ImageView
-            android:id="@+id/letter_o_of"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_o_of"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/letter_f"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/logo_f"
+            android:src="@drawable/logo_o_do"
             tools:ignore="ContentDescription" />
 
         <!-- BOZÓ -->
